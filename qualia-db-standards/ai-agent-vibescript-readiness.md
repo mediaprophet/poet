@@ -11,7 +11,7 @@ Assignment: [`COPYRIGHT.md`](../COPYRIGHT.md) · Licence: [`LICENSE`](../LICENSE
 
 Because **VibeScript** is a greenfield domain-specific language (DSL), foundation Large Language Models (LLMs) and autonomous agents have zero pre-training exposure to its syntax, semantics, or runtime rules. 
 
-To enable AI agents (both host coding assistants and in-app decentralized agents) to fluently **generate, interpret, debug, and execute VibeScript without hallucination**, the system must provide a machine-readable knowledge foundation, constrained decoding grammars, automated diagnostic feedback, and a standardized reference ontology.
+To enable AI agents (both host coding assistants and in-app decentralized agents) to fluently **generate, interpret, debug, and execute VibeScript without ungrounded generation**, the system must provide a machine-readable knowledge foundation, constrained decoding grammars, automated diagnostic feedback, and a standardized reference ontology.
 
 ---
 

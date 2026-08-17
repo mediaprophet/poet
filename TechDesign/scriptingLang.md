@@ -20,7 +20,7 @@ Do not treat this file’s “v1.0” heading or examples as a parser contract.
 1. **Small, Stable Language Core:** The grammar is intentionally minimal, mathematical, and closed. It provides standard control flow, static typing, and generic postfix member invocation (`expr.method(args)`). 
 2. **Dynamic Capability Registry:** Domain capabilities (`graph`, `pulse`, `aura`, `anim`, `rig`, `ik`, `physics`, `motor`, `codecs`) are **not hardcoded keywords** in the grammar. They are dynamically registered and resolved through QualiaDB's **Capability Registry**, allowing new native system packages (IPC daemons, WASM components) to be hot-loaded without grammar changes.
 3. **No Ambient Authority (Fiduciary Security):** Scripts declare required capabilities at the module header (`requires [ ... ]`). The host Sentinel VM enforces strict capability, deontic, and sensitivity gates prior to execution.
-4. **Pure Linked Data Integration:** Native first-class values for W3C RDF 1.2 triple terms (`<<( s p o )>>`), reified statements (`<< s p o ~ reifier >>`), and Qualia 48-byte Nquins (`<<[ s p o g prov ]>>`).
+4. **Pure Linked Data Integration:** Native first-class values for W3C RDF 1.2 triple terms (`<<( s p o )>>`) and reified statements (`<< s p o ~ reifier >>`). Qualia 48-byte nquins are produced **only** by `quin.statement(...)` — raw `<<[ s p o g prov ]>>` overlay literals are **forbidden** (core §13 N3).
 5. **No JIT Dependency:** Pure safe-Rust AST / bytecode interpreter ensuring deterministic execution and 100% compliance with iOS App Store and resource-constrained edge environments.
 
 ---
@@ -144,7 +144,7 @@ PrimaryExpr       ::= Literal
 (* --- W3C RDF 1.2 & Qualia Graph Primitives --- *)
 TripleTerm        ::= '<<(' Subject Predicate Object ')>>' ;
 ReifiedTriple     ::= '<<' Subject Predicate Object ('~' ReifierId)? '>>' ('[' PropertyList ']')? ;
-NquinTerm         ::= '<<[' Subject Predicate Object GraphContext ProvenanceTag? ']>>' ;
+NquinTerm         ::= '<<[' Subject Predicate Object GraphContext ProvenanceTag? ']>>' ; (* FORBIDDEN — see core §13 N3. Use quin.statement(...) instead. *)
 
 Subject           ::= IRI | BlankNode | TripleTerm | Identifier ;
 Predicate         ::= IRI | Identifier ;
@@ -236,7 +236,7 @@ on pulse:stream(stream: Stream<TelemetryReading>) {
     
     if reading.value > 85.0 {
         // Broadcast cryptographically signed alert pulse
-        pulse.broadcast("topic:alerts", {
+        pulse.publish("topic:alerts", {
             alert_type: "ThresholdExceeded",
             reading_value: reading.value,
             timestamp: time.now()
@@ -244,7 +244,7 @@ on pulse:stream(stream: Stream<TelemetryReading>) {
         
         // Update entity status in the local Q42 graph
         let clinic = graph.get_node(<qualia:Clinic_A>)?;
-        aura.apply_schema(clinic, "snomed:EmergencyStatus")?;
+        aura.validate(clinic, "snomed:EmergencyStatus")?;
     }
 }
 ```
@@ -262,7 +262,8 @@ let asserted_fact = << <snomed:DrugX> <qualia:treats> <snomed:ConditionY> ~ <qua
 ];
 
 transaction {
-    graph.commit(asserted_fact)?;
+    graph.stage(asserted_fact)?;
+    graph.commit()?;
 }
 ```
 
@@ -288,7 +289,7 @@ on tick(dt: f32) {
 // Synchronized AnimNotify event emitted from exact .d10 animation keyframe
 on anim_event(event_name: string, payload: Record) {
     if event_name == "footstep_impact" {
-        pulse.emit("audio:footstep", {
+        pulse.publish("audio:footstep", {
             surface: payload.surface_type,
             intensity: payload.impact_force,
             pos: payload.foot_pos
@@ -305,10 +306,8 @@ on event:speak_query(intent: ConceptIntent) {
     let vocal_tract = hmc.get_mesh("asset://tracts/avatar_voice.d10")?;
     
     // Computes real-time acoustic wave and generates mathematically exact 3D lip-sync
-    pulse.speak(phonemes, vocal_tract, {
-        emotion: "warm",
-        pitch_contour: 1.05
-    })?;
+    // audio.speak is a later capability.invoke binding, not 0.1
+    capability.invoke("audio.speak", { phonemes: phonemes, tract: vocal_tract, emotion: "warm", pitch_contour: 1.05 })?;
 }
 ```
 
@@ -318,7 +317,7 @@ on event:speak_query(intent: ConceptIntent) {
 
 | Runtime Profile | Host Runtime & Hardware Tier | Poet Engine Mode | Rendering & GPU Pipeline | Storage & Wire Protocol |
 | :--- | :--- | :--- | :--- | :--- |
-| **Profile A: Sovereign Native Desktop** | **64-bit Native Rust AOT**, full CPU SIMD (AVX-512) | Embedded Poet AST / Bytecode Interpreter | **Direct WGPU 29 (Vulkan / Metal / DX12)**, shared GPU memory, volumetric 3D | Direct NVMe/SSD memory-mapped `.q42` Merkle DAG, raw TCP/QUIC/libp2p |
-| **Profile A2: Sovereign Native Mobile** | **64-bit iOS/Android** (`.a`/`.so` FFI, NEON SIMD) | Pure Rust AST (Zero JIT, App Store compliant) | Direct Metal / Vulkan GPU via `wgpu`, native low-latency audio | Local sandboxed Q42 vault, cellular/Wi-Fi Merkle sync |
+| **Profile A: Native Desktop** | **64-bit Native Rust AOT**, full CPU SIMD (AVX-512) | Embedded Poet AST / Bytecode Interpreter | **Direct WGPU 29 (Vulkan / Metal / DX12)**, shared GPU memory, volumetric 3D | Direct NVMe/SSD memory-mapped `.q42` Merkle DAG, raw TCP/QUIC/libp2p |
+| **Profile A2: Native Mobile** | **64-bit iOS/Android** (`.a`/`.so` FFI, NEON SIMD) | Pure Rust AST (Zero JIT, App Store compliant) | Direct Metal / Vulkan GPU via `wgpu`, native low-latency audio | Local sandboxed Q42 vault, cellular/Wi-Fi Merkle sync |
 | **Profile B: WASM Web Compatibility** | Mainstream Browser (`wasm32-unknown-unknown`) | WASM Poet Interpreter (`wasm-bindgen`) | WebGPU / WebGL2 through browser origin sandbox, DOM / Web Components | Origin Private File System (OPFS) / IndexedDB, WebSockets / WebRTC |
 | **Profile C: Edge & Embedded IoT** | Stripped Native Rust (`no_std`, <2MB RAM) | Micro-Poet AST walker | Headless / Custom Sensor Bus | LoRaWAN / CoAP / MQTT, CBOR-LD delta sync |

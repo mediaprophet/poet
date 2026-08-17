@@ -34,8 +34,9 @@ This project develops a high-performance, modular, and deterministic **NLP and S
 3. **Strict Provenance:** Every extracted triple, entity, or annotation must maintain exact byte/character offsets back to the source text span.
 4. **QualiaDB Synergy:**
    - Reuse and align with `qualia_core_db` modules (`lexicon`, `graph_index`, `rdf_star`, `ontology_loader`, `cbor_compiler`).
-   - If a new NLP feature requires changes or extensions to `qualia_core_db`, document the proposed interface changes in [qualiadb-updates.md](file:///c:/Projects/NLP/qualiadb-updates.md).
+   - If a new NLP feature requires changes or extensions to `qualia_core_db`, document the proposed interface changes in [qualiadb-updates.md](qualiadb-updates.md).
+5. **Agent Nomenclature Isolation (mandatory):** Terms that describe the qualities, capacities, or experiences of one agent type (natural, legal, software) must not be applied to another agent type where the underlying STEM mechanism is fundamentally different. Mind-dependent terms ("cognitive", "perception", "belief", "emotion", "hallucination", "deliberate") must not be used for software agents. Intent-dependent terms ("fabricated", "deceptive") must not be used for software agents. Use "enumeration failure" for software agent errors, "ungrounded generation" for statistical output without grounding. See [`qualia-db-standards/agent-nomenclature-rules.md`](qualia-db-standards/agent-nomenclature-rules.md) for the full nomenclature isolation table and rules.
 
 ## 4. Documentation & Code Integrity
-- Keep [README.md](file:///c:/Projects/NLP/README.md) and [notes.md](file:///c:/Projects/NLP/notes.md) updated as new capabilities or modules are implemented.
+- Keep [README.md](README.md) and [notes.md](notes.md) updated as new capabilities or modules are implemented.
 - Include unit tests and benchmarks demonstrating WASM compatibility and zero-allocation/zero-copy parsing wherever possible.

@@ -17,7 +17,7 @@ pub use tool_chest::core::{
     Provenance, TargetIdentifier, TargetKind, VibeScriptPayload,
     Manifest, ManifestChain, ManifestTool,
     OntologyClass, OntologyModule, OntologyProperty, OntologyRegistry,
-    DockPosition, ManifoldSeed, Registry, SeedContainer, SeedPanel,
+    DockPosition, ManifoldSeed, Registry, SeedConnection, SeedContainer, SeedPanel,
     SimpleTool, Tool, ToolKind, ToolMetadata, build_payload,
     ToolChain, ToolChainMetadata,
     Toolbox, ToolboxMetadata,

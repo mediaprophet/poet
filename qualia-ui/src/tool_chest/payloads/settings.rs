@@ -102,7 +102,7 @@ mod tests {
             scope: "profile".into(),
         };
 
-        let cbor = ciborium::to_vec(&params).expect("cbor encode");
+        let mut cbor = Vec::new(); ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
         let decoded: UpdatePreferenceParams =
             ciborium::from_reader(&cbor[..]).expect("cbor decode");
         assert_eq!(decoded.key, "set:privacyGraphVisibility");
@@ -119,7 +119,7 @@ mod tests {
             constraints: vec!["read-only".into()],
         };
 
-        let cbor = ciborium::to_vec(&params).expect("cbor encode");
+        let mut cbor = Vec::new(); ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
         let decoded: GrantCapabilityParams =
             ciborium::from_reader(&cbor[..]).expect("cbor decode");
         assert_eq!(decoded.capability_name, "graph:read");

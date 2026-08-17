@@ -117,7 +117,7 @@ mod tests {
             required_capabilities: vec!["graph:read".into()],
         };
 
-        let cbor = ciborium::to_vec(&m).expect("cbor encode");
+        let mut cbor = Vec::new(); ciborium::ser::into_writer(&m, &mut cbor).expect("cbor encode");
         let decoded: Manifest = ciborium::from_reader(&cbor[..]).expect("cbor decode");
         assert_eq!(decoded.id, "social");
         assert_eq!(decoded.chains.len(), 1);

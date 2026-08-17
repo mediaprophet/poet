@@ -113,6 +113,9 @@ pub struct ManifoldSeed {
     pub description: String,
     /// Containers to place when the manifold is first opened.
     pub containers: Vec<SeedContainer>,
+    /// Connections (wires) between containers.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub connections: Vec<SeedConnection>,
     /// Panels to dock when the manifold is first opened.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub panels: Vec<SeedPanel>,
@@ -145,6 +148,26 @@ fn default_z() -> f32 {
 
 fn default_honesty() -> String {
     "missing".into()
+}
+
+/// A connection (wire) between two containers on a manifold.
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+pub struct SeedConnection {
+    /// Connection id.
+    pub id: String,
+    /// Source container index (into `containers`).
+    pub from: usize,
+    /// Target container index (into `containers`).
+    pub to: usize,
+    /// Wire type — e.g. `active`, `event`, `ontology`, `subjective`, `objective`.
+    #[serde(default = "default_wire_type")]
+    pub wire_type: String,
+    /// Predicate label shown on the wire midpoint.
+    pub label: String,
+}
+
+fn default_wire_type() -> String {
+    "active".into()
 }
 
 /// A panel docked by a manifold seed.
@@ -194,6 +217,7 @@ mod tests {
                 z: 100.0,
                 honesty: "live".into(),
             }],
+            connections: vec![],
             panels: vec![SeedPanel {
                 panel_type: "pulse-panel".into(),
                 dock: DockPosition::Bottom,

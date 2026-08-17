@@ -13,6 +13,9 @@ crate-type = ["cdylib", "rlib"]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 ciborium = "0.2"
+uuid = { version = "1", features = ["v4", "js"] }
+chrono = { version = "0.4", features = ["wasmbind"] }
+console_error_panic_hook = "0.1"
 
 # WASM / browser
 wasm-bindgen = "0.2"
@@ -34,9 +37,30 @@ web-sys = { version = "0.3", features = [
     "HtmlButtonElement",
     "HtmlInputElement",
     "HtmlSelectElement",
+    "HtmlTextAreaElement",
     "HtmlHeadElement",
+    "HtmlCanvasElement",
+    "CanvasRenderingContext2d",
     "NodeList",
     "CssStyleDeclaration",
+    "MouseEvent",
+    "WheelEvent",
+    "KeyboardEvent",
+    "InputEvent",
+    "DragEvent",
+    "Storage",
+    "Location",
+    "Performance",
+    "Headers",
+    "Request",
+    "RequestInit",
+    "RequestMode",
+    "Response",
+    "WebSocket",
+    "MessageEvent",
+    "CloseEvent",
+    "SvgElement",
+    "HtmlAnchorElement",
 ] }
 
 [dev-dependencies]

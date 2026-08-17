@@ -21,7 +21,7 @@ pub use intent_bus::{
 };
 pub use manifest::{Manifest, ManifestChain, ManifestTool};
 pub use ontology::{OntologyClass, OntologyModule, OntologyProperty, OntologyRegistry};
-pub use registry::{DockPosition, ManifoldSeed, Registry, SeedContainer, SeedPanel};
+pub use registry::{DockPosition, ManifoldSeed, Registry, SeedConnection, SeedContainer, SeedPanel};
 pub use tool::{SimpleTool, Tool, ToolKind, ToolMetadata, build_payload};
 pub use tool_chain::{ToolChain, ToolChainMetadata};
 pub use toolbox::{Toolbox, ToolboxMetadata};

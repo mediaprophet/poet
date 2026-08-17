@@ -4,7 +4,7 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedPanel, DockPosition};
+use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedConnection, SeedPanel, DockPosition};
 
 /// Communications manifold seed: conversations + channels + pulse inspector.
 pub fn communications_manifold_seed() -> ManifoldSeed {
@@ -46,6 +46,7 @@ pub fn communications_manifold_seed() -> ManifoldSeed {
                 honesty: "missing".into(),
             },
         ],
+        connections: vec![],
         panels: vec![
             SeedPanel {
                 panel_type: "pulse-panel".into(),

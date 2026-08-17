@@ -484,7 +484,7 @@ mod tests {
         });
 
         // Serialise to CBOR (CBOR-LD uses CBOR as the binary encoding).
-        let cbor_bytes = ciborium::to_vec(&p).expect("cbor encode");
+        let mut cbor_bytes = Vec::new(); ciborium::ser::into_writer(&p, &mut cbor_bytes).expect("cbor encode");
         assert!(!cbor_bytes.is_empty());
 
         // Deserialise back.

@@ -4,7 +4,7 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedPanel, DockPosition};
+use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedConnection, SeedPanel, DockPosition};
 
 /// Social manifold seed: social graph + connection requests + reputation.
 pub fn social_manifold_seed() -> ManifoldSeed {
@@ -44,6 +44,22 @@ pub fn social_manifold_seed() -> ManifoldSeed {
                 height: 200.0,
                 z: 100.0,
                 honesty: "missing".into(),
+            },
+        ],
+        connections: vec![
+            SeedConnection {
+                id: "wire-s1".into(),
+                from: 0,
+                to: 1,
+                wire_type: "active".into(),
+                label: "soc:requestsConnection".into(),
+            },
+            SeedConnection {
+                id: "wire-s2".into(),
+                from: 0,
+                to: 2,
+                wire_type: "ontology".into(),
+                label: "soc:hasReputation".into(),
             },
         ],
         panels: vec![

@@ -4,7 +4,7 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedPanel, DockPosition};
+use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedConnection, SeedPanel, DockPosition};
 
 pub fn research_manifold_seed() -> ManifoldSeed {
     ManifoldSeed {
@@ -21,6 +21,7 @@ pub fn research_manifold_seed() -> ManifoldSeed {
                 honesty: "live".into(),
             },
         ],
+        connections: vec![],
         panels: vec![
             SeedPanel { panel_type: "graph-panel".into(), dock: DockPosition::Right },
             SeedPanel { panel_type: "aura-tray".into(), dock: DockPosition::Right },

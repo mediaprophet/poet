@@ -22,7 +22,7 @@
   <script>
     // Error catchers — must be first to catch WASM init failures
     window.addEventListener('error', (e) => {
-      console.error('[html] window error:', e.error || e.message, e.filename, e.lineno);
+      console.error('[qualia-ui] window error:', e.error || e.message, e.filename, e.lineno);
       const el = document.getElementById('loading');
       if (el && !document.querySelector('.app')) {
         const msg = e.error ? String(e.error) : (e.message || 'Unknown error');
@@ -34,7 +34,7 @@
       }
     });
     window.addEventListener('unhandledrejection', (e) => {
-      console.error('[html] unhandled rejection:', e.reason);
+      console.error('[qualia-ui] unhandled rejection:', e.reason);
       const el = document.getElementById('loading');
       if (el && !document.querySelector('.app')) {
         el.innerHTML = '<div style="color:#ff4444;font-family:monospace;font-size:12px;padding:20px;max-width:600px;">' +
@@ -44,7 +44,6 @@
         el.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100vh;background:#0a0a0a;';
       }
     });
-    console.log('[html] error listeners installed');
   </script>
   <div id="loading">Loading QualiaDB UI…</div>
   <script type="module">
@@ -62,7 +61,8 @@
       }
     }, 10000);
 
-    // Check for app readiness
+    // Safety net: remove loading indicator once the app mounts.
+    // start() already removes it on success; this covers any edge case.
     function checkReady() {
       if (document.querySelector('.app')) {
         document.getElementById('loading')?.remove();
@@ -71,30 +71,6 @@
       }
     }
     requestAnimationFrame(checkReady);
-
-    // Listen for TrunkApplicationStarted event to debug
-    window.addEventListener('TrunkApplicationStarted', (e) => {
-      console.log('[html] TrunkApplicationStarted', e.detail);
-      // Manually call start() since we removed #[wasm_bindgen(start)]
-      if (window.wasmBindings && window.wasmBindings.start) {
-        console.log('[html] calling start()');
-        try {
-          window.wasmBindings.start();
-        } catch (err) {
-          console.error('[html] start() threw:', err);
-          const el = document.getElementById('loading');
-          if (el) {
-            el.innerHTML = '<div style="color:#ff4444;font-family:monospace;font-size:12px;padding:20px;max-width:600px;">' +
-              '<h3 style="margin:0 0 10px;">Qualia UI — start() Error</h3>' +
-              '<pre style="white-space:pre-wrap;word-break:break-all;">' + String(err).replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>' +
-              '</div>';
-            el.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100vh;background:#0a0a0a;';
-          }
-        }
-      } else {
-        console.error('[html] wasmBindings.start not found!', window.wasmBindings);
-      }
-    });
   </script>
 </body>
 </html>

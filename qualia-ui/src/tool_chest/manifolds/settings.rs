@@ -4,7 +4,7 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedConnection, SeedPanel, DockPosition};
+use super::super::core::registry::{DockPosition, ManifoldSeed, SeedContainer, SeedPanel};
 
 /// Settings manifold seed: property sheet + capability badges + protection policies.
 pub fn settings_manifold_seed() -> ManifoldSeed {
@@ -24,6 +24,7 @@ pub fn settings_manifold_seed() -> ManifoldSeed {
                 height: 320.0,
                 z: 100.0,
                 honesty: "missing".into(),
+                ..Default::default()
             },
             SeedContainer {
                 container_type: "capabilities".into(),
@@ -34,6 +35,7 @@ pub fn settings_manifold_seed() -> ManifoldSeed {
                 height: 280.0,
                 z: 100.0,
                 honesty: "missing".into(),
+                ..Default::default()
             },
             SeedContainer {
                 container_type: "protection-policies".into(),
@@ -44,6 +46,7 @@ pub fn settings_manifold_seed() -> ManifoldSeed {
                 height: 200.0,
                 z: 100.0,
                 honesty: "missing".into(),
+                ..Default::default()
             },
         ],
         connections: vec![],

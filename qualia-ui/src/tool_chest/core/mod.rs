@@ -16,12 +16,14 @@ pub mod tool_chain;
 pub mod toolbox;
 
 pub use intent_bus::{
-    ActionType, ContextRef, IntentBus, IntentReceipt, IntentStatus,
-    Provenance, TargetIdentifier, TargetKind, VibeScriptPayload,
+    ActionType, ContextRef, IntentBus, IntentReceipt, IntentStatus, Provenance, TargetIdentifier,
+    TargetKind, VibeScriptPayload,
 };
 pub use manifest::{Manifest, ManifestChain, ManifestTool};
 pub use ontology::{OntologyClass, OntologyModule, OntologyProperty, OntologyRegistry};
-pub use registry::{DockPosition, ManifoldSeed, Registry, SeedConnection, SeedContainer, SeedPanel};
-pub use tool::{SimpleTool, Tool, ToolKind, ToolMetadata, build_payload};
+pub use registry::{
+    DockPosition, ManifoldSeed, Registry, SeedConnection, SeedContainer, SeedPanel,
+};
+pub use tool::{build_payload, SimpleTool, Tool, ToolKind, ToolMetadata};
 pub use tool_chain::{ToolChain, ToolChainMetadata};
 pub use toolbox::{Toolbox, ToolboxMetadata};

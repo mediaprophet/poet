@@ -4,7 +4,9 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use super::super::core::registry::{ManifoldSeed, SeedContainer, SeedConnection, SeedPanel, DockPosition};
+use super::super::core::registry::{
+    DockPosition, ManifoldSeed, SeedConnection, SeedContainer, SeedPanel,
+};
 
 /// Social manifold seed: social graph + connection requests + reputation.
 pub fn social_manifold_seed() -> ManifoldSeed {
@@ -24,6 +26,7 @@ pub fn social_manifold_seed() -> ManifoldSeed {
                 height: 360.0,
                 z: 100.0,
                 honesty: "live".into(),
+                ..Default::default()
             },
             SeedContainer {
                 container_type: "connection-requests".into(),
@@ -34,6 +37,7 @@ pub fn social_manifold_seed() -> ManifoldSeed {
                 height: 280.0,
                 z: 100.0,
                 honesty: "missing".into(),
+                ..Default::default()
             },
             SeedContainer {
                 container_type: "reputation".into(),
@@ -44,6 +48,7 @@ pub fn social_manifold_seed() -> ManifoldSeed {
                 height: 200.0,
                 z: 100.0,
                 honesty: "missing".into(),
+                ..Default::default()
             },
         ],
         connections: vec![

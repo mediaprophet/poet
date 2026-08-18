@@ -4,8 +4,8 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use core::fmt;
 use super::intent_bus::{ActionType, VibeScriptPayload};
+use core::fmt;
 
 // ---------------------------------------------------------------------------
 // ToolKind
@@ -100,8 +100,10 @@ pub fn build_payload<P>(
 where
     P: serde::Serialize + Send + Sync,
 {
-    VibeScriptPayload::new(tool.action_type(), target, params)
-        .with_context(format!("https://qualiadb.org/schema/ui/{}#", tool.metadata().ontology_prefix))
+    VibeScriptPayload::new(tool.action_type(), target, params).with_context(format!(
+        "https://qualiadb.org/schema/ui/{}#",
+        tool.metadata().ontology_prefix
+    ))
 }
 
 // ---------------------------------------------------------------------------
@@ -140,8 +142,8 @@ impl Tool for SimpleTool {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::super::intent_bus::TargetIdentifier;
+    use super::*;
 
     #[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
     struct TestParams {
@@ -185,7 +187,9 @@ mod tests {
         let payload = build_payload(
             &tool,
             TargetIdentifier::iri("https://qualiadb.org/graph/social"),
-            TestParams { edge_type: "friendship".into() },
+            TestParams {
+                edge_type: "friendship".into(),
+            },
         );
 
         assert_eq!(payload.action_type, ActionType::Query);

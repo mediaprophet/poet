@@ -123,7 +123,8 @@ mod tests {
             payload: "connection request received".into(),
         };
 
-        let mut cbor = Vec::new(); ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
+        let mut cbor = Vec::new();
+        ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
         let decoded: PublishPulseEventParams =
             ciborium::from_reader(&cbor[..]).expect("cbor decode");
         assert_eq!(decoded.channel, "topic:social");
@@ -139,9 +140,9 @@ mod tests {
             interaction_pattern: "conversation".into(),
         };
 
-        let mut cbor = Vec::new(); ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
-        let decoded: SendMessageParams =
-            ciborium::from_reader(&cbor[..]).expect("cbor decode");
+        let mut cbor = Vec::new();
+        ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
+        let decoded: SendMessageParams = ciborium::from_reader(&cbor[..]).expect("cbor decode");
         assert_eq!(decoded.content, "Hello!");
     }
 }

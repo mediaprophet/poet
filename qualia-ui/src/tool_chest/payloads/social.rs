@@ -172,7 +172,8 @@ mod tests {
             zkp_claims: vec!["age > 18".into(), "identity uniqueness".into()],
         };
 
-        let mut cbor = Vec::new(); ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
+        let mut cbor = Vec::new();
+        ciborium::ser::into_writer(&params, &mut cbor).expect("cbor encode");
         let decoded: SubmitConnectionRequestParams =
             ciborium::from_reader(&cbor[..]).expect("cbor decode");
         assert_eq!(decoded.requester_did, "did:qualia:alice");
@@ -188,9 +189,9 @@ mod tests {
             protector_approval_required: true,
         };
 
-        let mut cbor = Vec::new(); ciborium::ser::into_writer(&result, &mut cbor).expect("cbor encode");
-        let decoded: RiskAssessmentResult =
-            ciborium::from_reader(&cbor[..]).expect("cbor decode");
+        let mut cbor = Vec::new();
+        ciborium::ser::into_writer(&result, &mut cbor).expect("cbor encode");
+        let decoded: RiskAssessmentResult = ciborium::from_reader(&cbor[..]).expect("cbor decode");
         assert_eq!(decoded.risk_level, "moderate");
         assert!(!decoded.blocked);
         assert!(decoded.protector_approval_required);

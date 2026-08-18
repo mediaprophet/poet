@@ -27,7 +27,11 @@ impl ShaclResult {
         if self.conformant {
             format!("{} \u{00B7} {} nodes", self.shape, self.node_count)
         } else {
-            format!("{} \u{00B7} {} violations", self.shape, self.violations.len())
+            format!(
+                "{} \u{00B7} {} violations",
+                self.shape,
+                self.violations.len()
+            )
         }
     }
 }
@@ -69,11 +73,16 @@ pub fn render_aura_tray(document: &Document, results: &[ShaclResult]) -> Element
 
     let total = results.len();
     let passed = results.iter().filter(|r| r.conformant).count();
-    let failed = total - passed;
+    let _failed = total - passed;
 
     // Summary line
     let summary = document.create_element("div").unwrap();
-    summary.set_attribute("style", "margin-bottom: 6px; font-family: var(--font-mono); font-size: 10px;").unwrap();
+    summary
+        .set_attribute(
+            "style",
+            "margin-bottom: 6px; font-family: var(--font-mono); font-size: 10px;",
+        )
+        .unwrap();
     summary.set_text_content(Some(&format!("Shapes: {}/{} passed", passed, total)));
     body.append_child(&summary).unwrap();
 
@@ -179,7 +188,8 @@ pub fn default_pulse_events() -> Vec<PulseEvent> {
 pub fn render_pulse_stream(document: &Document, events: &[PulseEvent]) -> Element {
     let body = document.create_element("div").unwrap();
     body.set_class_name("dock-panel-body");
-    body.set_attribute("style", "flex: 1; overflow-y: auto;").unwrap();
+    body.set_attribute("style", "flex: 1; overflow-y: auto;")
+        .unwrap();
 
     for event in events {
         let entry = document.create_element("div").unwrap();
@@ -277,7 +287,8 @@ pub fn render_job_center(document: &Document, jobs: &[JobEntry]) -> Element {
     let panel = document.create_element("div").unwrap();
     panel.set_class_name("dock-panel");
     let p_el: HtmlElement = panel.clone().dyn_into().unwrap();
-    p_el.style().set_css_text("flex: 1; overflow: hidden; display: flex; flex-direction: column;");
+    p_el.style()
+        .set_css_text("flex: 1; overflow: hidden; display: flex; flex-direction: column;");
 
     let header = document.create_element("div").unwrap();
     header.set_class_name("dock-panel-header");
@@ -286,13 +297,16 @@ pub fn render_job_center(document: &Document, jobs: &[JobEntry]) -> Element {
 
     let body = document.create_element("div").unwrap();
     body.set_class_name("dock-panel-body");
-    body.set_attribute("style", "flex: 1; overflow-y: auto;").unwrap();
+    body.set_attribute("style", "flex: 1; overflow-y: auto;")
+        .unwrap();
 
     for job in jobs {
         let row = document.create_element("div").unwrap();
         row.set_class_name("vibe-out-line");
         let row_el: HtmlElement = row.clone().dyn_into().unwrap();
-        row_el.style().set_css_text("display: flex; align-items: center; gap: 6px; flex-wrap: wrap;");
+        row_el
+            .style()
+            .set_css_text("display: flex; align-items: center; gap: 6px; flex-wrap: wrap;");
 
         let badge = document.create_element("span").unwrap();
         badge.set_class_name(&format!("honesty-badge {}", job.status.css_class()));
@@ -314,7 +328,8 @@ pub fn render_job_center(document: &Document, jobs: &[JobEntry]) -> Element {
                 let cancel_btn = document.create_element("button").unwrap();
                 cancel_btn.set_class_name("vibe-run-btn");
                 let c_el: HtmlElement = cancel_btn.clone().dyn_into().unwrap();
-                c_el.style().set_css_text("font-size: 9px; padding: 1px 4px;");
+                c_el.style()
+                    .set_css_text("font-size: 9px; padding: 1px 4px;");
                 cancel_btn.set_text_content(Some("\u{00D7}"));
                 row.append_child(&cancel_btn).unwrap();
             }
@@ -394,6 +409,11 @@ mod tests {
     fn test_default_jobs() {
         let jobs = default_jobs();
         assert_eq!(jobs.len(), 3);
-        assert_eq!(jobs.iter().filter(|j| j.status == JobStatus::Running).count(), 1);
+        assert_eq!(
+            jobs.iter()
+                .filter(|j| j.status == JobStatus::Running)
+                .count(),
+            1
+        );
     }
 }

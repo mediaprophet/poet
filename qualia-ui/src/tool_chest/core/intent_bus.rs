@@ -128,27 +128,42 @@ pub struct TargetIdentifier {
 impl TargetIdentifier {
     /// Construct an IRI target.
     pub fn iri(value: impl Into<String>) -> Self {
-        Self { kind: Iri, value: value.into() }
+        Self {
+            kind: Iri,
+            value: value.into(),
+        }
     }
 
     /// Construct a DID target.
     pub fn did(value: impl Into<String>) -> Self {
-        Self { kind: Did, value: value.into() }
+        Self {
+            kind: Did,
+            value: value.into(),
+        }
     }
 
     /// Construct a nquin reference from a hex-encoded 48-byte hash.
     pub fn nquin_ref(value: impl Into<String>) -> Self {
-        Self { kind: NquinRef, value: value.into() }
+        Self {
+            kind: NquinRef,
+            value: value.into(),
+        }
     }
 
     /// Construct a blank-node target.
     pub fn blank_node(value: impl Into<String>) -> Self {
-        Self { kind: BlankNode, value: value.into() }
+        Self {
+            kind: BlankNode,
+            value: value.into(),
+        }
     }
 
     /// Construct a UI-internal component-id target.
     pub fn component_id(value: impl Into<String>) -> Self {
-        Self { kind: ComponentId, value: value.into() }
+        Self {
+            kind: ComponentId,
+            value: value.into(),
+        }
     }
 }
 
@@ -383,10 +398,7 @@ pub trait IntentBus: Send + Sync {
     ///
     /// Best-effort: if the intent has already been committed to the
     /// Q42 graph, cancellation may not be possible.
-    async fn cancel(
-        &self,
-        dispatch_id: u64,
-    ) -> Result<IntentReceipt, Self::Error>;
+    async fn cancel(&self, dispatch_id: u64) -> Result<IntentReceipt, Self::Error>;
 }
 
 // ---------------------------------------------------------------------------
@@ -408,7 +420,10 @@ mod tests {
         let p = VibeScriptPayload::new(
             ActionType::Query,
             TargetIdentifier::iri("https://example.org/graph"),
-            TestParams { limit: 10, filter: "active".into() },
+            TestParams {
+                limit: 10,
+                filter: "active".into(),
+            },
         );
 
         assert_eq!(p.action_type, ActionType::Query);
@@ -422,7 +437,10 @@ mod tests {
         let p = VibeScriptPayload::new(
             ActionType::Annotate,
             TargetIdentifier::nquin_ref("a1b2c3"),
-            TestParams { limit: 1, filter: "test".into() },
+            TestParams {
+                limit: 1,
+                filter: "test".into(),
+            },
         )
         .with_provenance(Provenance {
             emitter_did: "did:qualia:timothy_charles_holborn".into(),
@@ -474,7 +492,10 @@ mod tests {
         let p = VibeScriptPayload::new(
             ActionType::Query,
             TargetIdentifier::iri("https://example.org/g"),
-            TestParams { limit: 5, filter: "x".into() },
+            TestParams {
+                limit: 5,
+                filter: "x".into(),
+            },
         )
         .with_provenance(Provenance {
             emitter_did: "did:qualia:timothy_charles_holborn".into(),
@@ -484,7 +505,8 @@ mod tests {
         });
 
         // Serialise to CBOR (CBOR-LD uses CBOR as the binary encoding).
-        let mut cbor_bytes = Vec::new(); ciborium::ser::into_writer(&p, &mut cbor_bytes).expect("cbor encode");
+        let mut cbor_bytes = Vec::new();
+        ciborium::ser::into_writer(&p, &mut cbor_bytes).expect("cbor encode");
         assert!(!cbor_bytes.is_empty());
 
         // Deserialise back.

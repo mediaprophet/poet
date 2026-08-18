@@ -2,18 +2,76 @@
 //!
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 
+use wasm_bindgen::prelude::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::{Document, Element, HtmlElement};
 
 /// Rich text document container — contenteditable with gazetteer placeholder.
+/// Includes a view switcher: Visual / Markdown / RDF Triples.
 pub fn build_doc_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
-    // Toolbar
+    // View switcher tabs
+    let switcher = document.create_element("div").unwrap();
+    switcher.set_class_name("doc-view-switcher");
+    let switcher_el: HtmlElement = switcher.clone().dyn_into().unwrap();
+    switcher_el.style().set_css_text(
+        "display: flex; gap: 2px; padding: 2px; background: var(--surface-panel); \
+         border-radius: var(--radius-xs); font-size: 10px; font-family: var(--font-mono);",
+    );
+
+    let views = [
+        ("Visual", "visual"),
+        ("Markdown", "markdown"),
+        ("RDF Triples", "rdf"),
+    ];
+    for (idx, (label, view_id)) in views.iter().enumerate() {
+        let tab = document.create_element("button").unwrap();
+        tab.set_class_name("doc-view-tab");
+        tab.set_attribute("data-doc-view", view_id).unwrap();
+        if idx == 0 {
+            tab.class_list().add_1("active").unwrap();
+        }
+        let tab_el: HtmlElement = tab.clone().dyn_into().unwrap();
+        tab_el.style().set_css_text(
+            "padding: 4px 10px; border: none; border-radius: var(--radius-xs); \
+             cursor: pointer; font-size: 10px; font-family: var(--font-mono); \
+             transition: var(--trans-fast);",
+        );
+        if idx == 0 {
+            tab_el
+                .style()
+                .set_property("background", "var(--surface-panel-elevated)")
+                .unwrap();
+            tab_el
+                .style()
+                .set_property("color", "var(--text-primary)")
+                .unwrap();
+        } else {
+            tab_el
+                .style()
+                .set_property("background", "transparent")
+                .unwrap();
+            tab_el
+                .style()
+                .set_property("color", "var(--text-muted)")
+                .unwrap();
+        }
+        tab.set_text_content(Some(label));
+        switcher.append_child(&tab).unwrap();
+    }
+    wrapper.append_child(&switcher).unwrap();
+
+    // Toolbar (Visual mode)
     let toolbar = document.create_element("div").unwrap();
-    toolbar.set_class_name("vibe-toolbar");
+    toolbar.set_class_name("doc-toolbar doc-view-panel");
+    toolbar
+        .set_attribute("data-doc-view-panel", "visual")
+        .unwrap();
     for label in &["B", "I", "U", "Link", "Annotate", "Gazetteer"] {
         let btn = document.create_element("button").unwrap();
         btn.set_class_name("vibe-run-btn");
@@ -22,29 +80,207 @@ pub fn build_doc_view(document: &Document) -> Element {
     }
     wrapper.append_child(&toolbar).unwrap();
 
-    // Editor area
+    // Visual editor (contenteditable)
     let editor = document.create_element("div").unwrap();
+    editor.set_class_name("doc-editor doc-view-panel");
+    editor
+        .set_attribute("data-doc-view-panel", "visual")
+        .unwrap();
     let editor_el: HtmlElement = editor.clone().dyn_into().unwrap();
     editor_el.style().set_css_text(
         "flex: 1; background: var(--canvas-bg); border: 1px solid var(--border-subtle); \
          border-radius: var(--radius-xs); padding: 12px; color: var(--text-primary); \
-         font-size: 13px; line-height: 1.6; overflow-y: auto; min-height: 120px; \
-         contenteditable: true;"
+         font-size: 13px; line-height: 1.6; overflow-y: auto; min-height: 120px;",
     );
+    editor.set_attribute("contenteditable", "true").unwrap();
     editor.set_text_content(Some(
         "Rich text document container \u{2014} contenteditable with gazetteer annotation. \
-         Select text to annotate with <q-entity> tags. Awaiting NLP engine wiring."
+         Select text to annotate with <q-entity> tags. Awaiting NLP engine wiring.",
     ));
     wrapper.append_child(&editor).unwrap();
 
+    // Markdown view (hidden by default)
+    let md_view = document.create_element("div").unwrap();
+    md_view.set_class_name("doc-markdown-view doc-view-panel");
+    md_view
+        .set_attribute("data-doc-view-panel", "markdown")
+        .unwrap();
+    let md_el: HtmlElement = md_view.clone().dyn_into().unwrap();
+    md_el
+        .style()
+        .set_css_text("flex: 1; display: none; flex-direction: column; gap: 4px;");
+
+    let md_textarea = document.create_element("textarea").unwrap();
+    let md_ta_el: web_sys::HtmlTextAreaElement = md_textarea.clone().dyn_into().unwrap();
+    md_ta_el.set_value(
+        "# Untitled Document\n\nRich text document container \u{2014} contenteditable with \
+         gazetteer annotation. Select text to annotate with <q-entity> tags.\n\n\
+         Awaiting NLP engine wiring.\n",
+    );
+    md_textarea
+        .set_attribute(
+            "style",
+            "flex: 1; background: var(--canvas-bg); border: 1px solid var(--border-subtle); \
+         border-radius: var(--radius-xs); padding: 12px; color: var(--text-primary); \
+         font-family: var(--font-mono); font-size: 12px; line-height: 1.6; \
+         resize: none; outline: none; min-height: 120px;",
+        )
+        .unwrap();
+    md_view.append_child(&md_textarea).unwrap();
+    wrapper.append_child(&md_view).unwrap();
+
+    // RDF Triples view (hidden by default)
+    let rdf_view = document.create_element("div").unwrap();
+    rdf_view.set_class_name("doc-rdf-view doc-view-panel");
+    rdf_view
+        .set_attribute("data-doc-view-panel", "rdf")
+        .unwrap();
+    let rdf_el: HtmlElement = rdf_view.clone().dyn_into().unwrap();
+    rdf_el.style().set_css_text(
+        "flex: 1; display: none; flex-direction: column; gap: 4px; overflow-y: auto;",
+    );
+
+    // RDF triple table
+    let rdf_info = document.create_element("div").unwrap();
+    rdf_info.set_class_name("doc-rdf-info");
+    let info_el: HtmlElement = rdf_info.clone().dyn_into().unwrap();
+    info_el.style().set_css_text(
+        "padding: 8px 10px; background: var(--surface-panel); border-radius: var(--radius-xs); \
+         font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);",
+    );
+    rdf_info.set_text_content(Some(
+        "\u{1F4CB} RDF-Star triples extracted from this document \u{2014} present, awaiting NLP engine wiring."
+    ));
+    rdf_view.append_child(&rdf_info).unwrap();
+
+    let rdf_table = document.create_element("div").unwrap();
+    rdf_table.set_class_name("rdf-triple-table");
+    let table_el: HtmlElement = rdf_table.clone().dyn_into().unwrap();
+    table_el.style().set_css_text(
+        "flex: 1; overflow-y: auto; font-family: var(--font-mono); font-size: 10px; \
+         border: 1px solid var(--border-subtle); border-radius: var(--radius-xs);",
+    );
+
+    // Header row
+    let header_row = document.create_element("div").unwrap();
+    let hr_el: HtmlElement = header_row.clone().dyn_into().unwrap();
+    hr_el.style().set_css_text(
+        "display: flex; border-bottom: 1px solid var(--border-subtle); \
+         background: var(--surface-panel);",
+    );
+    for col in &["Subject", "Predicate", "Object", "Provenance"] {
+        let cell = document.create_element("div").unwrap();
+        let cell_el: HtmlElement = cell.clone().dyn_into().unwrap();
+        cell_el.style().set_css_text(
+            "flex: 1; padding: 4px 8px; color: var(--text-muted); \
+             border-right: 1px solid var(--border-subtle);",
+        );
+        cell.set_text_content(Some(col));
+        header_row.append_child(&cell).unwrap();
+    }
+    rdf_table.append_child(&header_row).unwrap();
+
+    // Placeholder triple row
+    let row = document.create_element("div").unwrap();
+    let row_el: HtmlElement = row.clone().dyn_into().unwrap();
+    row_el
+        .style()
+        .set_css_text("display: flex; border-bottom: 1px solid var(--border-subtle);");
+    for val in &[
+        "did:qualia:doc#sec1",
+        "qualia:hasAnnotation",
+        "\"gazetteer\"@en",
+        "0:42\u{2013}0:51",
+    ] {
+        let cell = document.create_element("div").unwrap();
+        let cell_el: HtmlElement = cell.clone().dyn_into().unwrap();
+        cell_el.style().set_css_text(
+            "flex: 1; padding: 4px 8px; color: var(--text-secondary); \
+             border-right: 1px solid var(--border-subtle);",
+        );
+        cell.set_text_content(Some(val));
+        row.append_child(&cell).unwrap();
+    }
+    rdf_table.append_child(&row).unwrap();
+    rdf_view.append_child(&rdf_table).unwrap();
+    wrapper.append_child(&rdf_view).unwrap();
+
+    // Wire the view switcher
+    wire_doc_view_switcher(document);
+
     wrapper
+}
+
+/// Wire doc view switcher tabs to toggle between Visual / Markdown / RDF views.
+fn wire_doc_view_switcher(document: &Document) {
+    let tabs = document.query_selector_all(".doc-view-tab").unwrap();
+    for i in 0..tabs.length() {
+        let tab = tabs.get(i).unwrap();
+        let tab_el: Element = tab.dyn_into().unwrap();
+        let tab_el_for_listener = tab_el.clone();
+
+        let closure = Closure::wrap(Box::new(move |_e: web_sys::Event| {
+            let doc = web_sys::window().unwrap().document().unwrap();
+            let view_id = tab_el.get_attribute("data-doc-view").unwrap_or_default();
+
+            // Update tab styles
+            let all_tabs = doc.query_selector_all(".doc-view-tab").unwrap();
+            for j in 0..all_tabs.length() {
+                let t = all_tabs.get(j).unwrap();
+                let te: Element = t.dyn_into().unwrap();
+                let te_html: HtmlElement = te.clone().dyn_into().unwrap();
+                if te == tab_el {
+                    te.class_list().add_1("active").unwrap();
+                    te_html
+                        .style()
+                        .set_property("background", "var(--surface-panel-elevated)")
+                        .unwrap();
+                    te_html
+                        .style()
+                        .set_property("color", "var(--text-primary)")
+                        .unwrap();
+                } else {
+                    te.class_list().remove_1("active").unwrap();
+                    te_html
+                        .style()
+                        .set_property("background", "transparent")
+                        .unwrap();
+                    te_html
+                        .style()
+                        .set_property("color", "var(--text-muted)")
+                        .unwrap();
+                }
+            }
+
+            // Show/hide panels
+            let panels = doc.query_selector_all(".doc-view-panel").unwrap();
+            for j in 0..panels.length() {
+                let p = panels.get(j).unwrap();
+                let pe: Element = p.dyn_into().unwrap();
+                let pe_html: HtmlElement = pe.clone().dyn_into().unwrap();
+                let panel_view = pe.get_attribute("data-doc-view-panel").unwrap_or_default();
+                if panel_view == view_id {
+                    pe_html.style().set_property("display", "flex").unwrap();
+                } else {
+                    pe_html.style().set_property("display", "none").unwrap();
+                }
+            }
+        }) as Box<dyn FnMut(web_sys::Event)>);
+
+        tab_el_for_listener
+            .add_event_listener_with_callback("click", closure.as_ref().unchecked_ref())
+            .unwrap();
+        closure.forget();
+    }
 }
 
 /// Spreadsheet container — formula bar + grid.
 pub fn build_sheet_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
 
     // Formula bar
     let formula = document.create_element("div").unwrap();
@@ -73,7 +309,9 @@ pub fn build_sheet_view(document: &Document) -> Element {
     // Header row
     let header_row = document.create_element("div").unwrap();
     let header_el: HtmlElement = header_row.clone().dyn_into().unwrap();
-    header_el.style().set_css_text("display: flex; border-bottom: 1px solid var(--border-subtle);");
+    header_el
+        .style()
+        .set_css_text("display: flex; border-bottom: 1px solid var(--border-subtle);");
     for col in &["", "A", "B", "C", "D", "E"] {
         let cell = document.create_element("div").unwrap();
         let cell_el: HtmlElement = cell.clone().dyn_into().unwrap();
@@ -83,11 +321,13 @@ pub fn build_sheet_view(document: &Document) -> Element {
     }
     grid.append_child(&header_row).unwrap();
 
-    // Data rows
-    for row_idx in 1..=5 {
+    // Data rows — cells are editable with formula support
+    for row_idx in 1..=6 {
         let row = document.create_element("div").unwrap();
         let row_el: HtmlElement = row.clone().dyn_into().unwrap();
-        row_el.style().set_css_text("display: flex; border-bottom: 1px solid var(--border-subtle);");
+        row_el
+            .style()
+            .set_css_text("display: flex; border-bottom: 1px solid var(--border-subtle);");
         let row_label = document.create_element("div").unwrap();
         let rl_el: HtmlElement = row_label.clone().dyn_into().unwrap();
         rl_el.style().set_css_text("min-width: 60px; padding: 3px 6px; text-align: center; color: var(--text-muted); border-right: 1px solid var(--border-subtle);");
@@ -95,25 +335,346 @@ pub fn build_sheet_view(document: &Document) -> Element {
         row.append_child(&row_label).unwrap();
         for col_idx in 0..5 {
             let cell = document.create_element("div").unwrap();
+            cell.set_class_name("sheet-cell");
+            cell.set_attribute("data-row", &row_idx.to_string())
+                .unwrap();
+            let col_letter = (b'A' + col_idx as u8) as char;
+            cell.set_attribute("data-col", &col_letter.to_string())
+                .unwrap();
+            cell.set_attribute("data-cell-ref", &format!("{}{}", col_letter, row_idx))
+                .unwrap();
             let cell_el: HtmlElement = cell.clone().dyn_into().unwrap();
-            cell_el.style().set_css_text("min-width: 60px; padding: 3px 6px; color: var(--text-secondary); border-right: 1px solid var(--border-subtle);");
-            if row_idx == 1 && col_idx == 0 { cell.set_text_content(Some("42")); }
-            else if row_idx == 2 && col_idx == 0 { cell.set_text_content(Some("18")); }
-            else if row_idx == 3 && col_idx == 0 { cell.set_text_content(Some("=A1+A2")); }
+            cell_el.style().set_css_text(
+                "min-width: 60px; padding: 3px 6px; color: var(--text-secondary); \
+                 border-right: 1px solid var(--border-subtle); cursor: text; \
+                 transition: var(--trans-fast);",
+            );
+            // Seed some initial data
+            if row_idx == 1 && col_idx == 0 {
+                cell.set_text_content(Some("42"));
+            } else if row_idx == 2 && col_idx == 0 {
+                cell.set_text_content(Some("18"));
+            } else if row_idx == 3 && col_idx == 0 {
+                cell.set_text_content(Some("60"));
+                cell.set_attribute("data-formula", "=A1+A2").unwrap();
+            }
             row.append_child(&cell).unwrap();
         }
         grid.append_child(&row).unwrap();
     }
     wrapper.append_child(&grid).unwrap();
 
+    // Wire cell editing and formula evaluation
+    wire_sheet_cells(document);
+
     wrapper
+}
+
+/// Wire sheet cell click-to-edit and formula evaluation.
+fn wire_sheet_cells(document: &Document) {
+    let cells = document.query_selector_all(".sheet-cell").unwrap();
+    for i in 0..cells.length() {
+        let cell = cells.get(i).unwrap();
+        let cell_el: Element = cell.dyn_into().unwrap();
+        let cell_el_for_listener = cell_el.clone();
+
+        let closure = Closure::wrap(Box::new(move |_e: web_sys::Event| {
+            let doc = web_sys::window().unwrap().document().unwrap();
+            let cell_ref = cell_el.get_attribute("data-cell-ref").unwrap_or_default();
+            let cell_ref_for_blur = cell_ref.clone();
+            let formula = cell_el.get_attribute("data-formula").unwrap_or_default();
+
+            // Don't re-edit if already editing
+            if cell_el.class_list().contains("editing") {
+                return;
+            }
+            cell_el.class_list().add_1("editing").unwrap();
+
+            // Replace cell content with an input
+            let current_text = cell_el.text_content().unwrap_or_default();
+            let input = doc.create_element("input").unwrap();
+            let input_el: web_sys::HtmlInputElement = input.clone().dyn_into().unwrap();
+            // Show formula if present, otherwise show value
+            input_el.set_value(if !formula.is_empty() {
+                &formula
+            } else {
+                &current_text
+            });
+            input.set_attribute("style",
+                "width: 100%; box-sizing: border-box; background: var(--surface-panel-elevated); \
+                 border: 1px solid var(--accent-cyan); border-radius: 2px; padding: 2px 4px; \
+                 color: var(--accent-emerald); font-family: var(--font-mono); font-size: 10px; \
+                 outline: none;"
+            ).unwrap();
+
+            cell_el.set_text_content(Some(""));
+            cell_el.append_child(&input).unwrap();
+            input_el.focus().unwrap();
+            input_el.select();
+
+            // On Enter or blur, commit the value
+            let cell_el_for_commit = cell_el.clone();
+            let input_for_commit = input.clone();
+            let doc_for_commit = doc.clone();
+            let commit_closure = Closure::wrap(Box::new(move |ev: web_sys::Event| {
+                let ke: Option<web_sys::KeyboardEvent> = ev.dyn_into().ok();
+                if let Some(ke) = &ke {
+                    if ke.key() != "Enter" && ke.key() != "Tab" {
+                        return;
+                    }
+                }
+
+                let input_el: web_sys::HtmlInputElement =
+                    input_for_commit.clone().dyn_into().unwrap();
+                let new_val = input_el.value();
+
+                // Remove the input
+                input_for_commit.remove();
+                cell_el_for_commit.class_list().remove_1("editing").unwrap();
+
+                // Check if it's a formula
+                if let Some(expr) = new_val.strip_prefix('=') {
+                    // Store formula
+                    cell_el_for_commit
+                        .set_attribute("data-formula", &new_val)
+                        .unwrap();
+                    // Evaluate
+                    let result = evaluate_formula(&doc_for_commit, expr);
+                    cell_el_for_commit.set_text_content(Some(&result));
+                    // Style as formula result
+                    let cell_html: HtmlElement = cell_el_for_commit.clone().dyn_into().unwrap();
+                    cell_html
+                        .style()
+                        .set_property("color", "var(--accent-emerald)")
+                        .unwrap();
+                } else {
+                    // Plain value
+                    cell_el_for_commit.remove_attribute("data-formula").unwrap();
+                    cell_el_for_commit.set_text_content(Some(&new_val));
+                    let cell_html: HtmlElement = cell_el_for_commit.clone().dyn_into().unwrap();
+                    cell_html
+                        .style()
+                        .set_property("color", "var(--text-secondary)")
+                        .unwrap();
+                }
+
+                // Re-evaluate any cells that reference this cell
+                reevaluate_dependents(&doc_for_commit, &cell_ref);
+            }) as Box<dyn FnMut(web_sys::Event)>);
+
+            input_el
+                .add_event_listener_with_callback(
+                    "keydown",
+                    commit_closure.as_ref().unchecked_ref(),
+                )
+                .unwrap();
+            commit_closure.forget();
+
+            let input_for_blur = input.clone();
+            let cell_el_for_blur = cell_el.clone();
+            let doc_for_blur = doc.clone();
+            let blur_closure = Closure::wrap(Box::new(move |_ev: web_sys::Event| {
+                let input_el: web_sys::HtmlInputElement =
+                    input_for_blur.clone().dyn_into().unwrap();
+                let new_val = input_el.value();
+                input_for_blur.remove();
+                cell_el_for_blur.class_list().remove_1("editing").unwrap();
+
+                if let Some(expr) = new_val.strip_prefix('=') {
+                    cell_el_for_blur
+                        .set_attribute("data-formula", &new_val)
+                        .unwrap();
+                    let result = evaluate_formula(&doc_for_blur, expr);
+                    cell_el_for_blur.set_text_content(Some(&result));
+                    let cell_html: HtmlElement = cell_el_for_blur.clone().dyn_into().unwrap();
+                    cell_html
+                        .style()
+                        .set_property("color", "var(--accent-emerald)")
+                        .unwrap();
+                } else {
+                    cell_el_for_blur.remove_attribute("data-formula").unwrap();
+                    cell_el_for_blur.set_text_content(Some(&new_val));
+                    let cell_html: HtmlElement = cell_el_for_blur.clone().dyn_into().unwrap();
+                    cell_html
+                        .style()
+                        .set_property("color", "var(--text-secondary)")
+                        .unwrap();
+                }
+                reevaluate_dependents(&doc_for_blur, &cell_ref_for_blur);
+            }) as Box<dyn FnMut(web_sys::Event)>);
+
+            input_el
+                .add_event_listener_with_callback("blur", blur_closure.as_ref().unchecked_ref())
+                .unwrap();
+            blur_closure.forget();
+        }) as Box<dyn FnMut(web_sys::Event)>);
+
+        cell_el_for_listener
+            .add_event_listener_with_callback("click", closure.as_ref().unchecked_ref())
+            .unwrap();
+        closure.forget();
+    }
+}
+
+/// Evaluate a simple spreadsheet formula. Supports:
+/// - Cell references: A1, B2, etc.
+/// - Addition: =A1+A2
+/// - Subtraction: =A1-A2
+/// - Multiplication: =A1*A2
+/// - Division: =A1/A2
+/// - SUM range: =SUM(A1:A3)
+/// - Numbers: =42+8
+fn evaluate_formula(document: &Document, expr: &str) -> String {
+    let expr = expr.trim();
+
+    // SUM(range) — e.g. SUM(A1:A3)
+    if let Some(rest) = expr.strip_prefix("SUM(") {
+        if let Some(range) = rest.strip_suffix(')') {
+            if let Some((start, end)) = range.split_once(':') {
+                let sum = sum_range(document, start, end);
+                return format!("{}", sum);
+            }
+        }
+        return "#NAME?".to_string();
+    }
+
+    // Simple arithmetic: split on + - * /
+    // Try + and - first (lower precedence)
+    if let Some((left, right)) = split_top_level(expr, '+') {
+        let lv = resolve_operand(document, left.trim());
+        let rv = resolve_operand(document, right.trim());
+        if let (Some(a), Some(b)) = (lv, rv) {
+            return format!("{}", a + b);
+        }
+    }
+    if let Some((left, right)) = split_top_level(expr, '-') {
+        let lv = resolve_operand(document, left.trim());
+        let rv = resolve_operand(document, right.trim());
+        if let (Some(a), Some(b)) = (lv, rv) {
+            return format!("{}", a - b);
+        }
+    }
+    // Then * and /
+    if let Some((left, right)) = split_top_level(expr, '*') {
+        let lv = resolve_operand(document, left.trim());
+        let rv = resolve_operand(document, right.trim());
+        if let (Some(a), Some(b)) = (lv, rv) {
+            return format!("{}", a * b);
+        }
+    }
+    if let Some((left, right)) = split_top_level(expr, '/') {
+        let lv = resolve_operand(document, left.trim());
+        let rv = resolve_operand(document, right.trim());
+        if let (Some(a), Some(b)) = (lv, rv) {
+            if b == 0.0 {
+                return "#DIV/0!".to_string();
+            }
+            return format!("{}", a / b);
+        }
+    }
+
+    // Single operand (cell ref or number)
+    if let Some(v) = resolve_operand(document, expr) {
+        return format!("{}", v);
+    }
+
+    "#VALUE!".to_string()
+}
+
+/// Split an expression at the top-level operator (not inside parentheses).
+fn split_top_level(expr: &str, op: char) -> Option<(String, String)> {
+    let mut depth = 0;
+    for (i, c) in expr.char_indices() {
+        match c {
+            '(' => depth += 1,
+            ')' => depth -= 1,
+            _ if depth == 0 && c == op => {
+                return Some((expr[..i].to_string(), expr[i + c.len_utf8()..].to_string()));
+            }
+            _ => {}
+        }
+    }
+    None
+}
+
+/// Resolve an operand: either a number or a cell reference (e.g. "A1").
+fn resolve_operand(document: &Document, token: &str) -> Option<f64> {
+    let token = token.trim();
+    // Try parsing as a number
+    if let Ok(n) = token.parse::<f64>() {
+        return Some(n);
+    }
+    // Try as a cell reference
+    get_cell_value(document, token)
+}
+
+/// Get the numeric value of a cell by reference (e.g. "A1").
+fn get_cell_value(document: &Document, cell_ref: &str) -> Option<f64> {
+    let selector = format!(".sheet-cell[data-cell-ref=\"{}\"]", cell_ref);
+    if let Some(cell) = document.query_selector(&selector).unwrap() {
+        let text = cell.text_content().unwrap_or_default();
+        return text.trim().parse::<f64>().ok();
+    }
+    None
+}
+
+/// Sum a range of cells (e.g. from "A1" to "A3").
+fn sum_range(document: &Document, start: &str, end: &str) -> f64 {
+    // Parse cell refs: column letter + row number
+    let (start_col, start_row) = parse_cell_ref(start);
+    let (end_col, end_row) = parse_cell_ref(end);
+
+    let mut sum = 0.0;
+    for row in start_row..=end_row {
+        for col in start_col..=end_col {
+            let col_letter = (b'A' + col) as char;
+            let ref_str = format!("{}{}", col_letter, row);
+            if let Some(v) = get_cell_value(document, &ref_str) {
+                sum += v;
+            }
+        }
+    }
+    sum
+}
+
+/// Parse a cell reference like "A1" into (col_index, row_number).
+fn parse_cell_ref(ref_str: &str) -> (u8, u32) {
+    let mut col = 0u8;
+    let mut row_str = String::new();
+    for c in ref_str.chars() {
+        if c.is_ascii_alphabetic() {
+            col = c.to_ascii_uppercase() as u8 - b'A';
+        } else if c.is_ascii_digit() {
+            row_str.push(c);
+        }
+    }
+    let row = row_str.parse::<u32>().unwrap_or(1);
+    (col, row)
+}
+
+/// Re-evaluate cells that have formulas and might depend on the changed cell.
+fn reevaluate_dependents(document: &Document, _changed_cell: &str) {
+    let cells = document
+        .query_selector_all(".sheet-cell[data-formula]")
+        .unwrap();
+    for i in 0..cells.length() {
+        let cell = cells.get(i).unwrap();
+        let cell_el: Element = cell.dyn_into().unwrap();
+        let formula = cell_el.get_attribute("data-formula").unwrap_or_default();
+        if let Some(expr) = formula.strip_prefix('=') {
+            let result = evaluate_formula(document, expr);
+            cell_el.set_text_content(Some(&result));
+        }
+    }
 }
 
 /// Graph/SPARQL explorer container.
 pub fn build_graph_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     // SPARQL query input
     let query_bar = document.create_element("div").unwrap();
@@ -131,7 +692,7 @@ pub fn build_graph_view(document: &Document) -> Element {
          SELECT ?peer ?modality WHERE {\n\
          \x20\x20?s soc:hasPeer ?peer .\n\
          \x20\x20?s soc:epistemicModality ?modality .\n\
-         } LIMIT 10"
+         } LIMIT 10",
     ));
     wrapper.append_child(&editor).unwrap();
 
@@ -140,13 +701,19 @@ pub fn build_graph_view(document: &Document) -> Element {
     results.set_class_name("vibe-output");
     let line1 = document.create_element("div").unwrap();
     line1.set_class_name("vibe-out-line");
-    line1.set_text_content(Some("peer=\u{2014}did:qualia:alice, modality=\u{2014}objective"));
+    line1.set_text_content(Some(
+        "peer=\u{2014}did:qualia:alice, modality=\u{2014}objective",
+    ));
     let line2 = document.create_element("div").unwrap();
     line2.set_class_name("vibe-out-line");
-    line2.set_text_content(Some("peer=\u{2014}did:qualia:bob, modality=\u{2014}subjective"));
+    line2.set_text_content(Some(
+        "peer=\u{2014}did:qualia:bob, modality=\u{2014}subjective",
+    ));
     let line3 = document.create_element("div").unwrap();
     line3.set_class_name("vibe-out-line");
-    line3.set_text_content(Some("\u{2139}\u{FE0F} 2 results \u{00B7} 12ms \u{00B7} CBOR-LD: 48 bytes"));
+    line3.set_text_content(Some(
+        "\u{2139}\u{FE0F} 2 results \u{00B7} 12ms \u{00B7} CBOR-LD: 48 bytes",
+    ));
     results.append_child(&line1).unwrap();
     results.append_child(&line2).unwrap();
     results.append_child(&line3).unwrap();
@@ -162,7 +729,9 @@ pub fn build_ontology_view(document: &Document) -> Element {
 
     let tree = document.create_element("div").unwrap();
     let tree_el: HtmlElement = tree.clone().dyn_into().unwrap();
-    tree_el.style().set_css_text("overflow-y: auto; flex: 1; padding: 8px;");
+    tree_el
+        .style()
+        .set_css_text("overflow-y: auto; flex: 1; padding: 8px;");
 
     let entries = &[
         ("soc:", "Social", "class", 0),
@@ -184,7 +753,9 @@ pub fn build_ontology_view(document: &Document) -> Element {
         let node = document.create_element("div").unwrap();
         node.set_class_name("ontology-tree-node");
         let node_el: HtmlElement = node.clone().dyn_into().unwrap();
-        node_el.style().set_css_text(&format!("padding-left: {}px;", depth * 16));
+        node_el
+            .style()
+            .set_css_text(&format!("padding-left: {}px;", depth * 16));
 
         let pfx = document.create_element("span").unwrap();
         pfx.set_class_name("ot-prefix");
@@ -192,7 +763,11 @@ pub fn build_ontology_view(document: &Document) -> Element {
         node.append_child(&pfx).unwrap();
 
         let cls = document.create_element("span").unwrap();
-        cls.set_class_name(if *kind == "class" { "ot-class" } else { "ot-prop" });
+        cls.set_class_name(if *kind == "class" {
+            "ot-class"
+        } else {
+            "ot-prop"
+        });
         cls.set_text_content(Some(label));
         node.append_child(&cls).unwrap();
 
@@ -207,7 +782,9 @@ pub fn build_ontology_view(document: &Document) -> Element {
 pub fn build_pulse_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
 
     // Publish bar
     let bar = document.create_element("div").unwrap();
@@ -215,7 +792,9 @@ pub fn build_pulse_view(document: &Document) -> Element {
     let label = document.create_element("span").unwrap();
     label.set_text_content(Some("topic:"));
     let label_el: HtmlElement = label.clone().dyn_into().unwrap();
-    label_el.style().set_css_text("color: var(--text-muted); font-size: 10px; font-family: var(--font-mono);");
+    label_el
+        .style()
+        .set_css_text("color: var(--text-muted); font-size: 10px; font-family: var(--font-mono);");
     bar.append_child(&label).unwrap();
     let input = document.create_element("input").unwrap();
     let input_el: web_sys::HtmlInputElement = input.clone().dyn_into().unwrap();
@@ -244,107 +823,6 @@ pub fn build_pulse_view(document: &Document) -> Element {
         log.append_child(&line).unwrap();
     }
     wrapper.append_child(&log).unwrap();
-
-    wrapper
-}
-
-/// Rights container — agreements, DID signing, fiduciary.
-pub fn build_rights_view(document: &Document) -> Element {
-    let wrapper = document.create_element("div").unwrap();
-    let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 8px;");
-
-    // Agreement cards
-    for (title, party, status) in &[
-        ("Data Sharing Agreement", "did:qualia:alice", "active"),
-        ("Fiduciary Obligation", "did:qualia:guardian", "active"),
-        ("Consent Revocation", "did:qualia:bob", "pending"),
-    ] {
-        let card = document.create_element("div").unwrap();
-        card.set_class_name("cr-card");
-        let h = document.create_element("div").unwrap();
-        h.set_class_name("cr-header");
-        let title_el = document.create_element("span").unwrap();
-        title_el.set_class_name("cr-name");
-        title_el.set_text_content(Some(title));
-        h.append_child(&title_el).unwrap();
-        let badge = document.create_element("span").unwrap();
-        badge.set_class_name(&format!("honesty-badge honesty-{}", status));
-        badge.set_text_content(Some(status));
-        h.append_child(&badge).unwrap();
-        card.append_child(&h).unwrap();
-
-        let meta = document.create_element("div").unwrap();
-        meta.set_class_name("cr-meta");
-        meta.set_text_content(Some(&format!("Party: {} \u{00B7} Deontic: obligation", party)));
-        card.append_child(&meta).unwrap();
-
-        wrapper.append_child(&card).unwrap();
-    }
-
-    // Sign button
-    let sign_bar = document.create_element("div").unwrap();
-    sign_bar.set_class_name("vibe-toolbar");
-    let sign_btn = document.create_element("button").unwrap();
-    sign_btn.set_class_name("vibe-run-btn");
-    sign_btn.set_text_content(Some("\u{270D} DID Sign"));
-    sign_bar.append_child(&sign_btn).unwrap();
-    let fid_btn = document.create_element("button").unwrap();
-    fid_btn.set_class_name("vibe-run-btn");
-    fid_btn.set_text_content(Some("\u{1F4DC} Fiduciary Sign"));
-    sign_bar.append_child(&fid_btn).unwrap();
-    wrapper.append_child(&sign_bar).unwrap();
-
-    wrapper
-}
-
-/// Wallet container — identity, balances, vault.
-pub fn build_wallet_view(document: &Document) -> Element {
-    let wrapper = document.create_element("div").unwrap();
-    let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 8px;");
-
-    // Identity card
-    let id_card = document.create_element("div").unwrap();
-    id_card.set_class_name("cr-card");
-    let id_h = document.create_element("div").unwrap();
-    id_h.set_class_name("cr-header");
-    let id_title = document.create_element("span").unwrap();
-    id_title.set_class_name("cr-name");
-    id_title.set_text_content(Some("Identity"));
-    id_h.append_child(&id_title).unwrap();
-    let id_badge = document.create_element("span").unwrap();
-    id_badge.set_class_name("honesty-badge honesty-live");
-    id_badge.set_text_content(Some("live"));
-    id_h.append_child(&id_badge).unwrap();
-    id_card.append_child(&id_h).unwrap();
-    let id_meta = document.create_element("div").unwrap();
-    id_meta.set_class_name("cr-meta");
-    id_meta.set_text_content(Some("DID: did:qualia:timothy_charles_holborn \u{00B7} BIP39: 12 words"));
-    id_card.append_child(&id_meta).unwrap();
-    wrapper.append_child(&id_card).unwrap();
-
-    // Balance table
-    let balance = document.create_element("div").unwrap();
-    balance.set_class_name("vibe-output");
-    for (asset, amount) in &[("XEC", "1,250.00"), ("USDC", "340.12"), ("Q42", "8,000")] {
-        let line = document.create_element("div").unwrap();
-        line.set_class_name("vibe-out-line");
-        line.set_text_content(Some(&format!("{}: {}", asset, amount)));
-        balance.append_child(&line).unwrap();
-    }
-    wrapper.append_child(&balance).unwrap();
-
-    // Actions
-    let actions = document.create_element("div").unwrap();
-    actions.set_class_name("vibe-toolbar");
-    for label in &["Send", "Receive", "Vault Handshake", "Export"] {
-        let btn = document.create_element("button").unwrap();
-        btn.set_class_name("vibe-run-btn");
-        btn.set_text_content(Some(label));
-        actions.append_child(&btn).unwrap();
-    }
-    wrapper.append_child(&actions).unwrap();
 
     wrapper
 }

@@ -13,12 +13,9 @@ pub mod tool_chest {
 pub mod browser;
 
 pub use tool_chest::core::{
-    ActionType, ContextRef, IntentBus, IntentReceipt, IntentStatus,
-    Provenance, TargetIdentifier, TargetKind, VibeScriptPayload,
-    Manifest, ManifestChain, ManifestTool,
-    OntologyClass, OntologyModule, OntologyProperty, OntologyRegistry,
-    DockPosition, ManifoldSeed, Registry, SeedConnection, SeedContainer, SeedPanel,
-    SimpleTool, Tool, ToolKind, ToolMetadata, build_payload,
-    ToolChain, ToolChainMetadata,
-    Toolbox, ToolboxMetadata,
+    build_payload, ActionType, ContextRef, DockPosition, IntentBus, IntentReceipt, IntentStatus,
+    Manifest, ManifestChain, ManifestTool, ManifoldSeed, OntologyClass, OntologyModule,
+    OntologyProperty, OntologyRegistry, Provenance, Registry, SeedConnection, SeedContainer,
+    SeedPanel, SimpleTool, TargetIdentifier, TargetKind, Tool, ToolChain, ToolChainMetadata,
+    ToolKind, ToolMetadata, Toolbox, ToolboxMetadata, VibeScriptPayload,
 };

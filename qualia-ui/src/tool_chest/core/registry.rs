@@ -4,9 +4,9 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use core::fmt;
 use super::ontology::OntologyRegistry;
 use super::toolbox::Toolbox;
+use core::fmt;
 
 // ---------------------------------------------------------------------------
 // Registry
@@ -99,7 +99,7 @@ impl fmt::Debug for Registry {
 ///
 /// Defines which containers are placed on the manifold when it is
 /// first opened, and which panels are docked where.
-#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Debug, Default, serde::Serialize, serde::Deserialize)]
 pub struct ManifoldSeed {
     /// Unique manifold id — e.g. `social`, `settings`, `communications`.
     pub id: String,
@@ -121,11 +121,83 @@ pub struct ManifoldSeed {
     pub panels: Vec<SeedPanel>,
 }
 
+/// Container kind — discriminates content, panel, and widget containers.
+/// Aligns with `container:ContainerKind` in `ontologies/container.n3`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ContainerKind {
+    /// Content containers hold media (documents, sheets, maps, code, 3D, audio).
+    Content,
+    /// Panel containers hold UI chrome (inspectors, property sheets, outlines, tool palettes).
+    Panel,
+    /// Widget containers are small UI elements (mini-map, status bar, badges, indicators).
+    Widget,
+}
+
+impl Default for ContainerKind {
+    fn default() -> Self {
+        Self::Content
+    }
+}
+
+impl ContainerKind {
+    /// Infer the kind from a container_type string.
+    /// Falls back to Content for unknown types.
+    pub fn from_type(container_type: &str) -> Self {
+        match container_type {
+            // Panel containers
+            "checkpoint-tray"
+            | "credential-inspector"
+            | "context-markup-editor"
+            | "provenance-panel"
+            | "publication-workflow"
+            | "constituency-manager"
+            | "inspector"
+            | "property-sheet"
+            | "outline"
+            | "tool-palette"
+            | "aura-tray"
+            | "pulse-panel"
+            | "graph-panel"
+            | "wire-inspector"
+            | "world-outliner"
+            | "physics-inspector"
+            | "fixture-patch"
+            | "cue-stack" => Self::Panel,
+
+            // Widget containers
+            "capability-badge"
+            | "checkpoint-indicator"
+            | "consent-indicator"
+            | "mini-map"
+            | "status-bar"
+            | "breadcrumb"
+            | "progress-indicator" => Self::Widget,
+
+            // Everything else is content
+            _ => Self::Content,
+        }
+    }
+
+    /// CSS class suffix for the kind.
+    pub fn class_suffix(&self) -> &'static str {
+        match self {
+            Self::Content => "content",
+            Self::Panel => "panel",
+            Self::Widget => "widget",
+        }
+    }
+}
+
 /// A container placed by a manifold seed.
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct SeedContainer {
     /// Container type — e.g. `social`, `settings`, `pulse`.
     pub container_type: String,
+    /// Container kind — `content`, `panel`, or `widget`.
+    /// Inferred from `container_type` if not specified.
+    #[serde(default)]
+    pub kind: ContainerKind,
     /// Container title.
     pub title: String,
     /// Initial position (x, y) in manifold coordinates.
@@ -142,12 +214,45 @@ pub struct SeedContainer {
     pub honesty: String,
 }
 
+impl SeedContainer {
+    /// Create a new container with the kind inferred from its type.
+    pub fn new(container_type: &str, title: &str, x: f32, y: f32, w: f32, h: f32) -> Self {
+        Self {
+            container_type: container_type.to_string(),
+            kind: ContainerKind::from_type(container_type),
+            title: title.to_string(),
+            x,
+            y,
+            width: w,
+            height: h,
+            z: default_z(),
+            honesty: default_honesty(),
+        }
+    }
+}
+
 fn default_z() -> f32 {
     100.0
 }
 
 fn default_honesty() -> String {
     "missing".into()
+}
+
+impl Default for SeedContainer {
+    fn default() -> Self {
+        Self {
+            container_type: String::default(),
+            kind: ContainerKind::default(),
+            title: String::default(),
+            x: 0.0,
+            y: 0.0,
+            width: 0.0,
+            height: 0.0,
+            z: default_z(),
+            honesty: default_honesty(),
+        }
+    }
 }
 
 /// A connection (wire) between two containers on a manifold.
@@ -216,6 +321,7 @@ mod tests {
                 height: 320.0,
                 z: 100.0,
                 honesty: "live".into(),
+                ..Default::default()
             }],
             connections: vec![],
             panels: vec![SeedPanel {

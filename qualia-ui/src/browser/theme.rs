@@ -79,8 +79,13 @@ pub enum PresentationLevel {
 impl PresentationLevel {
     pub fn id(self) -> &'static str {
         match self {
-            Self::P0 => "P0", Self::P1 => "P1", Self::P2 => "P2",
-            Self::P3 => "P3", Self::P4 => "P4", Self::P5 => "P5", Self::P6 => "P6",
+            Self::P0 => "P0",
+            Self::P1 => "P1",
+            Self::P2 => "P2",
+            Self::P3 => "P3",
+            Self::P4 => "P4",
+            Self::P5 => "P5",
+            Self::P6 => "P6",
         }
     }
 }
@@ -102,8 +107,12 @@ pub enum SpatialGrammar {
 impl SpatialGrammar {
     pub fn id(self) -> &'static str {
         match self {
-            Self::List => "list", Self::Board => "board", Self::Globe => "globe",
-            Self::Room => "room", Self::Strata => "strata", Self::Hyperspace => "hyperspace",
+            Self::List => "list",
+            Self::Board => "board",
+            Self::Globe => "globe",
+            Self::Room => "room",
+            Self::Strata => "strata",
+            Self::Hyperspace => "hyperspace",
         }
     }
 }
@@ -149,7 +158,10 @@ impl ThemeState {
         css.push_str(":root {\n");
 
         // Text scale
-        css.push_str(&format!("  --text-scale: {};\n", self.text_scale_percent as f32 / 100.0));
+        css.push_str(&format!(
+            "  --text-scale: {};\n",
+            self.text_scale_percent as f32 / 100.0
+        ));
 
         // Presentation level controls depth of glassmorphism
         let glass_opacity = match self.presentation {
@@ -281,9 +293,15 @@ impl ThemeState {
         // Set data attributes on body for CSS selector targeting
         if let Some(body) = document.body() {
             let body_el: HtmlElement = body.dyn_into().unwrap();
-            body_el.set_attribute("data-theme", self.preset.id()).unwrap();
-            body_el.set_attribute("data-presentation", self.presentation.id()).unwrap();
-            body_el.set_attribute("data-spatial", self.spatial_grammar.id()).unwrap();
+            body_el
+                .set_attribute("data-theme", self.preset.id())
+                .unwrap();
+            body_el
+                .set_attribute("data-presentation", self.presentation.id())
+                .unwrap();
+            body_el
+                .set_attribute("data-spatial", self.spatial_grammar.id())
+                .unwrap();
             if self.is_sanctuary() {
                 body_el.set_attribute("data-sanctuary", "true").unwrap();
             } else {
@@ -305,7 +323,11 @@ impl ThemeState {
 /// Linearise an sRGB channel value (0–255) to the 0–1 range.
 fn linearise(channel: u8) -> f32 {
     let v = channel as f32 / 255.0;
-    if v <= 0.03928 { v / 12.92 } else { ((v + 0.055) / 1.055).powf(2.4) }
+    if v <= 0.03928 {
+        v / 12.92
+    } else {
+        ((v + 0.055) / 1.055).powf(2.4)
+    }
 }
 
 /// Relative luminance of an RGB colour (0–1).
@@ -323,7 +345,9 @@ pub fn contrast_ratio(l1: f32, l2: f32) -> f32 {
 /// Parse a hex colour (#RRGGBB) into (r, g, b).
 pub fn parse_hex(hex: &str) -> Option<(u8, u8, u8)> {
     let hex = hex.strip_prefix('#')?;
-    if hex.len() != 6 { return None; }
+    if hex.len() != 6 {
+        return None;
+    }
     let r = u8::from_str_radix(&hex[0..2], 16).ok()?;
     let g = u8::from_str_radix(&hex[2..4], 16).ok()?;
     let b = u8::from_str_radix(&hex[4..6], 16).ok()?;
@@ -332,17 +356,35 @@ pub fn parse_hex(hex: &str) -> Option<(u8, u8, u8)> {
 
 /// Check if a foreground/background pair meets WCAG AA (4.5:1 for normal text).
 pub fn meets_wcag_aa(fg_hex: &str, bg_hex: &str) -> bool {
-    let (fr, fg, fb) = match parse_hex(fg_hex) { Some(c) => c, None => return false };
-    let (br, bg, bb) = match parse_hex(bg_hex) { Some(c) => c, None => return false };
-    let ratio = contrast_ratio(relative_luminance(fr, fg, fb), relative_luminance(br, bg, bb));
+    let (fr, fg, fb) = match parse_hex(fg_hex) {
+        Some(c) => c,
+        None => return false,
+    };
+    let (br, bg, bb) = match parse_hex(bg_hex) {
+        Some(c) => c,
+        None => return false,
+    };
+    let ratio = contrast_ratio(
+        relative_luminance(fr, fg, fb),
+        relative_luminance(br, bg, bb),
+    );
     ratio >= 4.5
 }
 
 /// Check if a foreground/background pair meets WCAG AAA (7.0:1 for normal text).
 pub fn meets_wcag_aaa(fg_hex: &str, bg_hex: &str) -> bool {
-    let (fr, fg, fb) = match parse_hex(fg_hex) { Some(c) => c, None => return false };
-    let (br, bg, bb) = match parse_hex(bg_hex) { Some(c) => c, None => return false };
-    let ratio = contrast_ratio(relative_luminance(fr, fg, fb), relative_luminance(br, bg, bb));
+    let (fr, fg, fb) = match parse_hex(fg_hex) {
+        Some(c) => c,
+        None => return false,
+    };
+    let (br, bg, bb) = match parse_hex(bg_hex) {
+        Some(c) => c,
+        None => return false,
+    };
+    let ratio = contrast_ratio(
+        relative_luminance(fr, fg, fb),
+        relative_luminance(br, bg, bb),
+    );
     ratio >= 7.0
 }
 
@@ -400,10 +442,16 @@ mod tests {
 
     #[test]
     fn test_presentation_level_glass_opacity() {
-        let p0 = ThemeState { presentation: PresentationLevel::P0, ..Default::default() };
+        let p0 = ThemeState {
+            presentation: PresentationLevel::P0,
+            ..Default::default()
+        };
         assert!(p0.css_custom_properties().contains("--glass-opacity: 1"));
 
-        let p6 = ThemeState { presentation: PresentationLevel::P6, ..Default::default() };
+        let p6 = ThemeState {
+            presentation: PresentationLevel::P6,
+            ..Default::default()
+        };
         assert!(p6.css_custom_properties().contains("--glass-opacity: 0.55"));
     }
 

@@ -4,6 +4,6 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-pub mod social;
-pub mod settings;
 pub mod communications;
+pub mod settings;
+pub mod social;

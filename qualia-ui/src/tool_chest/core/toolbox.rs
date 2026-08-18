@@ -4,8 +4,8 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
-use core::fmt;
 use super::tool_chain::ToolChain;
+use core::fmt;
 
 // ---------------------------------------------------------------------------
 // ToolboxMetadata
@@ -27,6 +27,11 @@ pub struct ToolboxMetadata {
     /// Whether this toolbox is enabled by default.
     #[serde(default = "default_true")]
     pub enabled_by_default: bool,
+    /// Family group this toolbox belongs to — e.g. "epistemic", "office",
+    /// "media", "spatial", "communication", "rights", "health", "code",
+    /// "ai", "graph". Toolboxes in the same family are grouped in the dock.
+    #[serde(default)]
+    pub family: String,
 }
 
 fn default_true() -> bool {

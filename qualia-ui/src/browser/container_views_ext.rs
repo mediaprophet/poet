@@ -14,14 +14,23 @@ use web_sys::{Document, Element, HtmlElement};
 pub fn build_library_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     // Stats bar
     let stats = document.create_element("div").unwrap();
     stats.set_class_name("vibe-toolbar");
     let stats_el: HtmlElement = stats.clone().dyn_into().unwrap();
-    stats_el.style().set_css_text("gap: 12px; font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);");
-    for (label, value) in &[("Documents", "142"), ("Ontologies", "36"), ("Models", "8"), ("Graph facts", "12.4k")] {
+    stats_el.style().set_css_text(
+        "gap: 12px; font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);",
+    );
+    for (label, value) in &[
+        ("Documents", "142"),
+        ("Ontologies", "36"),
+        ("Models", "8"),
+        ("Graph facts", "12.4k"),
+    ] {
         let stat = document.create_element("span").unwrap();
         stat.set_text_content(Some(&format!("{}: {}", label, value)));
         stats.append_child(&stat).unwrap();
@@ -33,11 +42,15 @@ pub fn build_library_view(document: &Document) -> Element {
     tabs.set_class_name("vibe-toolbar");
     let tabs_el: HtmlElement = tabs.clone().dyn_into().unwrap();
     tabs_el.style().set_css_text("gap: 2px; flex-wrap: wrap;");
-    for section in &["All", "Secret", "Wellfair", "Personal", "Work", "Tools", "Software", "Commons"] {
+    for section in &[
+        "All", "Secret", "Wellfair", "Personal", "Work", "Tools", "Software", "Commons",
+    ] {
         let tab = document.create_element("button").unwrap();
         tab.set_class_name("vibe-run-btn");
         let tab_el: HtmlElement = tab.clone().dyn_into().unwrap();
-        tab_el.style().set_css_text("font-size: 10px; padding: 2px 8px;");
+        tab_el
+            .style()
+            .set_css_text("font-size: 10px; padding: 2px 8px;");
         tab.set_text_content(Some(section));
         tabs.append_child(&tab).unwrap();
     }
@@ -65,20 +78,57 @@ pub fn build_library_view(document: &Document) -> Element {
     let list = document.create_element("div").unwrap();
     list.set_class_name("vibe-output");
     let entries = &[
-        ("doc", "Research notes — Q42 embedding manifold", "wellfair", "present"),
-        ("ontology", "epistemics.n3 — epistemic modalities", "software", "live"),
-        ("pdf", "Framingham risk assessment — clinical", "wellfair", "partial"),
-        ("image", "Satellite imagery — catchment hull", "work", "present"),
+        (
+            "doc",
+            "Research notes — Q42 embedding manifold",
+            "wellfair",
+            "present",
+        ),
+        (
+            "ontology",
+            "epistemics.n3 — epistemic modalities",
+            "software",
+            "live",
+        ),
+        (
+            "pdf",
+            "Framingham risk assessment — clinical",
+            "wellfair",
+            "partial",
+        ),
+        (
+            "image",
+            "Satellite imagery — catchment hull",
+            "work",
+            "present",
+        ),
         ("model", "Llama-3.2-1B — quantised GGUF", "tools", "live"),
-        ("text", "Agreement draft — fiduciary obligation", "personal", "present"),
-        ("ontology", "hypermedia.n3 — HCF container spec", "software", "live"),
-        ("text", "Legislation — Health Records Act 2024", "commons", "present"),
+        (
+            "text",
+            "Agreement draft — fiduciary obligation",
+            "personal",
+            "present",
+        ),
+        (
+            "ontology",
+            "hypermedia.n3 — HCF container spec",
+            "software",
+            "live",
+        ),
+        (
+            "text",
+            "Legislation — Health Records Act 2024",
+            "commons",
+            "present",
+        ),
     ];
     for (kind, title, section, honesty) in entries {
         let row = document.create_element("div").unwrap();
         row.set_class_name("vibe-out-line");
         let row_el: HtmlElement = row.clone().dyn_into().unwrap();
-        row_el.style().set_css_text("display: flex; align-items: center; gap: 8px;");
+        row_el
+            .style()
+            .set_css_text("display: flex; align-items: center; gap: 8px;");
 
         let kind_badge = document.create_element("span").unwrap();
         kind_badge.set_class_name(&format!("honesty-badge honesty-{}", honesty));
@@ -91,7 +141,8 @@ pub fn build_library_view(document: &Document) -> Element {
 
         let section_el = document.create_element("span").unwrap();
         let s_el: HtmlElement = section_el.clone().dyn_into().unwrap();
-        s_el.style().set_css_text("margin-left: auto; color: var(--text-muted); font-size: 9px;");
+        s_el.style()
+            .set_css_text("margin-left: auto; color: var(--text-muted); font-size: 9px;");
         section_el.set_text_content(Some(section));
         row.append_child(&section_el).unwrap();
 
@@ -110,7 +161,9 @@ pub fn build_library_view(document: &Document) -> Element {
 pub fn build_aura_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     // Toolbar
     let bar = document.create_element("div").unwrap();
@@ -132,7 +185,11 @@ pub fn build_aura_view(document: &Document) -> Element {
     let shapes = &[
         ("soc:PeerShape", "conformant", "42 nodes validated"),
         ("soc:AgreementShape", "conformant", "8 nodes validated"),
-        ("health:RecordShape", "violation", "2 nodes: missing `health:hasConsent`"),
+        (
+            "health:RecordShape",
+            "violation",
+            "2 nodes: missing `health:hasConsent`",
+        ),
         ("rights:FiduciaryShape", "conformant", "3 nodes validated"),
         ("vibe:IntentShape", "conformant", "156 nodes validated"),
     ];
@@ -140,23 +197,32 @@ pub fn build_aura_view(document: &Document) -> Element {
         let row = document.create_element("div").unwrap();
         row.set_class_name("vibe-out-line");
         let row_el: HtmlElement = row.clone().dyn_into().unwrap();
-        row_el.style().set_css_text("display: flex; align-items: center; gap: 8px;");
+        row_el
+            .style()
+            .set_css_text("display: flex; align-items: center; gap: 8px;");
 
         let badge = document.create_element("span").unwrap();
-        let badge_class = if *status == "violation" { "honesty-badge honesty-missing" } else { "honesty-badge honesty-live" };
+        let badge_class = if *status == "violation" {
+            "honesty-badge honesty-missing"
+        } else {
+            "honesty-badge honesty-live"
+        };
         badge.set_class_name(badge_class);
         badge.set_text_content(Some(status));
         row.append_child(&badge).unwrap();
 
         let shape_el = document.create_element("span").unwrap();
         let sh_el: HtmlElement = shape_el.clone().dyn_into().unwrap();
-        sh_el.style().set_css_text("color: var(--accent-cyan); font-family: var(--font-mono);");
+        sh_el
+            .style()
+            .set_css_text("color: var(--accent-cyan); font-family: var(--font-mono);");
         shape_el.set_text_content(Some(shape));
         row.append_child(&shape_el).unwrap();
 
         let detail_el = document.create_element("span").unwrap();
         let d_el: HtmlElement = detail_el.clone().dyn_into().unwrap();
-        d_el.style().set_css_text("color: var(--text-muted); font-size: 10px; margin-left: auto;");
+        d_el.style()
+            .set_css_text("color: var(--text-muted); font-size: 10px; margin-left: auto;");
         detail_el.set_text_content(Some(detail));
         row.append_child(&detail_el).unwrap();
 
@@ -175,16 +241,22 @@ pub fn build_aura_view(document: &Document) -> Element {
 pub fn build_latex_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
 
     // Snippet bar
     let bar = document.create_element("div").unwrap();
     bar.set_class_name("vibe-toolbar");
-    for label in &["\\frac", "\\sum", "\\int", "\\sqrt", "\\alpha", "\\nabla", "CAS"] {
+    for label in &[
+        "\\frac", "\\sum", "\\int", "\\sqrt", "\\alpha", "\\nabla", "CAS",
+    ] {
         let btn = document.create_element("button").unwrap();
         btn.set_class_name("vibe-run-btn");
         let btn_el: HtmlElement = btn.clone().dyn_into().unwrap();
-        btn_el.style().set_css_text("font-size: 10px; padding: 2px 6px; font-family: var(--font-mono);");
+        btn_el
+            .style()
+            .set_css_text("font-size: 10px; padding: 2px 6px; font-family: var(--font-mono);");
         btn.set_text_content(Some(label));
         bar.append_child(&btn).unwrap();
     }
@@ -198,7 +270,7 @@ pub fn build_latex_view(document: &Document) -> Element {
          \\begin{document}\n\
          \\section{Quantum DFT Ground State}\n\
          $$E_0 = \\min_{\\psi} \\langle \\psi | \\hat{H} | \\psi \\rangle$$\n\
-         \\end{document}"
+         \\end{document}",
     ));
     wrapper.append_child(&editor).unwrap();
 
@@ -207,7 +279,9 @@ pub fn build_latex_view(document: &Document) -> Element {
     output.set_class_name("vibe-output");
     let line = document.create_element("div").unwrap();
     line.set_class_name("vibe-out-line");
-    line.set_text_content(Some("\u{2139}\u{FE0F} CAS: awaiting SymbolicAlgebra engine wiring (native_bindings)"));
+    line.set_text_content(Some(
+        "\u{2139}\u{FE0F} CAS: awaiting SymbolicAlgebra engine wiring (native_bindings)",
+    ));
     output.append_child(&line).unwrap();
     wrapper.append_child(&output).unwrap();
 
@@ -222,17 +296,21 @@ pub fn build_latex_view(document: &Document) -> Element {
 pub fn build_health_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 8px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 8px;");
 
     // Consent gate notice
     let gate = document.create_element("div").unwrap();
     gate.set_class_name("cr-card");
     let gate_el: HtmlElement = gate.clone().dyn_into().unwrap();
-    gate_el.style().set_css_text("border-color: var(--accent-amber); border-width: 1px; border-style: solid;");
+    gate_el
+        .style()
+        .set_css_text("border-color: var(--accent-amber); border-width: 1px; border-style: solid;");
     gate.set_text_content(Some(
         "\u{26A0}\u{FE0F} Health data is consent-gated. \
          Wellfair commands require `wellfair_*_consent_creds` \
-         before reads or writes."
+         before reads or writes.",
     ));
     wrapper.append_child(&gate).unwrap();
 
@@ -252,14 +330,19 @@ pub fn build_health_view(document: &Document) -> Element {
     risk.append_child(&h).unwrap();
     let meta = document.create_element("div").unwrap();
     meta.set_class_name("cr-meta");
-    meta.set_text_content(Some("Score: 12% (moderate) \u{00B7} Age: 45 \u{00B7} SBP: 130 \u{00B7} TC: 5.2"));
+    meta.set_text_content(Some(
+        "Score: 12% (moderate) \u{00B7} Age: 45 \u{00B7} SBP: 130 \u{00B7} TC: 5.2",
+    ));
     risk.append_child(&meta).unwrap();
     wrapper.append_child(&risk).unwrap();
 
     // Medication list
     let meds = document.create_element("div").unwrap();
     meds.set_class_name("vibe-output");
-    for med in &["Metformin 500mg \u{00B7} twice daily", "Atorvastatin 20mg \u{00B7} once daily"] {
+    for med in &[
+        "Metformin 500mg \u{00B7} twice daily",
+        "Atorvastatin 20mg \u{00B7} once daily",
+    ] {
         let line = document.create_element("div").unwrap();
         line.set_class_name("vibe-out-line");
         line.set_text_content(Some(med));
@@ -289,7 +372,9 @@ pub fn build_health_view(document: &Document) -> Element {
 pub fn build_anatomy_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let placeholder = document.create_element("div").unwrap();
     placeholder.set_class_name("container-placeholder");
@@ -297,14 +382,19 @@ pub fn build_anatomy_view(document: &Document) -> Element {
         "10D anatomy viewport \u{2014} awaiting GPU surface bridge. \
          Organ percepts, comorbidity scorecard, and FMA/SNOMED-CT \
          extraction will render here via `mount_gpu_surface` + \
-         `browse_10d_containers`."
+         `browse_10d_containers`.",
     ));
     wrapper.append_child(&placeholder).unwrap();
 
     // Organ list
     let organs = document.create_element("div").unwrap();
     organs.set_class_name("vibe-output");
-    for organ in &["Heart \u{00B7} FMA:7088", "Lungs \u{00B7} FMA:7195", "Liver \u{00B7} FMA:7203", "Brain \u{00B7} FMA:50801"] {
+    for organ in &[
+        "Heart \u{00B7} FMA:7088",
+        "Lungs \u{00B7} FMA:7195",
+        "Liver \u{00B7} FMA:7203",
+        "Brain \u{00B7} FMA:50801",
+    ] {
         let line = document.create_element("div").unwrap();
         line.set_class_name("vibe-out-line");
         line.set_text_content(Some(organ));
@@ -323,7 +413,9 @@ pub fn build_anatomy_view(document: &Document) -> Element {
 pub fn build_webview_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
 
     // URL bar
     let bar = document.create_element("div").unwrap();
@@ -345,7 +437,7 @@ pub fn build_webview_view(document: &Document) -> Element {
     notice.set_text_content(Some(
         "Browser pane requires desktop webview (`supports_browser_pane()`). \
          Trust store, cert override, and cookie observation are \
-         capability-gated. Public web: unavailable."
+         capability-gated. Public web: unavailable.",
     ));
     wrapper.append_child(&notice).unwrap();
 
@@ -360,17 +452,20 @@ pub fn build_webview_view(document: &Document) -> Element {
 pub fn build_webrtc_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let notice = document.create_element("div").unwrap();
     notice.set_class_name("cr-card");
     let n_el: HtmlElement = notice.clone().dyn_into().unwrap();
-    n_el.style().set_css_text("border-color: var(--accent-amber);");
+    n_el.style()
+        .set_css_text("border-color: var(--accent-amber);");
     notice.set_text_content(Some(
         "WebRTC is `present` \u{2014} no stream is rendered until \
          the consent gate is designed. ICE servers are hardcoded \
          in the desktop host. Peer connection manager awaits \
-         consent UI."
+         consent UI.",
     ));
     wrapper.append_child(&notice).unwrap();
 
@@ -385,7 +480,9 @@ pub fn build_webrtc_view(document: &Document) -> Element {
 pub fn build_finance_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     // Portfolio summary
     let summary = document.create_element("div").unwrap();
@@ -403,7 +500,9 @@ pub fn build_finance_view(document: &Document) -> Element {
     summary.append_child(&h).unwrap();
     let meta = document.create_element("div").unwrap();
     meta.set_class_name("cr-meta");
-    meta.set_text_content(Some("Total: $4,250.00 \u{00B7} XEC: 1,250 \u{00B7} USDC: 340 \u{00B7} Q42: 8,000"));
+    meta.set_text_content(Some(
+        "Total: $4,250.00 \u{00B7} XEC: 1,250 \u{00B7} USDC: 340 \u{00B7} Q42: 8,000",
+    ));
     summary.append_child(&meta).unwrap();
     wrapper.append_child(&summary).unwrap();
 
@@ -444,14 +543,16 @@ pub fn build_finance_view(document: &Document) -> Element {
 pub fn build_vision_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let notice = document.create_element("div").unwrap();
     notice.set_class_name("container-placeholder");
     notice.set_text_content(Some(
         "Vision workbench \u{2014} awaiting `qualia-vision` engine wiring. \
          `vision_run_synthetic_demo`, `vision_detect_image_file`, \
-         `vision_super_resolve` reachable via IntentBus when native."
+         `vision_super_resolve` reachable via IntentBus when native.",
     ));
     wrapper.append_child(&notice).unwrap();
 
@@ -476,14 +577,16 @@ pub fn build_vision_view(document: &Document) -> Element {
 pub fn build_listen_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let notice = document.create_element("div").unwrap();
     notice.set_class_name("container-placeholder");
     notice.set_text_content(Some(
         "Listen workbench \u{2014} awaiting `qualia-audio` engine wiring. \
          `audio_mic_start`, `audio_live_aed`, `audio_speech_demo`, \
-         `audio_sonify_hear` reachable via IntentBus when native."
+         `audio_sonify_hear` reachable via IntentBus when native.",
     ));
     wrapper.append_child(&notice).unwrap();
 
@@ -508,14 +611,16 @@ pub fn build_listen_view(document: &Document) -> Element {
 pub fn build_triad_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let notice = document.create_element("div").unwrap();
     notice.set_class_name("container-placeholder");
     notice.set_text_content(Some(
         "Triad (q42 + p64 + d10) \u{2014} articulatory inspector. \
          `qualia-audio` cross-modal demo, shared clock, mixer bounce. \
-         Awaiting engine wiring."
+         Awaiting engine wiring.",
     ));
     wrapper.append_child(&notice).unwrap();
 
@@ -530,14 +635,16 @@ pub fn build_triad_view(document: &Document) -> Element {
 pub fn build_portal_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let notice = document.create_element("div").unwrap();
     notice.set_class_name("container-placeholder");
     notice.set_text_content(Some(
         "Portal \u{2014} QApp dispatch and wormhole IRI. \
          `launch_installed_qapp`, `verify_and_install_qapp`, \
-         `export_qapp_as_wasm_package`. Awaiting engine wiring."
+         `export_qapp_as_wasm_package`. Awaiting engine wiring.",
     ));
     wrapper.append_child(&notice).unwrap();
 
@@ -562,7 +669,9 @@ pub fn build_portal_view(document: &Document) -> Element {
 pub fn build_slide_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
 
     let bar = document.create_element("div").unwrap();
     bar.set_class_name("vibe-toolbar");
@@ -579,7 +688,7 @@ pub fn build_slide_view(document: &Document) -> Element {
     sa_el.style().set_css_text(
         "flex: 1; background: var(--canvas-bg); border: 1px solid var(--border-subtle); \
          border-radius: var(--radius-xs); display: flex; align-items: center; \
-         justify-content: center; color: var(--text-muted); font-size: 12px;"
+         justify-content: center; color: var(--text-muted); font-size: 12px;",
     );
     slide_area.set_text_content(Some("Slide 1 \u{2014} click to add title"));
     wrapper.append_child(&slide_area).unwrap();
@@ -595,14 +704,16 @@ pub fn build_slide_view(document: &Document) -> Element {
 pub fn build_3d_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let notice = document.create_element("div").unwrap();
     notice.set_class_name("container-placeholder");
     notice.set_text_content(Some(
         "3D viewport \u{2014} awaiting GPU surface bridge. \
          `mount_gpu_surface`, `upload_gpu_mesh`, `upload_gpu_10d_mesh`, \
-         `load_gpu_10d_asset` reachable via IntentBus when native."
+         `load_gpu_10d_asset` reachable via IntentBus when native.",
     ));
     wrapper.append_child(&notice).unwrap();
 
@@ -627,14 +738,16 @@ pub fn build_3d_view(document: &Document) -> Element {
 pub fn build_subcanvas_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
-    wrapper_el.style().set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
+    wrapper_el
+        .style()
+        .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
     let notice = document.create_element("div").unwrap();
     notice.set_class_name("container-placeholder");
     notice.set_text_content(Some(
         "Subcanvas \u{2014} switch manifold or enter-zoom. \
          Double-click to enter; Esc to exit. \
-         Awaiting manifold nesting implementation."
+         Awaiting manifold nesting implementation.",
     ));
     wrapper.append_child(&notice).unwrap();
 

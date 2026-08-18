@@ -4,8 +4,8 @@
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>
 //! Assignment: COPYRIGHT.md  Licence: LICENSE (CC BY-NC-ND 4.0)
 
+use super::tool::Tool;
 use core::fmt;
-use super::tool::{Tool, ToolMetadata};
 
 // ---------------------------------------------------------------------------
 // ToolChainMetadata
@@ -56,7 +56,10 @@ impl ToolChain {
 
     /// Find a tool by id.
     pub fn tool(&self, id: &str) -> Option<&dyn Tool> {
-        self.tools.iter().find(|t| t.metadata().id == id).map(|b| b.as_ref())
+        self.tools
+            .iter()
+            .find(|t| t.metadata().id == id)
+            .map(|b| b.as_ref())
     }
 }
 

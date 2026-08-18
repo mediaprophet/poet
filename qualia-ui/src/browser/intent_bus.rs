@@ -7,11 +7,10 @@
 
 use std::sync::atomic::{AtomicU64, Ordering};
 
-use crate::tool_chest::core::intent_bus::{
-    ActionType, IntentBus, IntentReceipt, IntentStatus, Provenance,
-    VibeScriptPayload,
-};
 use super::capabilities;
+use crate::tool_chest::core::intent_bus::{
+    ActionType, IntentBus, IntentReceipt, IntentStatus, Provenance, VibeScriptPayload,
+};
 
 /// Errors produced by the WASM intent bus.
 #[derive(Debug)]
@@ -137,9 +136,7 @@ impl IntentBus for WasmIntentBus {
         if !capabilities::is_native_host() {
             return Ok(IntentReceipt {
                 dispatch_id,
-                status: IntentStatus::Rejected(
-                    "public web — engine unreachable".into(),
-                ),
+                status: IntentStatus::Rejected("public web — engine unreachable".into()),
                 provenance: payload.provenance,
             });
         }
@@ -148,8 +145,7 @@ impl IntentBus for WasmIntentBus {
         let cbor_bytes = self.encode_cbor_ld(&payload)?;
 
         // Route to daemon
-        let base = capabilities::daemon_base_url()
-            .ok_or(WasmBusError::NotNativeHost)?;
+        let base = capabilities::daemon_base_url().ok_or(WasmBusError::NotNativeHost)?;
         let path = endpoint_path_for(payload.action_type);
         let url = format!("{}{}", base, path);
 
@@ -184,10 +180,7 @@ impl IntentBus for WasmIntentBus {
         })
     }
 
-    async fn cancel(
-        &self,
-        dispatch_id: u64,
-    ) -> Result<IntentReceipt, Self::Error> {
+    async fn cancel(&self, dispatch_id: u64) -> Result<IntentReceipt, Self::Error> {
         if !capabilities::is_native_host() {
             return Ok(IntentReceipt {
                 dispatch_id,

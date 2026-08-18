@@ -89,8 +89,14 @@ impl OntologyModule {
 
 impl fmt::Display for OntologyModule {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "OntologyModule({}:{}, {} classes, {} properties)",
-            self.prefix, self.label, self.classes.len(), self.properties.len())
+        write!(
+            f,
+            "OntologyModule({}:{}, {} classes, {} properties)",
+            self.prefix,
+            self.label,
+            self.classes.len(),
+            self.properties.len()
+        )
     }
 }
 
@@ -110,7 +116,9 @@ pub struct OntologyRegistry {
 impl OntologyRegistry {
     /// Create an empty registry.
     pub fn new() -> Self {
-        Self { modules: Vec::new() }
+        Self {
+            modules: Vec::new(),
+        }
     }
 
     /// Register a module.
@@ -137,7 +145,9 @@ impl OntologyRegistry {
     pub fn resolve(&self, prefixed: &str) -> Option<String> {
         let (prefix, local) = prefixed.split_once(':')?;
         let module = self.module(prefix)?;
-        module.class(local).map(|c| c.iri.clone())
+        module
+            .class(local)
+            .map(|c| c.iri.clone())
             .or_else(|| module.property(local).map(|p| p.iri.clone()))
     }
 }
@@ -156,25 +166,21 @@ mod tests {
             iri: "https://qualiadb.org/schema/ui/social#".into(),
             label: "Social".into(),
             cbor_path: "ontologies/social.cbor".into(),
-            classes: vec![
-                OntologyClass {
-                    local_name: "SocialEdge".into(),
-                    iri: "https://qualiadb.org/schema/ui/social#SocialEdge".into(),
-                    label: "Social Edge".into(),
-                    comment: "A relationship between two entities.".into(),
-                    super_classes: vec![],
-                },
-            ],
-            properties: vec![
-                OntologyProperty {
-                    local_name: "edgeDuration".into(),
-                    iri: "https://qualiadb.org/schema/ui/social#edgeDuration".into(),
-                    label: "edge duration".into(),
-                    comment: "How long the relationship has existed.".into(),
-                    domain: "https://qualiadb.org/schema/ui/social#SocialEdge".into(),
-                    range: "https://qualiadb.org/schema/ui/social#DurationCategory".into(),
-                },
-            ],
+            classes: vec![OntologyClass {
+                local_name: "SocialEdge".into(),
+                iri: "https://qualiadb.org/schema/ui/social#SocialEdge".into(),
+                label: "Social Edge".into(),
+                comment: "A relationship between two entities.".into(),
+                super_classes: vec![],
+            }],
+            properties: vec![OntologyProperty {
+                local_name: "edgeDuration".into(),
+                iri: "https://qualiadb.org/schema/ui/social#edgeDuration".into(),
+                label: "edge duration".into(),
+                comment: "How long the relationship has existed.".into(),
+                domain: "https://qualiadb.org/schema/ui/social#SocialEdge".into(),
+                range: "https://qualiadb.org/schema/ui/social#DurationCategory".into(),
+            }],
             imports: vec!["agency".into(), "obligations".into()],
         }
     }

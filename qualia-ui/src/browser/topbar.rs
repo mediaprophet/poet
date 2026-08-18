@@ -22,7 +22,7 @@ pub fn build_top_menubar(document: &Document) -> Element {
     brand.set_text_content(Some("\u{1F30C}"));
     let brand_text = document.create_element("span").unwrap();
     brand_text.set_class_name("brand-text");
-    brand_text.set_text_content(Some("QualiaDB"));
+    brand_text.set_text_content(Some("Webizen Poet"));
     brand.append_child(&brand_text).unwrap();
     left.append_child(&brand).unwrap();
 
@@ -135,7 +135,7 @@ pub fn build_top_menubar(document: &Document) -> Element {
         "Help",
         &[
             ("Keyboard Shortcuts", "help:shortcuts", "\u{2328}"),
-            ("About QualiaDB", "help:about", "\u{2139}"),
+            ("About Webizen Poet", "help:about", "\u{2139}"),
             ("Honesty Labels", "help:honesty", "\u{1F4A1}"),
             ("separator", "", ""),
             ("Report Issue", "help:report", "\u{1F41B}"),
@@ -452,7 +452,7 @@ fn handle_menu_action(document: &Document, action: &str, label: &str) {
             show_menu_notification(document, "Shortcuts: Alt+1-9 manifolds, Alt+O Expos\u{00E9}, Ctrl+K palette, Ctrl+Z/Y undo/redo, Del delete container");
         }
         "help:about" => {
-            show_menu_notification(document, "QualiaDB HyperCanvas \u{2014} Poet workbench, VibeScript engine, local CBOR-LD persistence");
+            show_menu_notification(document, "Webizen Poet HyperCanvas \u{2014} Poet workbench, VibeScript engine, local CBOR-LD persistence");
         }
         "help:honesty" => {
             show_menu_notification(

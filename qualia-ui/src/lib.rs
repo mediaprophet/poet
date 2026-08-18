@@ -1,4 +1,4 @@
-//! QualiaDB UI — Tool-Chest, Manifolds, and Browser Preview.
+//! Webizen Poet — Tool-Chest, Manifolds, and Browser Preview.
 //!
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 //! Principal / inventor: Timothy Charles Holborn <timothy.holborn@gmail.com>

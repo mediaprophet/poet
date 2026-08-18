@@ -101,7 +101,7 @@ fn show_fatal_error(document: &Document, msg: &str) {
     if let Some(loading) = document.get_element_by_id("loading") {
         loading.set_inner_html(&format!(
             r#"<div style="color:#ff4444;font-family:monospace;font-size:12px;padding:20px;max-width:600px;">
-            <h3 style="margin:0 0 10px;">Qualia UI — Initialization Error</h3>
+            <h3 style="margin:0 0 10px;">Webizen Poet — Initialization Error</h3>
             <pre style="white-space:pre-wrap;word-break:break-all;">{}</pre>
             </div>"#,
             msg.replace('<', "&lt;").replace('>', "&gt;")

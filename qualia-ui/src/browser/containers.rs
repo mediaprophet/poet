@@ -761,6 +761,39 @@ pub fn build_container(document: &Document, container: &SeedContainer) -> Elemen
             )
             .unwrap();
         }
+        // Device Workbench P0
+        "device_manager" => {
+            body.append_child(
+                &super::device_views::device_manager::build_device_manager_view(document),
+            )
+            .unwrap();
+        }
+        "display_layout" => {
+            body.append_child(
+                &super::device_views::display_layout::build_display_layout_view(document),
+            )
+            .unwrap();
+        }
+        "workspace_sync" => {
+            body.append_child(
+                &super::device_views::workspace_sync::build_workspace_sync_view(document),
+            )
+            .unwrap();
+        }
+        "device_role_assigner" => {
+            body.append_child(
+                &super::device_views::device_role_assigner::build_device_role_assigner_view(
+                    document,
+                ),
+            )
+            .unwrap();
+        }
+        "remote_control" => {
+            body.append_child(
+                &super::device_views::remote_control::build_remote_control_view(document),
+            )
+            .unwrap();
+        }
         "reputation" => {
             let ph = document.create_element("div").unwrap();
             ph.set_class_name("container-placeholder");
@@ -1081,7 +1114,12 @@ fn container_type_filter_attrs(container_type: &str) -> (&'static str, &'static 
         | "n3_editor"
         | "shex_editor"
         | "ontology_compare"
-        | "project_ontology_selector" => ("environmental", "objective"),
+        | "project_ontology_selector"
+        | "device_manager"
+        | "display_layout"
+        | "workspace_sync"
+        | "device_role_assigner"
+        | "remote_control" => ("environmental", "objective"),
 
         // Legal strata
         "rights" | "protection-policies" | "capabilities" => ("legal", "normative"),
@@ -1302,6 +1340,11 @@ fn container_type_tag(container_type: &str) -> (&'static str, &'static str) {
         "shex_editor" => ("tag-ontology", "SHEX"),
         "ontology_compare" => ("tag-ontology", "CMP"),
         "project_ontology_selector" => ("tag-ontology", "PSEL"),
+        "device_manager" => ("tag-device", "DEVM"),
+        "display_layout" => ("tag-device", "DISP"),
+        "workspace_sync" => ("tag-device", "SYNC"),
+        "device_role_assigner" => ("tag-device", "ROLE"),
+        "remote_control" => ("tag-device", "RMOT"),
         _ => ("tag-default", "CONTAINER"),
     }
 }

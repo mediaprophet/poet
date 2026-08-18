@@ -21,6 +21,7 @@ pub mod containers;
 pub mod contextual_popover;
 pub mod css;
 pub mod dataset_views;
+pub mod device_views;
 pub mod diagnostics;
 pub mod docks;
 pub mod governance_views;

@@ -7,6 +7,7 @@
 //! This module re-exports all core types and traits for the tool-chest.
 //! Phase 2 of the tool-chest architecture.
 
+pub mod device;
 pub mod intent_bus;
 pub mod manifest;
 pub mod ontology;
@@ -14,7 +15,9 @@ pub mod registry;
 pub mod tool;
 pub mod tool_chain;
 pub mod toolbox;
+pub mod workspace;
 
+pub use device::{DeviceCaps, DeviceProfile, DeviceStatus, DeviceType, DisplayInfo};
 pub use intent_bus::{
     ActionType, ContextRef, IntentBus, IntentReceipt, IntentStatus, Provenance, TargetIdentifier,
     TargetKind, VibeScriptPayload,
@@ -27,3 +30,6 @@ pub use registry::{
 pub use tool::{build_payload, SimpleTool, Tool, ToolKind, ToolMetadata};
 pub use tool_chain::{ToolChain, ToolChainMetadata};
 pub use toolbox::{Toolbox, ToolboxMetadata};
+pub use workspace::{
+    ContainerOverride, DeviceAssignment, DeviceRole, WorkspaceDelta, WorkspaceState,
+};

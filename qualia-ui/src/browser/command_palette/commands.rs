@@ -1116,5 +1116,31 @@ pub(super) fn build_command_list() -> Vec<CommandEntry> {
             label: "Project Ontology Selector",
             shortcut: "",
         },
+        // Device Workbench P0
+        CommandEntry {
+            icon: "\u{1F5A5}",
+            label: "Device Manager",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4FA}",
+            label: "Display Layout",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F504}",
+            label: "Workspace Sync",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4F2}",
+            label: "Device Role Assigner",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4F1}",
+            label: "Remote Control",
+            shortcut: "",
+        },
     ]
 }

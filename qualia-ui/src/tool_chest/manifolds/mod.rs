@@ -6,6 +6,7 @@
 
 pub mod communications;
 pub mod datasets;
+pub mod devices;
 pub mod health;
 pub mod knowledge;
 pub mod media;
@@ -21,6 +22,7 @@ pub mod vibe;
 
 pub use communications::communications_manifold_seed;
 pub use datasets::datasets_manifold_seed;
+pub use devices::devices_manifold_seed;
 pub use health::health_manifold_seed;
 pub use knowledge::knowledge_manifold_seed;
 pub use media::media_manifold_seed;
@@ -52,6 +54,7 @@ pub fn all_seeds() -> Vec<ManifoldSeed> {
         studio_manifold_seed(),
         datasets_manifold_seed(),
         settings_manifold_seed(),
+        devices_manifold_seed(),
         vibe_manifold_seed(),
     ]
 }

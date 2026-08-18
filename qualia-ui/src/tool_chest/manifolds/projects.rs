@@ -378,6 +378,50 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 honesty: "present".into(),
                 ..Default::default()
             },
+            SeedContainer {
+                container_type: "gantt".into(),
+                title: "Gantt Chart".into(),
+                x: 30.0,
+                y: 5330.0,
+                width: 1340.0,
+                height: 300.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "timeline".into(),
+                title: "Timeline".into(),
+                x: 30.0,
+                y: 5670.0,
+                width: 1340.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "calendar".into(),
+                title: "Calendar".into(),
+                x: 30.0,
+                y: 5990.0,
+                width: 1340.0,
+                height: 300.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "doc_mgmt".into(),
+                title: "Document Management".into(),
+                x: 30.0,
+                y: 6330.0,
+                width: 1340.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
         ],
         connections: vec![
             SeedConnection {
@@ -603,6 +647,34 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 to: 34,
                 wire_type: "active".into(),
                 label: "coop:hasAwards".into(),
+            },
+            SeedConnection {
+                id: "wire-p33".into(),
+                from: 0,
+                to: 35,
+                wire_type: "active".into(),
+                label: "coop:hasGantt".into(),
+            },
+            SeedConnection {
+                id: "wire-p34".into(),
+                from: 35,
+                to: 36,
+                wire_type: "active".into(),
+                label: "coop:hasTimeline".into(),
+            },
+            SeedConnection {
+                id: "wire-p35".into(),
+                from: 36,
+                to: 37,
+                wire_type: "active".into(),
+                label: "coop:hasCalendar".into(),
+            },
+            SeedConnection {
+                id: "wire-p36".into(),
+                from: 0,
+                to: 38,
+                wire_type: "active".into(),
+                label: "coop:hasDocMgmt".into(),
             },
         ],
         panels: vec![SeedPanel {

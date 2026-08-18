@@ -280,6 +280,28 @@ pub fn build_container(document: &Document, container: &SeedContainer) -> Elemen
             ))
             .unwrap();
         }
+        "gantt" => {
+            body.append_child(&super::project_views::gantt::build_gantt_view(document))
+                .unwrap();
+        }
+        "timeline" => {
+            body.append_child(&super::project_views::timeline::build_timeline_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "calendar" => {
+            body.append_child(&super::project_views::calendar::build_calendar_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "doc_mgmt" => {
+            body.append_child(&super::project_views::doc_mgmt::build_doc_mgmt_view(
+                document,
+            ))
+            .unwrap();
+        }
         "reputation" => {
             let ph = document.create_element("div").unwrap();
             ph.set_class_name("container-placeholder");
@@ -584,7 +606,11 @@ fn container_type_filter_attrs(container_type: &str) -> (&'static str, &'static 
         | "dashboard"
         | "wiki"
         | "governance"
-        | "credentials" => ("governance", "normative"),
+        | "credentials"
+        | "gantt"
+        | "timeline"
+        | "calendar"
+        | "doc_mgmt" => ("governance", "normative"),
 
         // Settings — technical/normative
         "settings" => ("technical", "normative"),
@@ -650,6 +676,10 @@ fn container_type_tag(container_type: &str) -> (&'static str, &'static str) {
         "wiki" => ("tag-governance", "WIKI"),
         "governance" => ("tag-governance", "GOV"),
         "credentials" => ("tag-governance", "CRED"),
+        "gantt" => ("tag-governance", "GANTT"),
+        "timeline" => ("tag-governance", "TL"),
+        "calendar" => ("tag-governance", "CAL"),
+        "doc_mgmt" => ("tag-governance", "DOC"),
         _ => ("tag-default", "CONTAINER"),
     }
 }

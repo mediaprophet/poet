@@ -356,6 +356,32 @@ pub fn build_container(document: &Document, container: &SeedContainer) -> Elemen
             ))
             .unwrap();
         }
+        "events" => {
+            body.append_child(&super::project_views::events::build_events_view(document))
+                .unwrap();
+        }
+        "news" => {
+            body.append_child(&super::project_views::news::build_news_view(document))
+                .unwrap();
+        }
+        "portfolio" => {
+            body.append_child(&super::project_views::portfolio::build_portfolio_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "integrations" => {
+            body.append_child(
+                &super::project_views::integrations::build_integrations_view(document),
+            )
+            .unwrap();
+        }
+        "retrospective" => {
+            body.append_child(
+                &super::project_views::retrospective::build_retrospective_view(document),
+            )
+            .unwrap();
+        }
         "reputation" => {
             let ph = document.create_element("div").unwrap();
             ph.set_class_name("container-placeholder");
@@ -674,7 +700,12 @@ fn container_type_filter_attrs(container_type: &str) -> (&'static str, &'static 
         | "asset_mgr"
         | "bounties"
         | "automation"
-        | "analytics" => ("governance", "normative"),
+        | "analytics"
+        | "events"
+        | "news"
+        | "portfolio"
+        | "integrations"
+        | "retrospective" => ("governance", "normative"),
 
         // Settings — technical/normative
         "settings" => ("technical", "normative"),
@@ -754,6 +785,11 @@ fn container_type_tag(container_type: &str) -> (&'static str, &'static str) {
         "bounties" => ("tag-governance", "BOUNTY"),
         "automation" => ("tag-governance", "AUTO"),
         "analytics" => ("tag-governance", "ANALYT"),
+        "events" => ("tag-governance", "EVT"),
+        "news" => ("tag-governance", "NEWS"),
+        "portfolio" => ("tag-governance", "PORT"),
+        "integrations" => ("tag-governance", "INTG"),
+        "retrospective" => ("tag-governance", "RETRO"),
         _ => ("tag-default", "CONTAINER"),
     }
 }

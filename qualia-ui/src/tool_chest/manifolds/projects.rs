@@ -532,6 +532,61 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 honesty: "present".into(),
                 ..Default::default()
             },
+            SeedContainer {
+                container_type: "events".into(),
+                title: "Events".into(),
+                x: 30.0,
+                y: 8210.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "news".into(),
+                title: "News".into(),
+                x: 710.0,
+                y: 8210.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "portfolio".into(),
+                title: "Portfolio".into(),
+                x: 30.0,
+                y: 8510.0,
+                width: 1340.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "integrations".into(),
+                title: "Integrations".into(),
+                x: 30.0,
+                y: 8810.0,
+                width: 660.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "retrospective".into(),
+                title: "Retrospective".into(),
+                x: 710.0,
+                y: 8810.0,
+                width: 660.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
         ],
         connections: vec![
             SeedConnection {
@@ -855,6 +910,41 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 to: 48,
                 wire_type: "active".into(),
                 label: "coop:hasAnalytics".into(),
+            },
+            SeedConnection {
+                id: "wire-p47".into(),
+                from: 37,
+                to: 49,
+                wire_type: "active".into(),
+                label: "coop:hasEvents".into(),
+            },
+            SeedConnection {
+                id: "wire-p48".into(),
+                from: 49,
+                to: 50,
+                wire_type: "active".into(),
+                label: "coop:hasNews".into(),
+            },
+            SeedConnection {
+                id: "wire-p49".into(),
+                from: 0,
+                to: 51,
+                wire_type: "active".into(),
+                label: "coop:hasPortfolio".into(),
+            },
+            SeedConnection {
+                id: "wire-p50".into(),
+                from: 0,
+                to: 52,
+                wire_type: "active".into(),
+                label: "coop:hasIntegrations".into(),
+            },
+            SeedConnection {
+                id: "wire-p51".into(),
+                from: 48,
+                to: 53,
+                wire_type: "active".into(),
+                label: "coop:hasRetrospective".into(),
             },
         ],
         panels: vec![SeedPanel {

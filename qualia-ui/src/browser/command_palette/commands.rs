@@ -680,6 +680,26 @@ pub(super) fn build_command_list() -> Vec<CommandEntry> {
             shortcut: "",
         },
         CommandEntry {
+            icon: "\u{1F465}",
+            label: "Resource Report",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{23F1}",
+            label: "Time Tracking",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F5F3}",
+            label: "Voting",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{26A0}",
+            label: "Risk Register",
+            shortcut: "",
+        },
+        CommandEntry {
             icon: "\u{2696}",
             label: "Evaluate Deontic Contract",
             shortcut: "",

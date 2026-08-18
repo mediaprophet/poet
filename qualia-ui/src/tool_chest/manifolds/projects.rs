@@ -422,6 +422,50 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 honesty: "present".into(),
                 ..Default::default()
             },
+            SeedContainer {
+                container_type: "resource_report".into(),
+                title: "Resource Report".into(),
+                x: 30.0,
+                y: 6650.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "time_tracking".into(),
+                title: "Time Tracking".into(),
+                x: 710.0,
+                y: 6650.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "voting".into(),
+                title: "Voting".into(),
+                x: 30.0,
+                y: 6970.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "risk".into(),
+                title: "Risk Register".into(),
+                x: 710.0,
+                y: 6970.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
         ],
         connections: vec![
             SeedConnection {
@@ -675,6 +719,34 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 to: 38,
                 wire_type: "active".into(),
                 label: "coop:hasDocMgmt".into(),
+            },
+            SeedConnection {
+                id: "wire-p37".into(),
+                from: 0,
+                to: 39,
+                wire_type: "active".into(),
+                label: "coop:hasResourceReport".into(),
+            },
+            SeedConnection {
+                id: "wire-p38".into(),
+                from: 39,
+                to: 40,
+                wire_type: "active".into(),
+                label: "coop:hasTimeTracking".into(),
+            },
+            SeedConnection {
+                id: "wire-p39".into(),
+                from: 31,
+                to: 41,
+                wire_type: "active".into(),
+                label: "coop:hasVoting".into(),
+            },
+            SeedConnection {
+                id: "wire-p40".into(),
+                from: 0,
+                to: 42,
+                wire_type: "active".into(),
+                label: "coop:hasRiskRegister".into(),
             },
         ],
         panels: vec![SeedPanel {

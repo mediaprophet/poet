@@ -302,6 +302,26 @@ pub fn build_container(document: &Document, container: &SeedContainer) -> Elemen
             ))
             .unwrap();
         }
+        "resource_report" => {
+            body.append_child(
+                &super::project_views::resource_report::build_resource_report_view(document),
+            )
+            .unwrap();
+        }
+        "time_tracking" => {
+            body.append_child(
+                &super::project_views::time_tracking::build_time_tracking_view(document),
+            )
+            .unwrap();
+        }
+        "voting" => {
+            body.append_child(&super::project_views::voting::build_voting_view(document))
+                .unwrap();
+        }
+        "risk" => {
+            body.append_child(&super::project_views::risk::build_risk_view(document))
+                .unwrap();
+        }
         "reputation" => {
             let ph = document.create_element("div").unwrap();
             ph.set_class_name("container-placeholder");
@@ -610,7 +630,11 @@ fn container_type_filter_attrs(container_type: &str) -> (&'static str, &'static 
         | "gantt"
         | "timeline"
         | "calendar"
-        | "doc_mgmt" => ("governance", "normative"),
+        | "doc_mgmt"
+        | "resource_report"
+        | "time_tracking"
+        | "voting"
+        | "risk" => ("governance", "normative"),
 
         // Settings — technical/normative
         "settings" => ("technical", "normative"),
@@ -680,6 +704,10 @@ fn container_type_tag(container_type: &str) -> (&'static str, &'static str) {
         "timeline" => ("tag-governance", "TL"),
         "calendar" => ("tag-governance", "CAL"),
         "doc_mgmt" => ("tag-governance", "DOC"),
+        "resource_report" => ("tag-governance", "RES"),
+        "time_tracking" => ("tag-governance", "TIME"),
+        "voting" => ("tag-governance", "VOTE"),
+        "risk" => ("tag-governance", "RISK"),
         _ => ("tag-default", "CONTAINER"),
     }
 }

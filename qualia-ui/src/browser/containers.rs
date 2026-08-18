@@ -248,6 +248,38 @@ pub fn build_container(document: &Document, container: &SeedContainer) -> Elemen
             )
             .unwrap();
         }
+        "awards" => {
+            body.append_child(&super::project_views::awards::build_awards_view(document))
+                .unwrap();
+        }
+        "token_mgr" => {
+            body.append_child(&super::project_views::token_mgr::build_token_mgr_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "dashboard" => {
+            body.append_child(&super::project_views::dashboard::build_dashboard_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "wiki" => {
+            body.append_child(&super::project_views::wiki::build_wiki_view(document))
+                .unwrap();
+        }
+        "governance" => {
+            body.append_child(&super::project_views::governance::build_governance_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "credentials" => {
+            body.append_child(&super::project_views::credentials::build_credentials_view(
+                document,
+            ))
+            .unwrap();
+        }
         "reputation" => {
             let ph = document.create_element("div").unwrap();
             ph.set_class_name("container-placeholder");
@@ -546,7 +578,13 @@ fn container_type_filter_attrs(container_type: &str) -> (&'static str, &'static 
         | "onboarding"
         | "bulk_import"
         | "knowledge_base"
-        | "agent_console" => ("governance", "normative"),
+        | "agent_console"
+        | "awards"
+        | "token_mgr"
+        | "dashboard"
+        | "wiki"
+        | "governance"
+        | "credentials" => ("governance", "normative"),
 
         // Settings — technical/normative
         "settings" => ("technical", "normative"),
@@ -606,6 +644,12 @@ fn container_type_tag(container_type: &str) -> (&'static str, &'static str) {
         "bulk_import" => ("tag-governance", "BULK"),
         "knowledge_base" => ("tag-governance", "KB"),
         "agent_console" => ("tag-governance", "AGENT"),
+        "awards" => ("tag-governance", "AWARD"),
+        "token_mgr" => ("tag-governance", "TOKEN"),
+        "dashboard" => ("tag-governance", "DASH"),
+        "wiki" => ("tag-governance", "WIKI"),
+        "governance" => ("tag-governance", "GOV"),
+        "credentials" => ("tag-governance", "CRED"),
         _ => ("tag-default", "CONTAINER"),
     }
 }

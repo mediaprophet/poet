@@ -312,6 +312,72 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 honesty: "present".into(),
                 ..Default::default()
             },
+            SeedContainer {
+                container_type: "dashboard".into(),
+                title: "Dashboard".into(),
+                x: 30.0,
+                y: 4090.0,
+                width: 1340.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "wiki".into(),
+                title: "Wiki".into(),
+                x: 30.0,
+                y: 4410.0,
+                width: 620.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "governance".into(),
+                title: "Governance".into(),
+                x: 670.0,
+                y: 4410.0,
+                width: 700.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "credentials".into(),
+                title: "Credentials".into(),
+                x: 30.0,
+                y: 4730.0,
+                width: 620.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "token_mgr".into(),
+                title: "Token Manager".into(),
+                x: 670.0,
+                y: 4730.0,
+                width: 700.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "awards".into(),
+                title: "Awards".into(),
+                x: 30.0,
+                y: 5050.0,
+                width: 1340.0,
+                height: 240.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
         ],
         connections: vec![
             SeedConnection {
@@ -495,6 +561,48 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 to: 26,
                 wire_type: "active".into(),
                 label: "coop:hasAgentConsole".into(),
+            },
+            SeedConnection {
+                id: "wire-p27".into(),
+                from: 0,
+                to: 29,
+                wire_type: "active".into(),
+                label: "coop:hasDashboard".into(),
+            },
+            SeedConnection {
+                id: "wire-p28".into(),
+                from: 0,
+                to: 30,
+                wire_type: "active".into(),
+                label: "coop:hasWiki".into(),
+            },
+            SeedConnection {
+                id: "wire-p29".into(),
+                from: 0,
+                to: 31,
+                wire_type: "active".into(),
+                label: "coop:hasGovernance".into(),
+            },
+            SeedConnection {
+                id: "wire-p30".into(),
+                from: 31,
+                to: 32,
+                wire_type: "active".into(),
+                label: "coop:hasCredentials".into(),
+            },
+            SeedConnection {
+                id: "wire-p31".into(),
+                from: 31,
+                to: 33,
+                wire_type: "active".into(),
+                label: "coop:hasTokens".into(),
+            },
+            SeedConnection {
+                id: "wire-p32".into(),
+                from: 33,
+                to: 34,
+                wire_type: "active".into(),
+                label: "coop:hasAwards".into(),
             },
         ],
         panels: vec![SeedPanel {

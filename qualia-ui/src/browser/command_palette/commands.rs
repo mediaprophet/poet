@@ -794,5 +794,327 @@ pub(super) fn build_command_list() -> Vec<CommandEntry> {
             label: "Compute Cost Receipts",
             shortcut: "",
         },
+        CommandEntry {
+            icon: "\u{1F3E5}",
+            label: "Health Overview",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F3E5}",
+            label: "Conditions",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4CB}",
+            label: "Clinical Reports",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F9EA}",
+            label: "Lab Results",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F48A}",
+            label: "Medications",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F49A}",
+            label: "Vitals",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F9E0}",
+            label: "Mental Wellbeing",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4AC}",
+            label: "Therapy Notes",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4A4}",
+            label: "Sleep",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F354}",
+            label: "Diet",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F3C3}",
+            label: "Physical Activity",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F489}",
+            label: "Immunizations",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1FA7A}",
+            label: "Procedures",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F46A}",
+            label: "Family History",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F9EC}",
+            label: "Hypotheses",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F575}",
+            label: "Biometrics",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4C1}",
+            label: "Health Documents",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F91D}",
+            label: "Welfare Support",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4DC}",
+            label: "Life Records",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4DC}",
+            label: "Authority Attestations",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F6E1}",
+            label: "Safeguards",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F441}",
+            label: "Disclosure Log",
+            shortcut: "",
+        },
+        // Studio manifold
+        CommandEntry {
+            icon: "\u{1F3A8}",
+            label: "Scene View",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{23F1}",
+            label: "Animation Timeline",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F3A7}",
+            label: "Desk Surface",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{23F5}",
+            label: "Transport",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F39F}",
+            label: "Routing Matrix",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F30A}",
+            label: "Spatial Audio",
+            shortcut: "",
+        },
+        // Datasets manifold
+        CommandEntry {
+            icon: "\u{1F4CA}",
+            label: "Dataset Registry",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4E5}",
+            label: "Dataset Importer",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4C4}",
+            label: "Presentation Editor",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F5BC}",
+            label: "View Canvas",
+            shortcut: "",
+        },
+        // Studio P1
+        CommandEntry {
+            icon: "\u{1F4CD}",
+            label: "Scene Graph",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F3A8}",
+            label: "Material Editor",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4A1}",
+            label: "Lighting Editor",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F321}",
+            label: "Tensor Inspector",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4C1}",
+            label: "Asset Library",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F3A7}",
+            label: "Channel Strip",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4CA}",
+            label: "Meter Bridge",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{23F1}",
+            label: "Automation Lanes",
+            shortcut: "",
+        },
+        // Datasets P1
+        CommandEntry {
+            icon: "\u{1F4DD}",
+            label: "Annotation Panel",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F5C8}",
+            label: "Lineage Graph",
+            shortcut: "",
+        },
+        // Studio P2
+        CommandEntry {
+            icon: "\u{1F4CF}",
+            label: "LOD Chain",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4A1}",
+            label: "Shadow Settings",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F5FA}",
+            label: "GIS Maps",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F9B6}",
+            label: "Ragdoll / Skin",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4E4}",
+            label: "Animation Export",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4BE}",
+            label: "Desk Persistence",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F442}",
+            label: "HRTF Personalization",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F309}",
+            label: "Manifold Transition Audio",
+            shortcut: "",
+        },
+        // Datasets P2
+        CommandEntry {
+            icon: "\u{1F3AC}",
+            label: "Video View",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4E3}",
+            label: "Presentation Publish",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F50D}",
+            label: "Super-Resolve Curation",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4D0}",
+            label: "CAD Curation",
+            shortcut: "",
+        },
+        // Ontology Workbench P0
+        CommandEntry {
+            icon: "\u{1F5FA}",
+            label: "Semantic Graph Canvas",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4D6}",
+            label: "Ontology Library",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4D5}",
+            label: "Vocabulary Mapper",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F517}",
+            label: "Relation Builder",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{2705}",
+            label: "SHACL Shapes",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4DD}",
+            label: "N3 Editor",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4E6}",
+            label: "ShEx Editor",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{21C4}",
+            label: "Ontology Compare",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{2611}",
+            label: "Project Ontology Selector",
+            shortcut: "",
+        },
     ]
 }

@@ -382,6 +382,385 @@ pub fn build_container(document: &Document, container: &SeedContainer) -> Elemen
             )
             .unwrap();
         }
+        "health_overview" => {
+            body.append_child(
+                &super::health_views::health_overview::build_health_overview_view(document),
+            )
+            .unwrap();
+        }
+        "conditions" => {
+            body.append_child(&super::health_views::conditions::build_conditions_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "clinical_reports" => {
+            body.append_child(
+                &super::health_views::clinical_reports::build_clinical_reports_view(document),
+            )
+            .unwrap();
+        }
+        "lab_results" => {
+            body.append_child(&super::health_views::lab_results::build_lab_results_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "medications" => {
+            body.append_child(&super::health_views::medications::build_medications_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "vitals" => {
+            body.append_child(&super::health_views::vitals::build_vitals_view(document))
+                .unwrap();
+        }
+        "mental_wellbeing" => {
+            body.append_child(
+                &super::health_views::mental_wellbeing::build_mental_wellbeing_view(document),
+            )
+            .unwrap();
+        }
+        "therapy_notes" => {
+            body.append_child(
+                &super::health_views::therapy_notes::build_therapy_notes_view(document),
+            )
+            .unwrap();
+        }
+        "sleep" => {
+            body.append_child(&super::health_views::sleep::build_sleep_view(document))
+                .unwrap();
+        }
+        "diet" => {
+            body.append_child(&super::health_views::diet::build_diet_view(document))
+                .unwrap();
+        }
+        "physical_activity" => {
+            body.append_child(
+                &super::health_views::physical_activity::build_physical_activity_view(document),
+            )
+            .unwrap();
+        }
+        "immunizations" => {
+            body.append_child(
+                &super::health_views::immunizations::build_immunizations_view(document),
+            )
+            .unwrap();
+        }
+        "procedures" => {
+            body.append_child(&super::health_views::procedures::build_procedures_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "family_history" => {
+            body.append_child(
+                &super::health_views::family_history::build_family_history_view(document),
+            )
+            .unwrap();
+        }
+        "hypotheses" => {
+            body.append_child(&super::health_views::hypotheses::build_hypotheses_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "biometrics" => {
+            body.append_child(&super::health_views::biometrics::build_biometrics_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "health_documents" => {
+            body.append_child(&super::health_views::documents::build_documents_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "welfare_support" => {
+            body.append_child(
+                &super::health_views::welfare_support::build_welfare_support_view(document),
+            )
+            .unwrap();
+        }
+        "life_records" => {
+            body.append_child(&super::health_views::life_records::build_life_records_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "authority_attestations" => {
+            body.append_child(
+                &super::health_views::authority_attestations::build_authority_attestations_view(
+                    document,
+                ),
+            )
+            .unwrap();
+        }
+        "safeguards" => {
+            body.append_child(&super::health_views::safeguards::build_safeguards_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "disclosure_log" => {
+            body.append_child(
+                &super::health_views::disclosure_log::build_disclosure_log_view(document),
+            )
+            .unwrap();
+        }
+        "scene_view" => {
+            body.append_child(&super::studio_views::scene_view::build_scene_view(document))
+                .unwrap();
+        }
+        "animation_timeline" => {
+            body.append_child(
+                &super::studio_views::animation_timeline::build_animation_timeline_view(document),
+            )
+            .unwrap();
+        }
+        "desk_surface" => {
+            body.append_child(&super::studio_views::desk_surface::build_desk_surface_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "transport" => {
+            body.append_child(&super::studio_views::transport::build_transport_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "routing_matrix" => {
+            body.append_child(
+                &super::studio_views::routing_matrix::build_routing_matrix_view(document),
+            )
+            .unwrap();
+        }
+        "spatial_audio" => {
+            body.append_child(
+                &super::studio_views::spatial_audio::build_spatial_audio_view(document),
+            )
+            .unwrap();
+        }
+        "dataset_registry" => {
+            body.append_child(
+                &super::dataset_views::dataset_registry::build_dataset_registry_view(document),
+            )
+            .unwrap();
+        }
+        "dataset_importer" => {
+            body.append_child(
+                &super::dataset_views::dataset_importer::build_dataset_importer_view(document),
+            )
+            .unwrap();
+        }
+        "presentation_editor" => {
+            body.append_child(
+                &super::dataset_views::presentation_editor::build_presentation_editor_view(
+                    document,
+                ),
+            )
+            .unwrap();
+        }
+        "view_canvas" => {
+            body.append_child(&super::dataset_views::view_canvas::build_view_canvas_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "scene_graph" => {
+            body.append_child(&super::studio_views::scene_graph::build_scene_graph_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "material_editor" => {
+            body.append_child(
+                &super::studio_views::material_editor::build_material_editor_view(document),
+            )
+            .unwrap();
+        }
+        "lighting_editor" => {
+            body.append_child(
+                &super::studio_views::lighting_editor::build_lighting_editor_view(document),
+            )
+            .unwrap();
+        }
+        "tensor_inspector" => {
+            body.append_child(
+                &super::studio_views::tensor_inspector::build_tensor_inspector_view(document),
+            )
+            .unwrap();
+        }
+        "asset_library" => {
+            body.append_child(
+                &super::studio_views::asset_library::build_asset_library_view(document),
+            )
+            .unwrap();
+        }
+        "channel_strip" => {
+            body.append_child(
+                &super::studio_views::channel_strip::build_channel_strip_view(document),
+            )
+            .unwrap();
+        }
+        "meter_bridge" => {
+            body.append_child(&super::studio_views::meter_bridge::build_meter_bridge_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "automation_lanes" => {
+            body.append_child(
+                &super::studio_views::automation_lanes::build_automation_lanes_view(document),
+            )
+            .unwrap();
+        }
+        "annotation_panel" => {
+            body.append_child(
+                &super::dataset_views::annotation_panel::build_annotation_panel_view(document),
+            )
+            .unwrap();
+        }
+        "lineage_graph" => {
+            body.append_child(
+                &super::dataset_views::lineage_graph::build_lineage_graph_view(document),
+            )
+            .unwrap();
+        }
+        "lod_chain" => {
+            body.append_child(&super::studio_views::lod_chain::build_lod_chain_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "shadow_settings" => {
+            body.append_child(
+                &super::studio_views::shadow_settings::build_shadow_settings_view(document),
+            )
+            .unwrap();
+        }
+        "gis_maps" => {
+            body.append_child(&super::studio_views::gis_maps::build_gis_maps_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "ragdoll_skin" => {
+            body.append_child(&super::studio_views::ragdoll_skin::build_ragdoll_skin_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "animation_export" => {
+            body.append_child(
+                &super::studio_views::animation_export::build_animation_export_view(document),
+            )
+            .unwrap();
+        }
+        "desk_persistence" => {
+            body.append_child(
+                &super::studio_views::desk_persistence::build_desk_persistence_view(document),
+            )
+            .unwrap();
+        }
+        "hrtf_personalization" => {
+            body.append_child(
+                &super::studio_views::hrtf_personalization::build_hrtf_personalization_view(
+                    document,
+                ),
+            )
+            .unwrap();
+        }
+        "manifold_transition_audio" => {
+            body.append_child(
+                &super::studio_views::manifold_transition_audio::build_manifold_transition_audio_view(document),
+            )
+            .unwrap();
+        }
+        "video_view" => {
+            body.append_child(&super::dataset_views::video_view::build_video_view_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "presentation_publish" => {
+            body.append_child(
+                &super::dataset_views::presentation_publish::build_presentation_publish_view(
+                    document,
+                ),
+            )
+            .unwrap();
+        }
+        "super_resolve" => {
+            body.append_child(
+                &super::dataset_views::super_resolve::build_super_resolve_view(document),
+            )
+            .unwrap();
+        }
+        "cad_curation" => {
+            body.append_child(
+                &super::dataset_views::cad_curation::build_cad_curation_view(document),
+            )
+            .unwrap();
+        }
+        // Ontology Workbench P0
+        "ontology_graph_canvas" => {
+            body.append_child(
+                &super::ontology_views::graph_canvas::build_ontology_graph_canvas_view(document),
+            )
+            .unwrap();
+        }
+        "ontology_library" => {
+            body.append_child(
+                &super::ontology_views::ontology_library::build_ontology_library_view(document),
+            )
+            .unwrap();
+        }
+        "vocabulary_mapper" => {
+            body.append_child(
+                &super::ontology_views::vocabulary_mapper::build_vocabulary_mapper_view(document),
+            )
+            .unwrap();
+        }
+        "relation_builder" => {
+            body.append_child(
+                &super::ontology_views::relation_builder::build_relation_builder_view(document),
+            )
+            .unwrap();
+        }
+        "shacl_shapes" => {
+            body.append_child(
+                &super::ontology_views::shacl_shapes::build_shacl_shapes_view(document),
+            )
+            .unwrap();
+        }
+        "n3_editor" => {
+            body.append_child(&super::ontology_views::n3_editor::build_n3_editor_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "shex_editor" => {
+            body.append_child(&super::ontology_views::shex_editor::build_shex_editor_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "ontology_compare" => {
+            body.append_child(
+                &super::ontology_views::ontology_compare::build_ontology_compare_view(document),
+            )
+            .unwrap();
+        }
+        "project_ontology_selector" => {
+            body.append_child(
+                &super::ontology_views::project_ontology_selector::build_project_ontology_selector_view(document),
+            )
+            .unwrap();
+        }
         "reputation" => {
             let ph = document.create_element("div").unwrap();
             ph.set_class_name("container-placeholder");
@@ -631,8 +1010,78 @@ fn container_type_filter_attrs(container_type: &str) -> (&'static str, &'static 
         | "webview" => ("social", "intersubjective"),
 
         // Environmental strata
-        "map" | "media" | "3d" | "vision" | "listen" | "triad" | "portal" | "anatomy"
-        | "health" => ("environmental", "objective"),
+        "map"
+        | "media"
+        | "3d"
+        | "vision"
+        | "listen"
+        | "triad"
+        | "portal"
+        | "anatomy"
+        | "health"
+        | "health_overview"
+        | "conditions"
+        | "clinical_reports"
+        | "lab_results"
+        | "medications"
+        | "vitals"
+        | "mental_wellbeing"
+        | "therapy_notes"
+        | "sleep"
+        | "diet"
+        | "physical_activity"
+        | "immunizations"
+        | "procedures"
+        | "family_history"
+        | "hypotheses"
+        | "biometrics"
+        | "health_documents"
+        | "welfare_support"
+        | "life_records"
+        | "authority_attestations"
+        | "safeguards"
+        | "disclosure_log"
+        | "scene_view"
+        | "animation_timeline"
+        | "desk_surface"
+        | "transport"
+        | "routing_matrix"
+        | "spatial_audio"
+        | "dataset_registry"
+        | "dataset_importer"
+        | "presentation_editor"
+        | "view_canvas"
+        | "scene_graph"
+        | "material_editor"
+        | "lighting_editor"
+        | "tensor_inspector"
+        | "asset_library"
+        | "channel_strip"
+        | "meter_bridge"
+        | "automation_lanes"
+        | "annotation_panel"
+        | "lineage_graph"
+        | "lod_chain"
+        | "shadow_settings"
+        | "gis_maps"
+        | "ragdoll_skin"
+        | "animation_export"
+        | "desk_persistence"
+        | "hrtf_personalization"
+        | "manifold_transition_audio"
+        | "video_view"
+        | "presentation_publish"
+        | "super_resolve"
+        | "cad_curation"
+        | "ontology_graph_canvas"
+        | "ontology_library"
+        | "vocabulary_mapper"
+        | "relation_builder"
+        | "shacl_shapes"
+        | "n3_editor"
+        | "shex_editor"
+        | "ontology_compare"
+        | "project_ontology_selector" => ("environmental", "objective"),
 
         // Legal strata
         "rights" | "protection-policies" | "capabilities" => ("legal", "normative"),
@@ -790,6 +1239,69 @@ fn container_type_tag(container_type: &str) -> (&'static str, &'static str) {
         "portfolio" => ("tag-governance", "PORT"),
         "integrations" => ("tag-governance", "INTG"),
         "retrospective" => ("tag-governance", "RETRO"),
+        "health_overview" => ("tag-health", "HOVR"),
+        "conditions" => ("tag-health", "COND"),
+        "clinical_reports" => ("tag-health", "CLIN"),
+        "lab_results" => ("tag-health", "LAB"),
+        "medications" => ("tag-health", "MED"),
+        "vitals" => ("tag-health", "VIT"),
+        "mental_wellbeing" => ("tag-health", "MWB"),
+        "therapy_notes" => ("tag-health", "TNOTES"),
+        "sleep" => ("tag-health", "SLEEP"),
+        "diet" => ("tag-health", "DIET"),
+        "physical_activity" => ("tag-health", "ACT"),
+        "immunizations" => ("tag-health", "IMM"),
+        "procedures" => ("tag-health", "PROC"),
+        "family_history" => ("tag-health", "FAM"),
+        "hypotheses" => ("tag-health", "HYP"),
+        "biometrics" => ("tag-health", "BIO"),
+        "health_documents" => ("tag-health", "HDOC"),
+        "welfare_support" => ("tag-health", "WELF"),
+        "life_records" => ("tag-health", "LIFE"),
+        "authority_attestations" => ("tag-health", "ATT"),
+        "safeguards" => ("tag-health", "SAFE"),
+        "disclosure_log" => ("tag-health", "DCL"),
+        "scene_view" => ("tag-studio", "3D"),
+        "animation_timeline" => ("tag-studio", "ANI"),
+        "desk_surface" => ("tag-studio", "DESK"),
+        "transport" => ("tag-studio", "TRP"),
+        "routing_matrix" => ("tag-studio", "ROUTE"),
+        "spatial_audio" => ("tag-studio", "SPAT"),
+        "dataset_registry" => ("tag-dataset", "DSREG"),
+        "dataset_importer" => ("tag-dataset", "DSIMP"),
+        "presentation_editor" => ("tag-dataset", "PRES"),
+        "view_canvas" => ("tag-dataset", "VCAN"),
+        "scene_graph" => ("tag-studio", "SGRP"),
+        "material_editor" => ("tag-studio", "MAT"),
+        "lighting_editor" => ("tag-studio", "LITE"),
+        "tensor_inspector" => ("tag-studio", "TNSP"),
+        "asset_library" => ("tag-studio", "LIB"),
+        "channel_strip" => ("tag-studio", "CHST"),
+        "meter_bridge" => ("tag-studio", "MTR"),
+        "automation_lanes" => ("tag-studio", "AUTO"),
+        "annotation_panel" => ("tag-dataset", "ANN"),
+        "lineage_graph" => ("tag-dataset", "LIN"),
+        "lod_chain" => ("tag-studio", "LOD"),
+        "shadow_settings" => ("tag-studio", "SHDW"),
+        "gis_maps" => ("tag-studio", "GIS"),
+        "ragdoll_skin" => ("tag-studio", "RAGD"),
+        "animation_export" => ("tag-studio", "AEXP"),
+        "desk_persistence" => ("tag-studio", "DSKP"),
+        "hrtf_personalization" => ("tag-studio", "HRTF"),
+        "manifold_transition_audio" => ("tag-studio", "MTA"),
+        "video_view" => ("tag-dataset", "VID"),
+        "presentation_publish" => ("tag-dataset", "PUB"),
+        "super_resolve" => ("tag-dataset", "SR"),
+        "cad_curation" => ("tag-dataset", "CAD"),
+        "ontology_graph_canvas" => ("tag-ontology", "GCAN"),
+        "ontology_library" => ("tag-ontology", "OLIB"),
+        "vocabulary_mapper" => ("tag-ontology", "VMAP"),
+        "relation_builder" => ("tag-ontology", "REL"),
+        "shacl_shapes" => ("tag-ontology", "SHAC"),
+        "n3_editor" => ("tag-ontology", "N3"),
+        "shex_editor" => ("tag-ontology", "SHEX"),
+        "ontology_compare" => ("tag-ontology", "CMP"),
+        "project_ontology_selector" => ("tag-ontology", "PSEL"),
         _ => ("tag-default", "CONTAINER"),
     }
 }

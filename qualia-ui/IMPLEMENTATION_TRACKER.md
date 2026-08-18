@@ -468,14 +468,13 @@ Extended plan covers 74 total container types across:
 ### Workstream B — Health / Wellbeing / Document / Credentials
 
 **Source:** `consult/20260818_qualia-health-wellbeing-document-credentials-ui-requirements.md`
-**Status:** [pending] — not started
+**Status:** [done] — All 22 health containers built
 
-Core surfaces required:
-- New Health manifold with ~20 containers: Health Overview dashboard, Conditions, Clinical Reports, Lab Results, Medications, Vitals, Mental Wellbeing, Therapy Notes, Sleep, Diet, Physical Activity, Immunizations, Procedures, Family History, Hypotheses, Biometrics, Documents, Welfare Support, Life Records, Authority Attestations, Safeguards, Disclosure Log
-- QECP (Qualia Embedded Credential PDF) generation/parsing
-- Document processing with NLP extraction
-- ZK biometric proof generation/verification UI
-- Sanctuary-mode respect for Selfhood-adjacent records
+Implementation: `src/browser/health_views/` (22 modules), `src/tool_chest/manifolds/health.rs` (new manifold seed with 22 SeedContainers + 21 SeedConnections). All containers use `present` honesty label (structure exists, backend not wired). Dispatch arms, strata/tag mappings, and 22 command palette entries added.
+
+Containers built (22):
+- P0: health_overview (dashboard), conditions (list+allergies), clinical_reports (list), lab_results (expandable table), medications (list+log), mental_wellbeing (mood+assessments+observations), hypotheses (evidence+disclosure tiers), health_documents (library+QECP)
+- P1: vitals (chart), therapy_notes (Sanctuary-classified), sleep (chart+debt), diet (log+nutrition), physical_activity (log), immunizations (list), procedures (list), family_history (tree), biometrics (ZK proof actions), welfare_support (needs+streams+letters), life_records (events+cases+tasks), authority_attestations (list), safeguards (dead-man+incapacity), disclosure_log (leak tracing)
 
 ### Workstream C — Logic modality editors
 
@@ -502,16 +501,26 @@ Implementation: `src/browser/logic_workbench.rs` (723 lines) + `logic_workbench/
 ### Workstream D — 3D / Animation / Dataset / Audio
 
 **Source:** `consult/20260818_qualia-3d-animation-dataset-audio-ui-requirements.md`
-**Status:** [pending] — not started
+**Status:** [complete] — P0 + P1 + P2 containers built
 
-Core surfaces required:
-- Real wgpu 3D surface (mesh import, tensor rendering, orbit/pan/zoom, picking, lighting, materials, shadows, volumetric, isosurface, point cloud, 3D graph, GIS terrain)
-- 3D authoring manifold (Scene View, Animation Timeline, Asset Library, Material Editor, Lighting Editor)
-- Animation system (keyframes, skeletal animation, kinematics, motion blending)
-- Complex dataset presentation (tensor projection, isosurface, volumetric, graph visualization)
-- Audio desk (multi-track production/mixing/routing)
-- Immersive audio (manifold-scoped spatial soundfields)
-- Tool families: ten_d_assets, media_studio, audio_speech, spatial_gis
+P0 containers built (10):
+- Studio manifold (6): scene_view, animation_timeline, desk_surface, transport, routing_matrix, spatial_audio
+- Datasets manifold (4): dataset_registry, dataset_importer, presentation_editor, view_canvas
+
+P1 containers built (10):
+- Studio 3D (5): scene_graph, material_editor, lighting_editor, tensor_inspector, asset_library
+- Studio audio (3): channel_strip, meter_bridge, automation_lanes
+- Datasets (2): annotation_panel, lineage_graph
+
+P2 containers built (12):
+- Studio 3D (3): lod_chain (5 LOD levels with error threshold chart + size bars), shadow_settings (10 params + cascade split visualization + thermal warning), gis_maps (8 map layers + viewport + zoom controls + GeoSPARQL endpoint)
+- Animation (2): ragdoll_skin (14 bones + 11 physics joints + skeleton viewport), animation_export (6 clips + 6 export formats + export options)
+- Datasets (4): video_view (player + scrub bar + waveform + 5 markers + video info), presentation_publish (6 targets + access control + SHACL validation), super_resolve (6 SR jobs + 8 CV tools + geometry-assisted curation), cad_curation (6 CAD files + 6 GD&T inspections + mesh conversion)
+- Audio (3): desk_persistence (6 presets + 4 shared collaborators + current state), hrtf_personalization (5 profiles + 8 anthropometric params + 6 calibration results + Selfhood sensitivity), manifold_transition_audio (8 transitions + 8 ambience settings + progress bar)
+
+Implementation: `src/browser/studio_views/` (22 modules), `src/browser/dataset_views/` (10 modules). 32 dispatch arms, strata/tag mappings, 32 command palette entries. All containers use `present` honesty label with mock data and inline CSS.
+
+Workstream D complete — 32 containers across Studio (22) and Datasets (10) manifolds.
 
 ### Workstream E — QApp browser
 

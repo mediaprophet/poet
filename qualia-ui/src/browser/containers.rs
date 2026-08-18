@@ -322,6 +322,40 @@ pub fn build_container(document: &Document, container: &SeedContainer) -> Elemen
             body.append_child(&super::project_views::risk::build_risk_view(document))
                 .unwrap();
         }
+        "task_list" => {
+            body.append_child(&super::project_views::task_list::build_task_list_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "issues" => {
+            body.append_child(&super::project_views::issues::build_issues_view(document))
+                .unwrap();
+        }
+        "asset_mgr" => {
+            body.append_child(&super::project_views::asset_mgr::build_asset_mgr_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "bounties" => {
+            body.append_child(&super::project_views::bounties::build_bounties_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "automation" => {
+            body.append_child(&super::project_views::automation::build_automation_view(
+                document,
+            ))
+            .unwrap();
+        }
+        "analytics" => {
+            body.append_child(&super::project_views::analytics::build_analytics_view(
+                document,
+            ))
+            .unwrap();
+        }
         "reputation" => {
             let ph = document.create_element("div").unwrap();
             ph.set_class_name("container-placeholder");
@@ -634,7 +668,13 @@ fn container_type_filter_attrs(container_type: &str) -> (&'static str, &'static 
         | "resource_report"
         | "time_tracking"
         | "voting"
-        | "risk" => ("governance", "normative"),
+        | "risk"
+        | "task_list"
+        | "issues"
+        | "asset_mgr"
+        | "bounties"
+        | "automation"
+        | "analytics" => ("governance", "normative"),
 
         // Settings — technical/normative
         "settings" => ("technical", "normative"),
@@ -708,6 +748,12 @@ fn container_type_tag(container_type: &str) -> (&'static str, &'static str) {
         "time_tracking" => ("tag-governance", "TIME"),
         "voting" => ("tag-governance", "VOTE"),
         "risk" => ("tag-governance", "RISK"),
+        "task_list" => ("tag-governance", "TASK"),
+        "issues" => ("tag-governance", "ISS"),
+        "asset_mgr" => ("tag-governance", "ASSET"),
+        "bounties" => ("tag-governance", "BOUNTY"),
+        "automation" => ("tag-governance", "AUTO"),
+        "analytics" => ("tag-governance", "ANALYT"),
         _ => ("tag-default", "CONTAINER"),
     }
 }

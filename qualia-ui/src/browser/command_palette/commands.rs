@@ -700,6 +700,36 @@ pub(super) fn build_command_list() -> Vec<CommandEntry> {
             shortcut: "",
         },
         CommandEntry {
+            icon: "\u{2637}",
+            label: "Task List",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F41B}",
+            label: "Issues",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4BC}",
+            label: "Asset Manager",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F3B0}",
+            label: "Bounties",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{2699}",
+            label: "Automation",
+            shortcut: "",
+        },
+        CommandEntry {
+            icon: "\u{1F4C9}",
+            label: "Analytics",
+            shortcut: "",
+        },
+        CommandEntry {
             icon: "\u{2696}",
             label: "Evaluate Deontic Contract",
             shortcut: "",

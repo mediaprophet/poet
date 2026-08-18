@@ -466,6 +466,72 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 honesty: "present".into(),
                 ..Default::default()
             },
+            SeedContainer {
+                container_type: "task_list".into(),
+                title: "Task List".into(),
+                x: 30.0,
+                y: 7290.0,
+                width: 660.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "issues".into(),
+                title: "Issues".into(),
+                x: 710.0,
+                y: 7290.0,
+                width: 660.0,
+                height: 260.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "asset_mgr".into(),
+                title: "Asset Manager".into(),
+                x: 30.0,
+                y: 7590.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "bounties".into(),
+                title: "Bounties".into(),
+                x: 710.0,
+                y: 7590.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "automation".into(),
+                title: "Automation".into(),
+                x: 30.0,
+                y: 7890.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
+            SeedContainer {
+                container_type: "analytics".into(),
+                title: "Analytics".into(),
+                x: 710.0,
+                y: 7890.0,
+                width: 660.0,
+                height: 280.0,
+                z: 1.0,
+                honesty: "present".into(),
+                ..Default::default()
+            },
         ],
         connections: vec![
             SeedConnection {
@@ -747,6 +813,48 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 to: 42,
                 wire_type: "active".into(),
                 label: "coop:hasRiskRegister".into(),
+            },
+            SeedConnection {
+                id: "wire-p41".into(),
+                from: 1,
+                to: 43,
+                wire_type: "active".into(),
+                label: "coop:hasTaskList".into(),
+            },
+            SeedConnection {
+                id: "wire-p42".into(),
+                from: 43,
+                to: 44,
+                wire_type: "active".into(),
+                label: "coop:hasIssues".into(),
+            },
+            SeedConnection {
+                id: "wire-p43".into(),
+                from: 0,
+                to: 45,
+                wire_type: "active".into(),
+                label: "coop:hasAssetMgr".into(),
+            },
+            SeedConnection {
+                id: "wire-p44".into(),
+                from: 33,
+                to: 46,
+                wire_type: "active".into(),
+                label: "coop:hasBounties".into(),
+            },
+            SeedConnection {
+                id: "wire-p45".into(),
+                from: 0,
+                to: 47,
+                wire_type: "active".into(),
+                label: "coop:hasAutomation".into(),
+            },
+            SeedConnection {
+                id: "wire-p46".into(),
+                from: 29,
+                to: 48,
+                wire_type: "active".into(),
+                label: "coop:hasAnalytics".into(),
             },
         ],
         panels: vec![SeedPanel {

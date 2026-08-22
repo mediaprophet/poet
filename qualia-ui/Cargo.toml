@@ -1,10 +1,10 @@
 [package]
-name = "qualia-ui"
-version = "0.1.0"
+name = "poet"
+version = "0.0.34"
 edition = "2021"
 authors = ["Timothy Charles Holborn <timothy.holborn@gmail.com>"]
 license = "CC-BY-NC-ND-4.0"
-description = "QualiaDB UI — Tool-Chest, Manifolds, and Browser Preview"
+description = "Poet HyperCanvas — Spatial Hypermedia Workspace & Living Document Environment"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

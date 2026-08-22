@@ -17,6 +17,7 @@ pub mod capabilities;
 pub mod clipboard;
 pub mod cml_document;
 pub mod command_palette;
+pub mod cooperative_economics;
 pub mod container_inline_views;
 pub mod container_views;
 pub mod container_views_ext;

@@ -12,6 +12,7 @@
 //! glassmorphism with strata, social, health & epistemic modalities.
 
 pub mod agreement_views;
+pub mod app_launcher;
 pub mod capabilities;
 pub mod clipboard;
 pub mod cml_document;

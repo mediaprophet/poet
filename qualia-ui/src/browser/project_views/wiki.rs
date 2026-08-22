@@ -323,3 +323,28 @@ fn make_table(document: &Document, headers: &[&str]) -> Element {
     table.append_child(&thead).unwrap();
     table
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_wiki_pages_not_empty() {
+        assert!(!PAGES.is_empty());
+        for (title, cat, author, date, ver) in PAGES {
+            assert!(!title.is_empty());
+            assert!(!cat.is_empty());
+            assert!(!author.is_empty());
+            assert!(!date.is_empty());
+            assert!(!ver.is_empty());
+        }
+    }
+
+    #[test]
+    fn test_wiki_tabs_complete() {
+        assert_eq!(TABS.len(), 3);
+        assert_eq!(TABS[0].0, "pages");
+        assert_eq!(TABS[1].0, "categories");
+        assert_eq!(TABS[2].0, "history");
+    }
+}

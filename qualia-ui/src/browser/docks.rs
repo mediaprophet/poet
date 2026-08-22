@@ -40,6 +40,35 @@ pub struct ToolboxView {
     pub chains: Vec<ToolChainView>,
 }
 
+/// Dock position orientations for 4-way docking architecture.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DockPosition {
+    Left,
+    Top,
+    Right,
+    Bottom,
+}
+
+impl DockPosition {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            DockPosition::Left => "left",
+            DockPosition::Top => "top",
+            DockPosition::Right => "right",
+            DockPosition::Bottom => "bottom",
+        }
+    }
+
+    pub fn from_str(s: &str) -> Self {
+        match s {
+            "top" => DockPosition::Top,
+            "right" => DockPosition::Right,
+            "bottom" => DockPosition::Bottom,
+            _ => DockPosition::Left,
+        }
+    }
+}
+
 /// Metadata for a toolbox family group.
 #[derive(Clone, Debug)]
 pub struct ToolboxFamily {
@@ -48,43 +77,73 @@ pub struct ToolboxFamily {
     pub icon: String,
 }
 
-/// Get the ordered list of toolbox families.
+/// Get the ordered list of 12 master toolbox families.
 pub fn family_order() -> Vec<ToolboxFamily> {
     vec![
         ToolboxFamily {
             id: "epistemic".into(),
-            label: "Epistemic".into(),
-            icon: "\u{1F9ED}".into(),
+            label: "Epistemic Mindware".into(),
+            icon: "\u{1F9ED}".into(), // 🧭
         },
         ToolboxFamily {
             id: "authoring".into(),
-            label: "Authoring".into(),
-            icon: "\u{1F4DD}".into(),
+            label: "Word Processor & CML".into(),
+            icon: "\u{1F4DD}".into(), // 📝
         },
         ToolboxFamily {
-            id: "media".into(),
-            label: "Media".into(),
-            icon: "\u{1F3A8}".into(),
+            id: "sheet".into(),
+            label: "Spreadsheets & Tensors".into(),
+            icon: "\u{1F4CA}".into(), // 📊
         },
         ToolboxFamily {
-            id: "communication".into(),
-            label: "Communication".into(),
-            icon: "\u{1F4E1}".into(),
+            id: "graphics".into(),
+            label: "Graphics & Vector".into(),
+            icon: "\u{1F3A8}".into(), // 🎨
+        },
+        ToolboxFamily {
+            id: "spatial".into(),
+            label: "3D & Geospatial".into(),
+            icon: "\u{1F9CA}".into(), // 🧊
+        },
+        ToolboxFamily {
+            id: "audio".into(),
+            label: "Triad Formant Audio".into(),
+            icon: "\u{1F399}\u{FE0F}".into(), // 🎙️
+        },
+        ToolboxFamily {
+            id: "code".into(),
+            label: "Code IDE & Vibe REPL".into(),
+            icon: "\u{1F4BB}".into(), // 💻
+        },
+        ToolboxFamily {
+            id: "erp".into(),
+            label: "Cooperative ERP & PM".into(),
+            icon: "\u{1F4C5}".into(), // 📅
+        },
+        ToolboxFamily {
+            id: "mail".into(),
+            label: "Mail & Web Presence".into(),
+            icon: "\u{2709}\u{FE0F}".into(), // ✉️
+        },
+        ToolboxFamily {
+            id: "lab".into(),
+            label: "Scientific & Clinical".into(),
+            icon: "\u{1F52C}".into(), // 🔬
+        },
+        ToolboxFamily {
+            id: "ai".into(),
+            label: "AI Co-Pilot & Sentinel".into(),
+            icon: "\u{2728}".into(), // ✨
         },
         ToolboxFamily {
             id: "governance".into(),
-            label: "Governance".into(),
-            icon: "\u{2696}".into(),
+            label: "Governance & Rights".into(),
+            icon: "\u{2696}\u{FE0F}".into(), // ⚖️
         },
         ToolboxFamily {
-            id: "life".into(),
-            label: "Life".into(),
-            icon: "\u{1FA7A}".into(),
-        },
-        ToolboxFamily {
-            id: "intelligence".into(),
-            label: "Intelligence".into(),
-            icon: "\u{2728}".into(),
+            id: "sdn".into(),
+            label: "SDN & Economics".into(),
+            icon: "\u{1F310}".into(), // 🌐
         },
     ]
 }
@@ -140,20 +199,24 @@ pub fn store_toolbox_views(views: Vec<ToolboxView>) {
 // Glyph mapping
 // ---------------------------------------------------------------------------
 
-/// Map a toolbox id to a display glyph.
+/// Map a toolbox id to a display glyph covering all 12 themed Master Toolboxes.
 fn toolbox_glyph(id: &str) -> &'static str {
     match id {
-        "epistemic" => "\u{1F9ED}",
-        "office" => "\u{1F4C4}",
-        "image" => "\u{1F3A8}",
-        "sheet" => "\u{1F4CA}",
-        "spatial" => "\u{1F5FA}",
-        "communication" => "\u{1F4E1}",
-        "rights" => "\u{1F512}",
-        "health" => "\u{1FA7A}",
-        "code" => "\u{1F4BB}",
-        "ai" => "\u{2728}",
-        _ => "\u{2753}",
+        "epistemic" => "\u{1F9ED}",             // 🧭
+        "office" | "word_processor" | "tb_word_processor" | "doc" => "\u{1F4DD}", // 📝
+        "sheet" | "tb_spreadsheet" => "\u{1F4CA}", // 📊
+        "image" | "graphics" | "tb_graphics" => "\u{1F3A8}", // 🎨
+        "spatial" | "3d" | "tb_3d_spatial" => "\u{1F9CA}", // 🧊
+        "audio" | "audio_synth" | "tb_audio_synth" => "\u{1F399}\u{FE0F}", // 🎙️
+        "code" | "tb_code_ide" => "\u{1F4BB}",    // 💻
+        "communication" | "mail" | "tb_mail_publish" => "\u{2709}\u{FE0F}", // ✉️
+        "erp" | "tb_erp_workstream" => "\u{1F4C5}", // 📅
+        "lab" | "science" | "tb_scientific_lab" => "\u{1F52C}", // 🔬
+        "ai" | "tb_ai_copilot" => "\u{2728}",     // ✨
+        "rights" | "governance" | "tb_governance_rights" => "\u{2696}\u{FE0F}", // ⚖️
+        "sdn" | "tb_sdn_cooperative" => "\u{1F310}", // 🌐
+        "health" => "\u{1FA7A}",                  // 🩺
+        _ => "\u{1F9E9}",
     }
 }
 
@@ -207,14 +270,73 @@ fn kind_label(kind: ToolKind) -> &'static str {
 }
 
 // ---------------------------------------------------------------------------
-// Dock builder
+// Dock builder with 4-Way Docking Architecture
 // ---------------------------------------------------------------------------
 
-/// Build the toolbox dock (vertical icon sidebar) from a populated registry.
-/// Toolboxes are grouped into collapsible family sections.
+/// Build the toolbox dock from a populated registry with 4-way docking anchor controls.
 pub fn build_toolbox_dock(document: &Document, toolboxes: &[Toolbox]) -> Element {
     let dock = document.create_element("div").unwrap();
-    dock.set_class_name("toolbox-dock");
+    dock.set_class_name("toolbox-dock dock-pos-left");
+
+    // Dock Header: Brand + 4-Way Docking Anchor Bar
+    let dock_header = document.create_element("div").unwrap();
+    dock_header.set_class_name("dock-master-header");
+    let dh_el: HtmlElement = dock_header.clone().dyn_into().unwrap();
+    dh_el.style().set_css_text(
+        "display: flex; align-items: center; justify-content: space-between; \
+         padding: 4px 6px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 4px;",
+    );
+
+    let title_span = document.create_element("span").unwrap();
+    let ts_el: HtmlElement = title_span.clone().dyn_into().unwrap();
+    ts_el.style().set_css_text(
+        "font-size: 9px; font-weight: 700; color: var(--accent-cyan); \
+         text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-mono);",
+    );
+    title_span.set_text_content(Some("\u{1F9F0} Tool Chest"));
+    dock_header.append_child(&title_span).unwrap();
+
+    // 4-Way Dock Anchor Controls
+    let anchor_bar = document.create_element("div").unwrap();
+    anchor_bar.set_class_name("dock-anchor-bar");
+    let ab_el: HtmlElement = anchor_bar.clone().dyn_into().unwrap();
+    ab_el.style().set_css_text("display: flex; gap: 2px;");
+
+    let positions = [
+        ("left", "\u{25C0}"),
+        ("top", "\u{25B2}"),
+        ("right", "\u{25B6}"),
+        ("bottom", "\u{25BC}"),
+    ];
+
+    for (pos_id, glyph) in &positions {
+        let pos_btn = document.create_element("button").unwrap();
+        pos_btn.set_class_name("dock-pos-btn");
+        pos_btn.set_attribute("data-pos", pos_id).unwrap();
+        pos_btn.set_attribute("title", &format!("Dock {}", pos_id)).unwrap();
+        let pb_el: HtmlElement = pos_btn.clone().dyn_into().unwrap();
+        pb_el.style().set_css_text(
+            "padding: 1px 3px; font-size: 8px; background: transparent; border: 1px solid transparent; \
+             border-radius: 2px; color: var(--text-muted); cursor: pointer; transition: var(--trans-fast);",
+        );
+        pos_btn.set_text_content(Some(glyph));
+
+        let dock_clone = dock.clone();
+        let pos_str = pos_id.to_string();
+        let pos_closure = Closure::wrap(Box::new(move |_e: web_sys::MouseEvent| {
+            let d_el: HtmlElement = dock_clone.clone().dyn_into().unwrap();
+            d_el.set_class_name(&format!("toolbox-dock dock-pos-{}", pos_str));
+            if let Some(storage) = web_sys::window().and_then(|w| w.local_storage().ok()).flatten() {
+                let _ = storage.set_item("qualia_dock_pos", &pos_str);
+            }
+        }) as Box<dyn FnMut(web_sys::MouseEvent)>);
+        pos_btn.add_event_listener_with_callback("click", pos_closure.as_ref().unchecked_ref()).unwrap();
+        pos_closure.forget();
+
+        anchor_bar.append_child(&pos_btn).unwrap();
+    }
+    dock_header.append_child(&anchor_bar).unwrap();
+    dock.append_child(&dock_header).unwrap();
 
     let families = family_order();
     let mut first_toolbox = true;
@@ -584,4 +706,43 @@ pub fn build_bottom_statusbar(document: &Document) -> Element {
 
     bar.append_child(&right).unwrap();
     bar
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_master_toolbox_families_count() {
+        let families = family_order();
+        assert!(families.len() >= 12, "Expected at least 12 master toolbox families, got {}", families.len());
+        let ids: Vec<&str> = families.iter().map(|f| f.id.as_str()).collect();
+        assert!(ids.contains(&"epistemic"));
+        assert!(ids.contains(&"authoring"));
+        assert!(ids.contains(&"sheet"));
+        assert!(ids.contains(&"graphics"));
+        assert!(ids.contains(&"spatial"));
+        assert!(ids.contains(&"audio"));
+        assert!(ids.contains(&"code"));
+        assert!(ids.contains(&"erp"));
+        assert!(ids.contains(&"mail"));
+        assert!(ids.contains(&"lab"));
+        assert!(ids.contains(&"ai"));
+        assert!(ids.contains(&"governance"));
+        assert!(ids.contains(&"sdn"));
+    }
+
+    #[test]
+    fn test_dock_position_conversions() {
+        assert_eq!(DockPosition::from_str("top"), DockPosition::Top);
+        assert_eq!(DockPosition::from_str("right"), DockPosition::Right);
+        assert_eq!(DockPosition::from_str("bottom"), DockPosition::Bottom);
+        assert_eq!(DockPosition::from_str("left"), DockPosition::Left);
+        assert_eq!(DockPosition::from_str("invalid"), DockPosition::Left);
+
+        assert_eq!(DockPosition::Top.as_str(), "top");
+        assert_eq!(DockPosition::Right.as_str(), "right");
+        assert_eq!(DockPosition::Bottom.as_str(), "bottom");
+        assert_eq!(DockPosition::Left.as_str(), "left");
+    }
 }

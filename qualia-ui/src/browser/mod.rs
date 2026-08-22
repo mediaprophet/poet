@@ -13,6 +13,7 @@
 
 pub mod agreement_views;
 pub mod capabilities;
+pub mod cml_document;
 pub mod command_palette;
 pub mod container_inline_views;
 pub mod container_views;
@@ -34,12 +35,15 @@ pub mod logic_workbench;
 pub mod manifest;
 pub mod ontology_views;
 pub mod project_views;
+pub mod projections;
+pub mod radial_menu;
 pub mod registration;
 pub mod rights_views;
 pub mod search_workbench;
 pub mod studio_views;
 pub mod theme;
 pub mod topbar;
+pub mod vibe_cell;
 pub mod wire_inspector;
 pub mod workflow_panels;
 
@@ -248,6 +252,18 @@ fn build_app(document: &Document) -> HtmlElement {
 
     // Wire logic workbench shortcut (Ctrl+Shift+L)
     logic_workbench::wire_logic_workbench_shortcut(document);
+
+    // Wire 8-sector radial action ring (right-click / stylus context gesture)
+    radial_menu::wire_radial_menu(document);
+
+    // Restore saved dock position if present
+    if let Some(storage) = web_sys::window().and_then(|w| w.local_storage().ok()).flatten() {
+        if let Ok(Some(saved_pos)) = storage.get_item("qualia_dock_pos") {
+            if let Ok(Some(dock_el)) = document.query_selector(".toolbox-dock") {
+                dock_el.set_class_name(&format!("toolbox-dock dock-pos-{}", saved_pos));
+            }
+        }
+    }
 
     app.dyn_into::<HtmlElement>().unwrap()
 }

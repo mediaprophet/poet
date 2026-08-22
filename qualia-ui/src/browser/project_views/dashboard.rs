@@ -258,3 +258,29 @@ fn build_activity_panel(document: &Document) -> Element {
 
     panel
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_dashboard_kpis_not_empty() {
+        assert!(!KPIS.is_empty());
+        for (label, val, color, sub) in KPIS {
+            assert!(!label.is_empty());
+            assert!(!val.is_empty());
+            assert!(!color.is_empty());
+            assert!(!sub.is_empty());
+        }
+    }
+
+    #[test]
+    fn test_dashboard_milestones_not_empty() {
+        assert!(!MILESTONES.is_empty());
+        for (name, date, status) in MILESTONES {
+            assert!(!name.is_empty());
+            assert!(!date.is_empty());
+            assert!(!status.is_empty());
+        }
+    }
+}

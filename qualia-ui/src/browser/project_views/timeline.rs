@@ -227,3 +227,29 @@ fn build_events_panel(document: &Document) -> Element {
 
     panel
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_timeline_events_not_empty() {
+        assert!(!EVENTS.is_empty());
+        for (name, date, kind, actor) in EVENTS {
+            assert!(!name.is_empty());
+            assert!(!date.is_empty());
+            assert!(!kind.is_empty());
+            assert!(!actor.is_empty());
+        }
+    }
+
+    #[test]
+    fn test_timeline_phases_not_empty() {
+        assert!(!PHASES.is_empty());
+        for (name, start, end) in PHASES {
+            assert!(!name.is_empty());
+            assert!(!start.is_empty());
+            assert!(!end.is_empty());
+        }
+    }
+}

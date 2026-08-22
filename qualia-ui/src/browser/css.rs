@@ -667,6 +667,15 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--canv
 .wire-subjective { stroke: var(--modality-subjective); stroke-dasharray: 3 5; }
 .wire-objective { stroke: var(--modality-objective); stroke-dasharray: 6 3; }
 .wire-selected { stroke-width: 3; filter: drop-shadow(0 0 6px var(--accent-cyan-glow)); }
+.wire-pulsing {
+  stroke-width: 3.5px !important;
+  filter: drop-shadow(0 0 10px var(--accent-cyan-glow)) drop-shadow(0 0 4px var(--accent-emerald)) !important;
+  animation: wireFlow 0.5s linear infinite, wirePulseGlow 1s ease-in-out infinite alternate !important;
+}
+@keyframes wirePulseGlow {
+  from { stroke-width: 2.5px; opacity: 0.85; }
+  to { stroke-width: 4px; opacity: 1.0; }
+}
 .wire-drag-overlay { animation: wireFlow 0.8s linear infinite; }
 @keyframes wireFlow { to { stroke-dashoffset: -20; } }
 .wire-label-text {
@@ -837,5 +846,104 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--canv
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+/* === CML HyperDoc & Context Markup === */
+.q-doc-container {
+  font-family: var(--font-sans);
+  outline: none;
+}
+.q-doc-container:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 12px var(--accent-cyan-glow);
+}
+.cml-entity-tag {
+  border-bottom: 2px solid var(--accent-primary, #6366f1);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  padding: 1px 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+.cml-entity-tag:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+.cml-entity-badge {
+  font-size: 9px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  color: #000;
+  font-weight: 700;
+  line-height: 1;
+}
+.cml-popover-cat-btn:hover {
+  background: var(--surface-panel-elevated) !important;
+  border-color: var(--accent-cyan) !important;
+  color: var(--text-primary) !important;
+}
+.q-aura-tray {
+  backdrop-filter: blur(12px);
+  transition: var(--trans-smooth);
+}
+.q-aura-tray:hover {
+  border-color: var(--border-medium);
+}
+
+/* === 4-Way Docking Architecture === */
+.toolbox-dock.dock-pos-left {
+  width: 180px;
+  border-right: 1px solid var(--border-subtle);
+  flex-direction: column;
+}
+.toolbox-dock.dock-pos-right {
+  width: 180px;
+  order: 3;
+  border-left: 1px solid var(--border-subtle);
+  border-right: none;
+  flex-direction: column;
+}
+.toolbox-dock.dock-pos-top {
+  width: 100%;
+  height: 52px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-direction: row;
+  order: -1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: center;
+}
+.toolbox-dock.dock-pos-bottom {
+  width: 100%;
+  height: 52px;
+  border-top: 1px solid var(--border-subtle);
+  flex-direction: row;
+  order: 5;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: center;
+}
+.dock-pos-btn:hover {
+  border-color: var(--accent-cyan) !important;
+  color: var(--accent-cyan) !important;
+}
+
+/* === 8-Sector Radial Action Ring === */
+#radial-action-ring {
+  user-select: none;
+  animation: radialPop 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes radialPop {
+  from { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+.radial-sector-group {
+  transition: transform 0.15s ease-out;
+}
+.radial-sector-group:hover {
+  filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.4));
 }
 "#;

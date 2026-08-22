@@ -317,3 +317,29 @@ fn make_table(document: &Document, headers: &[&str]) -> Element {
     table.append_child(&thead).unwrap();
     table
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_gantt_tasks_not_empty() {
+        assert!(!TASKS.is_empty());
+        for (name, start, end, phase, pct, status) in TASKS {
+            assert!(!name.is_empty());
+            assert!(!start.is_empty());
+            assert!(!end.is_empty());
+            assert!(!phase.is_empty());
+            assert!(!pct.is_empty());
+            assert!(!status.is_empty());
+        }
+    }
+
+    #[test]
+    fn test_gantt_tabs_complete() {
+        assert_eq!(TABS.len(), 3);
+        assert_eq!(TABS[0].0, "chart");
+        assert_eq!(TABS[1].0, "dependencies");
+        assert_eq!(TABS[2].0, "critical");
+    }
+}

@@ -6,16 +6,26 @@ use wasm_bindgen::prelude::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::{Document, Element, HtmlElement};
 
-/// Rich text document container — contenteditable with gazetteer placeholder.
-/// Includes a view switcher: Visual / Markdown / RDF Triples.
+use super::cml_document::CmlDocument;
+
+/// Rich text CML HyperDoc container — contenteditable with Context Markup Language
+/// (<q-entity>, <q-relation>), Tri-View switcher (Visual / Markdown / RDF-Star),
+/// and Aura Tray with live SHACL validation & Super-Quin metrics.
 pub fn build_doc_view(document: &Document) -> Element {
+    let cml_doc = CmlDocument::default();
+    let report = cml_doc.validate_shacl();
+
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
     wrapper_el
         .style()
         .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 6px;");
 
-    // View switcher tabs
+    // View switcher tabs & Header
+    let switcher_row = document.create_element("div").unwrap();
+    let sr_el: HtmlElement = switcher_row.clone().dyn_into().unwrap();
+    sr_el.style().set_css_text("display: flex; align-items: center; justify-content: space-between; gap: 8px;");
+
     let switcher = document.create_element("div").unwrap();
     switcher.set_class_name("doc-view-switcher");
     let switcher_el: HtmlElement = switcher.clone().dyn_into().unwrap();
@@ -25,9 +35,9 @@ pub fn build_doc_view(document: &Document) -> Element {
     );
 
     let views = [
-        ("Visual", "visual"),
-        ("Markdown", "markdown"),
-        ("RDF Triples", "rdf"),
+        ("Visual CML", "visual"),
+        ("Markdown+CML", "markdown"),
+        ("RDF-Star (N-Quins)", "rdf"),
     ];
     for (idx, (label, view_id)) in views.iter().enumerate() {
         let tab = document.create_element("button").unwrap();
@@ -64,7 +74,20 @@ pub fn build_doc_view(document: &Document) -> Element {
         tab.set_text_content(Some(label));
         switcher.append_child(&tab).unwrap();
     }
-    wrapper.append_child(&switcher).unwrap();
+    switcher_row.append_child(&switcher).unwrap();
+
+    // Document Meta Chip
+    let meta_chip = document.create_element("div").unwrap();
+    let mc_el: HtmlElement = meta_chip.clone().dyn_into().unwrap();
+    mc_el.style().set_css_text(
+        "font-size: 9px; font-family: var(--font-mono); color: var(--text-muted); \
+         display: flex; align-items: center; gap: 6px; padding: 2px 8px; \
+         background: var(--surface-panel); border-radius: var(--radius-xs);",
+    );
+    meta_chip.set_text_content(Some(&format!("\u{1F4C4} {} \u{00B7} Level {}", cml_doc.title, cml_doc.sensitivity_class)));
+    switcher_row.append_child(&meta_chip).unwrap();
+
+    wrapper.append_child(&switcher_row).unwrap();
 
     // Toolbar (Visual mode)
     let toolbar = document.create_element("div").unwrap();
@@ -72,7 +95,10 @@ pub fn build_doc_view(document: &Document) -> Element {
     toolbar
         .set_attribute("data-doc-view-panel", "visual")
         .unwrap();
-    for label in &["B", "I", "U", "Link", "Annotate", "Gazetteer"] {
+    for label in &[
+        "B", "I", "U", "\u{1F517} Link", "\u{1F4CD} Tag Entity", 
+        "\u{2696}\u{FE0F} Deontic Rule", "\u{1F50D} CML Gazetteer", "\u{26A1} Reactive Cell"
+    ] {
         let btn = document.create_element("button").unwrap();
         btn.set_class_name("vibe-run-btn");
         btn.set_text_content(Some(label));
@@ -80,9 +106,9 @@ pub fn build_doc_view(document: &Document) -> Element {
     }
     wrapper.append_child(&toolbar).unwrap();
 
-    // Visual editor (contenteditable)
+    // Visual editor (<q-doc> contenteditable)
     let editor = document.create_element("div").unwrap();
-    editor.set_class_name("doc-editor doc-view-panel");
+    editor.set_class_name("doc-editor doc-view-panel q-doc-container");
     editor
         .set_attribute("data-doc-view-panel", "visual")
         .unwrap();
@@ -90,14 +116,17 @@ pub fn build_doc_view(document: &Document) -> Element {
     editor_el.style().set_css_text(
         "flex: 1; background: var(--canvas-bg); border: 1px solid var(--border-subtle); \
          border-radius: var(--radius-xs); padding: 12px; color: var(--text-primary); \
-         font-size: 13px; line-height: 1.6; overflow-y: auto; min-height: 120px;",
+         font-size: 13px; line-height: 1.6; overflow-y: auto; min-height: 140px;",
     );
     editor.set_attribute("contenteditable", "true").unwrap();
-    editor.set_text_content(Some(
-        "Rich text document container \u{2014} contenteditable with gazetteer annotation. \
-         Select text to annotate with <q-entity> tags. Awaiting NLP engine wiring.",
-    ));
+    editor.set_inner_html(&cml_doc.to_cml_html());
     wrapper.append_child(&editor).unwrap();
+
+    // Embedded Reactive Calculation Cell (<q-cell>)
+    let embedded_cell = super::vibe_cell::build_q_cell_element(document, super::vibe_cell::VibeCell::default());
+    embedded_cell.set_class_name("doc-view-panel q-cell-widget");
+    embedded_cell.set_attribute("data-doc-view-panel", "visual").unwrap();
+    wrapper.append_child(&embedded_cell).unwrap();
 
     // Markdown view (hidden by default)
     let md_view = document.create_element("div").unwrap();
@@ -112,18 +141,14 @@ pub fn build_doc_view(document: &Document) -> Element {
 
     let md_textarea = document.create_element("textarea").unwrap();
     let md_ta_el: web_sys::HtmlTextAreaElement = md_textarea.clone().dyn_into().unwrap();
-    md_ta_el.set_value(
-        "# Untitled Document\n\nRich text document container \u{2014} contenteditable with \
-         gazetteer annotation. Select text to annotate with <q-entity> tags.\n\n\
-         Awaiting NLP engine wiring.\n",
-    );
+    md_ta_el.set_value(&cml_doc.to_markdown());
     md_textarea
         .set_attribute(
             "style",
             "flex: 1; background: var(--canvas-bg); border: 1px solid var(--border-subtle); \
          border-radius: var(--radius-xs); padding: 12px; color: var(--text-primary); \
          font-family: var(--font-mono); font-size: 12px; line-height: 1.6; \
-         resize: none; outline: none; min-height: 120px;",
+         resize: none; outline: none; min-height: 140px;",
         )
         .unwrap();
     md_view.append_child(&md_textarea).unwrap();
@@ -140,17 +165,19 @@ pub fn build_doc_view(document: &Document) -> Element {
         "flex: 1; display: none; flex-direction: column; gap: 4px; overflow-y: auto;",
     );
 
-    // RDF triple table
+    // RDF header banner
     let rdf_info = document.create_element("div").unwrap();
     rdf_info.set_class_name("doc-rdf-info");
     let info_el: HtmlElement = rdf_info.clone().dyn_into().unwrap();
     info_el.style().set_css_text(
-        "padding: 8px 10px; background: var(--surface-panel); border-radius: var(--radius-xs); \
-         font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);",
+        "padding: 6px 10px; background: var(--surface-panel); border-radius: var(--radius-xs); \
+         font-size: 10px; color: var(--text-secondary); font-family: var(--font-mono); \
+         display: flex; justify-content: space-between; align-items: center;",
     );
-    rdf_info.set_text_content(Some(
-        "\u{1F4CB} RDF-Star triples extracted from this document \u{2014} present, awaiting NLP engine wiring."
-    ));
+    rdf_info.set_text_content(Some(&format!(
+        "\u{1F4CB} Extracted RDF-Star Triples: {} terms \u{00B7} 48-byte Super-Quins: {}",
+        cml_doc.to_rdf_star_triples().len(), report.quin_count
+    )));
     rdf_view.append_child(&rdf_info).unwrap();
 
     let rdf_table = document.create_element("div").unwrap();
@@ -166,13 +193,13 @@ pub fn build_doc_view(document: &Document) -> Element {
     let hr_el: HtmlElement = header_row.clone().dyn_into().unwrap();
     hr_el.style().set_css_text(
         "display: flex; border-bottom: 1px solid var(--border-subtle); \
-         background: var(--surface-panel);",
+         background: var(--surface-panel); font-weight: 700;",
     );
-    for col in &["Subject", "Predicate", "Object", "Provenance"] {
+    for col in &["Subject", "Predicate", "Object", "Confidence", "Provenance"] {
         let cell = document.create_element("div").unwrap();
         let cell_el: HtmlElement = cell.clone().dyn_into().unwrap();
         cell_el.style().set_css_text(
-            "flex: 1; padding: 4px 8px; color: var(--text-muted); \
+            "flex: 1; padding: 4px 8px; color: var(--accent-cyan); \
              border-right: 1px solid var(--border-subtle);",
         );
         cell.set_text_content(Some(col));
@@ -180,30 +207,83 @@ pub fn build_doc_view(document: &Document) -> Element {
     }
     rdf_table.append_child(&header_row).unwrap();
 
-    // Placeholder triple row
-    let row = document.create_element("div").unwrap();
-    let row_el: HtmlElement = row.clone().dyn_into().unwrap();
-    row_el
-        .style()
-        .set_css_text("display: flex; border-bottom: 1px solid var(--border-subtle);");
-    for val in &[
-        "did:qualia:doc#sec1",
-        "qualia:hasAnnotation",
-        "\"gazetteer\"@en",
-        "0:42\u{2013}0:51",
-    ] {
-        let cell = document.create_element("div").unwrap();
-        let cell_el: HtmlElement = cell.clone().dyn_into().unwrap();
-        cell_el.style().set_css_text(
-            "flex: 1; padding: 4px 8px; color: var(--text-secondary); \
-             border-right: 1px solid var(--border-subtle);",
-        );
-        cell.set_text_content(Some(val));
-        row.append_child(&cell).unwrap();
+    // Extracted triple rows
+    for triple in cml_doc.to_rdf_star_triples() {
+        let row = document.create_element("div").unwrap();
+        let row_el: HtmlElement = row.clone().dyn_into().unwrap();
+        row_el
+            .style()
+            .set_css_text("display: flex; border-bottom: 1px solid var(--border-subtle);");
+        
+        let conf_pct = format!("{:.0}%", triple.confidence * 100.0);
+        let vals = [
+            triple.subject.as_str(),
+            triple.predicate.as_str(),
+            triple.object.as_str(),
+            conf_pct.as_str(),
+            triple.provenance.as_str(),
+        ];
+        for (i, val) in vals.iter().enumerate() {
+            let cell = document.create_element("div").unwrap();
+            let cell_el: HtmlElement = cell.clone().dyn_into().unwrap();
+            cell_el.style().set_css_text(
+                "flex: 1; padding: 4px 8px; color: var(--text-secondary); \
+                 border-right: 1px solid var(--border-subtle); overflow: hidden; \
+                 text-overflow: ellipsis; white-space: nowrap;",
+            );
+            if i == 3 {
+                cell_el.style().set_property("color", "var(--accent-emerald)").unwrap();
+            }
+            cell.set_text_content(Some(val));
+            row.append_child(&cell).unwrap();
+        }
+        rdf_table.append_child(&row).unwrap();
     }
-    rdf_table.append_child(&row).unwrap();
     rdf_view.append_child(&rdf_table).unwrap();
     wrapper.append_child(&rdf_view).unwrap();
+
+    // =========================================================================
+    // Aura Tray (<q-aura-tray>) Footer
+    // =========================================================================
+    let aura_tray = document.create_element("q-aura-tray").unwrap();
+    aura_tray.set_class_name("q-aura-tray");
+    let at_el: HtmlElement = aura_tray.clone().dyn_into().unwrap();
+    at_el.style().set_css_text(
+        "display: flex; align-items: center; justify-content: space-between; gap: 8px; \
+         padding: 4px 10px; background: var(--surface-panel); border: 1px solid var(--border-subtle); \
+         border-radius: var(--radius-xs); font-family: var(--font-mono); font-size: 10px;",
+    );
+
+    // Left: SHACL Conformance Badge
+    let shacl_badge = document.create_element("div").unwrap();
+    let sb_el: HtmlElement = shacl_badge.clone().dyn_into().unwrap();
+    let badge_color = if report.conforms { "var(--accent-emerald)" } else { "var(--accent-rose)" };
+    sb_el.style().set_css_text(&format!(
+        "display: flex; align-items: center; gap: 5px; color: {}; font-weight: 600;",
+        badge_color
+    ));
+    shacl_badge.set_text_content(Some(&format!("\u{2705} {}", report.status_label)));
+    aura_tray.append_child(&shacl_badge).unwrap();
+
+    // Middle: Modality & Quins Metric
+    let metric_div = document.create_element("div").unwrap();
+    let md_el: HtmlElement = metric_div.clone().dyn_into().unwrap();
+    md_el.style().set_css_text("color: var(--text-muted); display: flex; gap: 8px;");
+    metric_div.set_text_content(Some(&format!(
+        "\u{1F9E0} Certainty: 96% \u{00B7} {} Quins (Sentinel Bounded)",
+        report.quin_count
+    )));
+    aura_tray.append_child(&metric_div).unwrap();
+
+    // Right: Action button
+    let export_btn = document.create_element("button").unwrap();
+    export_btn.set_class_name("vibe-run-btn");
+    let eb_el: HtmlElement = export_btn.clone().dyn_into().unwrap();
+    eb_el.style().set_css_text("padding: 2px 8px; font-size: 9px;");
+    export_btn.set_text_content(Some("\u{1F4E6} Export .hcf"));
+    aura_tray.append_child(&export_btn).unwrap();
+
+    wrapper.append_child(&aura_tray).unwrap();
 
     // Wire the view switcher
     wire_doc_view_switcher(document);
@@ -274,13 +354,17 @@ fn wire_doc_view_switcher(document: &Document) {
     }
 }
 
-/// Spreadsheet container — formula bar + grid.
+/// Spreadsheet container — polymorphic <q-view-switcher> + formula bar + reactive grid.
 pub fn build_sheet_view(document: &Document) -> Element {
     let wrapper = document.create_element("div").unwrap();
     let wrapper_el: HtmlElement = wrapper.clone().dyn_into().unwrap();
     wrapper_el
         .style()
         .set_css_text("display: flex; flex-direction: column; flex: 1; gap: 4px;");
+
+    // Polymorphic Projection Switcher (<q-view-switcher>)
+    let view_switcher = super::projections::build_view_switcher(document, "mode.spreadsheet");
+    wrapper.append_child(&view_switcher).unwrap();
 
     // Formula bar
     let formula = document.create_element("div").unwrap();

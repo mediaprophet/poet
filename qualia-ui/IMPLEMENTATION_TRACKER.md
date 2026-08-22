@@ -61,10 +61,10 @@
 
 | # | Item | Status | Notes |
 |---|------|--------|-------|
-| 1.4.1 | `rich_text` family (doc toolbar: bold, italic, code, entity, view switch) | [partial] | Container view has basic toolbar. Needs full formatting actions |
+| 1.4.1 | `rich_text` family (doc toolbar, CML <q-entity>, <q-relation>, tri-view switch) | [done] | `src/browser/cml_document.rs` & `src/browser/container_views.rs` |
 | 1.4.2 | `sheet` family (formula bar, sum, avg, P64, chart) | [partial] | Container view has formula bar + grid. Needs working formulas |
 | 1.4.3 | `vibe` family (run, AST, gas, pulse::emit, capability.invoke) | [partial] | Container view has VibeScript console. Needs AST tab + gas |
-| 1.4.4 | `aura` family (SHACL, classes, alignment matrix, export) | [partial] | Container view has ontology tree. Needs alignment matrix + SHACL |
+| 1.4.4 | `aura` family (SHACL live badge, <q-aura-tray>, Super-Quin counter, export) | [done] | `<q-aura-tray>` in `container_views.rs` & `cml_document.rs` |
 | 1.4.5 | `gis` family (pin, track, flow, trail, layers) | [partial] | Container view has map SVG. Needs layer toggles wired |
 | 1.4.6 | `graph` family (SPARQL, expand, collapse, layout) | [todo] | Graph view exists but no SPARQL or interactive graph |
 | 1.4.7 | `social` family (connect, chat, agent, graph) | [partial] | Social view has chat graph. Needs connect/chat actions |

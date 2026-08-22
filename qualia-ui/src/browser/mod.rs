@@ -44,6 +44,7 @@ pub mod radial_menu;
 pub mod registration;
 pub mod rights_views;
 pub mod search_workbench;
+pub mod shader_pipelines;
 pub mod studio_views;
 pub mod theme;
 pub mod topbar;

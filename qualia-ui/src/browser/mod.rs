@@ -40,6 +40,7 @@ pub mod instrument_panel;
 pub mod intent_bus;
 pub mod interactions;
 pub mod job_queue;
+pub mod lived_memory_archive;
 pub mod logic_workbench;
 pub mod manifest;
 pub mod mail_composer;

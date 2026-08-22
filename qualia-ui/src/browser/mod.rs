@@ -37,6 +37,7 @@ pub mod interactions;
 pub mod job_queue;
 pub mod logic_workbench;
 pub mod manifest;
+pub mod media_codecs;
 pub mod ontology_views;
 pub mod project_views;
 pub mod projections;

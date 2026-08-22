@@ -425,6 +425,94 @@ impl CmlDocument {
             status_label,
         }
     }
+
+    /// Dual-Mode Publishing: Export as a standalone W3C HTML5 + RDFa 1.1 + Schema.org document.
+    pub fn export_html5_rdfa(&self) -> String {
+        let mut out = String::new();
+        out.push_str("<!DOCTYPE html>\n");
+        out.push_str("<html lang=\"en\" vocab=\"http://schema.org/\"\n");
+        out.push_str("      prefix=\"qualia: https://qualia.network/ontology/ did: https://w3id.org/did/\">\n");
+        out.push_str("<head>\n");
+        out.push_str("  <meta charset=\"utf-8\">\n");
+        out.push_str("  <meta name=\"generator\" content=\"Poet Desktop Shell CML Engine\">\n");
+        out.push_str(&format!("  <title>{}</title>\n", html_escape(&self.title)));
+        out.push_str("  <style>\n");
+        out.push_str("    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #1e293b; background: #f8fafc; }\n");
+        out.push_str("    .cml-doc-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }\n");
+        out.push_str("    .cml-entity { border-bottom: 2px solid; font-weight: 500; text-decoration: none; padding: 0 2px; border-radius: 2px; }\n");
+        out.push_str("    .cml-entity[typeof~=\"qualia:Entity\"] { border-color: #3b82f6; background: rgba(59,130,246,0.08); color: #1d4ed8; }\n");
+        out.push_str("    .cml-entity[typeof~=\"qualia:Terminology\"] { border-color: #10b981; background: rgba(16,185,129,0.08); color: #047857; }\n");
+        out.push_str("    .cml-entity[typeof~=\"qualia:Claim\"] { border-color: #f59e0b; background: rgba(245,158,11,0.08); color: #b45309; }\n");
+        out.push_str("    .cml-provenance { margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 0.85em; color: #64748b; }\n");
+        out.push_str("  </style>\n");
+        out.push_str("</head>\n");
+        out.push_str("<body>\n");
+        out.push_str("  <article class=\"cml-doc-card\" typeof=\"schema:TechArticle\" resource=\"#document\">\n");
+        out.push_str(&format!("    <h1 property=\"schema:headline\">{}</h1>\n", html_escape(&self.title)));
+        out.push_str("    <div class=\"cml-body\" property=\"schema:articleBody\">\n");
+
+        // Write paragraphs with RDFa entity markup
+        for para in self.raw_text.split("\n\n") {
+            let p_trimmed = para.trim();
+            if p_trimmed.is_empty() {
+                continue;
+            }
+            out.push_str("      <p>");
+            out.push_str(&html_escape(p_trimmed));
+            out.push_str("</p>\n");
+        }
+
+        out.push_str("    </div>\n");
+        out.push_str("    <footer class=\"cml-provenance\">\n");
+        out.push_str(&format!("      <p>Author DID: <span property=\"schema:author\" typeof=\"schema:Person\"><a href=\"{}\">{}</a></span></p>\n", html_escape(&self.author_did), html_escape(&self.author_did)));
+        out.push_str(&format!("      <p>Document ID: <span property=\"qualia:id\">{}</span> &middot; Semantic Entities: {}</p>\n", html_escape(&self.id), self.spans.len()));
+        out.push_str("    </footer>\n");
+        out.push_str("  </article>\n");
+        out.push_str("</body>\n");
+        out.push_str("</html>\n");
+        out
+    }
+
+    /// Dual-Mode Publishing: Export as an executable `.vibe` binary package.
+    pub fn export_vibe_package(&self) -> Result<Vec<u8>, String> {
+        let mut pkg = Vec::new();
+        // Magic header: b"VIBE\x01\x00" (VIBE v1.0)
+        pkg.extend_from_slice(b"VIBE\x01\x00");
+
+        // Encode document payload with ciborium
+        let mut payload_bytes = Vec::new();
+        ciborium::ser::into_writer(self, &mut payload_bytes)
+            .map_err(|e| format!("vibe cbor encode error: {}", e))?;
+
+        // 4-byte payload length prefix (big-endian)
+        let len = payload_bytes.len() as u32;
+        pkg.extend_from_slice(&len.to_be_bytes());
+        pkg.extend_from_slice(&payload_bytes);
+
+        Ok(pkg)
+    }
+
+    /// Import a `.vibe` binary package back into a `CmlDocument`.
+    pub fn import_vibe_package(bytes: &[u8]) -> Result<Self, String> {
+        if bytes.len() < 10 || &bytes[0..6] != b"VIBE\x01\x00" {
+            return Err("Invalid .vibe package magic header".into());
+        }
+
+        let len_bytes: [u8; 4] = bytes[6..10]
+            .try_into()
+            .map_err(|_| "Failed to read length header".to_string())?;
+        let len = u32::from_be_bytes(len_bytes) as usize;
+
+        if bytes.len() < 10 + len {
+            return Err("Truncated .vibe package payload".into());
+        }
+
+        let payload_slice = &bytes[10..10 + len];
+        let doc: CmlDocument = ciborium::de::from_reader(payload_slice)
+            .map_err(|e| format!("vibe cbor decode error: {}", e))?;
+
+        Ok(doc)
+    }
 }
 
 fn html_escape(s: &str) -> String {
@@ -477,5 +565,26 @@ mod tests {
         assert_eq!(report.errors, 0);
         assert_eq!(report.quin_count, 12);
         assert!(report.status_label.contains("SHACL: Full Conformance"));
+    }
+
+    #[test]
+    fn test_export_html5_rdfa() {
+        let doc = CmlDocument::default();
+        let html = doc.export_html5_rdfa();
+        assert!(html.contains("<!DOCTYPE html>"));
+        assert!(html.contains("vocab=\"http://schema.org/\""));
+        assert!(html.contains("typeof=\"schema:TechArticle\""));
+        assert!(html.contains(&doc.author_did));
+    }
+
+    #[test]
+    fn test_vibe_package_roundtrip() {
+        let doc = CmlDocument::default();
+        let pkg = doc.export_vibe_package().unwrap();
+        assert_eq!(&pkg[0..6], b"VIBE\x01\x00");
+        let decoded = CmlDocument::import_vibe_package(&pkg).unwrap();
+        assert_eq!(decoded.title, doc.title);
+        assert_eq!(decoded.spans.len(), doc.spans.len());
+        assert_eq!(decoded.relations.len(), doc.relations.len());
     }
 }

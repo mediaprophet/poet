@@ -99,7 +99,7 @@ impl fmt::Debug for Registry {
 ///
 /// Defines which containers are placed on the manifold when it is
 /// first opened, and which panels are docked where.
-#[derive(Clone, Debug, Default, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct ManifoldSeed {
     /// Unique manifold id — e.g. `social`, `settings`, `communications`.
     pub id: String,
@@ -190,7 +190,7 @@ impl ContainerKind {
 }
 
 /// A container placed by a manifold seed.
-#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct SeedContainer {
     /// Container type — e.g. `social`, `settings`, `pulse`.
     pub container_type: String,
@@ -256,7 +256,7 @@ impl Default for SeedContainer {
 }
 
 /// A connection (wire) between two containers on a manifold.
-#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct SeedConnection {
     /// Connection id.
     pub id: String,
@@ -276,7 +276,7 @@ fn default_wire_type() -> String {
 }
 
 /// A panel docked by a manifold seed.
-#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct SeedPanel {
     /// Panel type — e.g. `inspector`, `graph-panel`, `pulse-panel`.
     pub panel_type: String,

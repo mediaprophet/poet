@@ -5,6 +5,7 @@
 pub mod animation_export;
 pub mod animation_timeline;
 pub mod asset_library;
+pub mod audio_synth;
 pub mod automation_lanes;
 pub mod channel_strip;
 pub mod desk_persistence;
@@ -21,6 +22,7 @@ pub mod routing_matrix;
 pub mod scene_graph;
 pub mod scene_view;
 pub mod shadow_settings;
+pub mod spatial_10d;
 pub mod spatial_audio;
 pub mod tensor_inspector;
 pub mod transport;

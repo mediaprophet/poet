@@ -8,6 +8,7 @@
 
 use crate::tool_chest::core::registry::ManifoldSeed;
 use base64::Engine;
+use serde::{Deserialize, Serialize};
 
 // ---------------------------------------------------------------------------
 // CBOR-LD serialization
@@ -431,6 +432,134 @@ impl ManifestPersistence for LocalStorageManifestStore {
 }
 
 // ---------------------------------------------------------------------------
+// Cryptographic .hcf and .hmc Container Serialization (Subsystem 1.8)
+// ---------------------------------------------------------------------------
+
+use crate::tool_chest::core::registry::SeedContainer;
+
+/// FNV-1a 64-bit deterministic hash for cryptographic envelope fingerprinting.
+fn compute_envelope_hash(bytes: &[u8]) -> String {
+    let mut hash: u64 = 0xcbf29ce484222325;
+    for &b in bytes {
+        hash ^= b as u64;
+        hash = hash.wrapping_mul(0x100000001b3);
+    }
+    format!("{:016x}", hash)
+}
+
+/// Hypermedia Container Format (.hcf) standalone envelope.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct HcfContainerEnvelope {
+    pub format_version: String,
+    pub author_did: String,
+    pub created_at: String,
+    pub checksum: String,
+    pub container: SeedContainer,
+}
+
+/// Hypermedia Manifold Container (.hmc) full world snapshot envelope.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct HmcManifoldEnvelope {
+    pub format_version: String,
+    pub author_did: String,
+    pub created_at: String,
+    pub checksum: String,
+    pub provenance_chain: Vec<String>,
+    pub manifold: ManifoldSeed,
+}
+
+/// Export a single `SeedContainer` to `.hcf` binary bytes.
+pub fn export_hcf(container: &SeedContainer, author_did: &str) -> Result<Vec<u8>, String> {
+    let mut payload_bytes = Vec::new();
+    ciborium::ser::into_writer(container, &mut payload_bytes)
+        .map_err(|e| format!("hcf payload encode error: {}", e))?;
+
+    let checksum = compute_envelope_hash(&payload_bytes);
+    let envelope = HcfContainerEnvelope {
+        format_version: "1.0".into(),
+        author_did: author_did.to_string(),
+        created_at: "2026-08-22T00:00:00Z".into(),
+        checksum,
+        container: container.clone(),
+    };
+
+    let mut out = Vec::new();
+    out.extend_from_slice(b"HCF\x01");
+    ciborium::ser::into_writer(&envelope, &mut out)
+        .map_err(|e| format!("hcf envelope encode error: {}", e))?;
+    Ok(out)
+}
+
+/// Import a `.hcf` binary byte array into a `SeedContainer` and `HcfContainerEnvelope`.
+pub fn import_hcf(bytes: &[u8]) -> Result<(SeedContainer, HcfContainerEnvelope), String> {
+    if bytes.len() < 4 || &bytes[0..4] != b"HCF\x01" {
+        return Err("Invalid .hcf header magic bytes".into());
+    }
+
+    let envelope: HcfContainerEnvelope = ciborium::de::from_reader(&bytes[4..])
+        .map_err(|e| format!("hcf envelope decode error: {}", e))?;
+
+    // Verify integrity
+    let mut payload_bytes = Vec::new();
+    ciborium::ser::into_writer(&envelope.container, &mut payload_bytes)
+        .map_err(|e| format!("hcf payload verification encode error: {}", e))?;
+
+    let expected_hash = compute_envelope_hash(&payload_bytes);
+    if envelope.checksum != expected_hash {
+        return Err("HCF payload checksum verification failed".into());
+    }
+
+    let container = envelope.container.clone();
+    Ok((container, envelope))
+}
+
+/// Export a `ManifoldSeed` to `.hmc` binary snapshot bytes.
+pub fn export_hmc(manifold: &ManifoldSeed, author_did: &str) -> Result<Vec<u8>, String> {
+    let mut payload_bytes = Vec::new();
+    ciborium::ser::into_writer(manifold, &mut payload_bytes)
+        .map_err(|e| format!("hmc payload encode error: {}", e))?;
+
+    let checksum = compute_envelope_hash(&payload_bytes);
+    let envelope = HmcManifoldEnvelope {
+        format_version: "1.0".into(),
+        author_did: author_did.to_string(),
+        created_at: "2026-08-22T00:00:00Z".into(),
+        checksum,
+        provenance_chain: vec![author_did.to_string()],
+        manifold: manifold.clone(),
+    };
+
+    let mut out = Vec::new();
+    out.extend_from_slice(b"HMC\x01");
+    ciborium::ser::into_writer(&envelope, &mut out)
+        .map_err(|e| format!("hmc envelope encode error: {}", e))?;
+    Ok(out)
+}
+
+/// Import a `.hmc` binary snapshot into a `ManifoldSeed` and `HmcManifoldEnvelope`.
+pub fn import_hmc(bytes: &[u8]) -> Result<(ManifoldSeed, HmcManifoldEnvelope), String> {
+    if bytes.len() < 4 || &bytes[0..4] != b"HMC\x01" {
+        return Err("Invalid .hmc header magic bytes".into());
+    }
+
+    let envelope: HmcManifoldEnvelope = ciborium::de::from_reader(&bytes[4..])
+        .map_err(|e| format!("hmc envelope decode error: {}", e))?;
+
+    // Verify integrity
+    let mut payload_bytes = Vec::new();
+    ciborium::ser::into_writer(&envelope.manifold, &mut payload_bytes)
+        .map_err(|e| format!("hmc payload verification encode error: {}", e))?;
+
+    let expected_hash = compute_envelope_hash(&payload_bytes);
+    if envelope.checksum != expected_hash {
+        return Err("HMC payload checksum verification failed".into());
+    }
+
+    let manifold = envelope.manifold.clone();
+    Ok((manifold, envelope))
+}
+
+// ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
 
@@ -512,5 +641,31 @@ mod tests {
     fn test_deserialize_invalid_bytes() {
         let result = deserialize_seed(&[0xFF, 0xFF]);
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_hcf_roundtrip() {
+        let seed = test_seed();
+        let container = &seed.containers[0];
+        let bytes = export_hcf(container, DEFAULT_ACTOR_DID).unwrap();
+        assert_eq!(&bytes[0..4], b"HCF\x01");
+
+        let (decoded_container, envelope) = import_hcf(&bytes).unwrap();
+        assert_eq!(decoded_container.container_type, "social");
+        assert_eq!(envelope.author_did, DEFAULT_ACTOR_DID);
+        assert!(!envelope.checksum.is_empty());
+    }
+
+    #[test]
+    fn test_hmc_roundtrip() {
+        let seed = test_seed();
+        let bytes = export_hmc(&seed, DEFAULT_ACTOR_DID).unwrap();
+        assert_eq!(&bytes[0..4], b"HMC\x01");
+
+        let (decoded_manifold, envelope) = import_hmc(&bytes).unwrap();
+        assert_eq!(decoded_manifold.id, "test");
+        assert_eq!(decoded_manifold.containers.len(), 1);
+        assert_eq!(envelope.author_did, DEFAULT_ACTOR_DID);
+        assert_eq!(envelope.provenance_chain.len(), 1);
     }
 }

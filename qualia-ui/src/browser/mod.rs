@@ -29,6 +29,8 @@ pub mod docks;
 pub mod governance_views;
 pub mod health_views;
 pub mod history;
+pub mod hypermedia_bookmarks;
+pub mod ide;
 pub mod instrument_panel;
 pub mod intent_bus;
 pub mod interactions;

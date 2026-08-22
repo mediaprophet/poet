@@ -57,6 +57,7 @@ pub mod studio_views;
 pub mod theme;
 pub mod topbar;
 pub mod vibe_cell;
+pub mod vision_10d_scrubber;
 pub mod wire_inspector;
 pub mod workflow_panels;
 

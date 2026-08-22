@@ -62,6 +62,7 @@ pub mod vibe_cell;
 pub mod vision_10d_scrubber;
 pub mod wire_inspector;
 pub mod workflow_panels;
+pub mod workspace_pivot;
 
 use std::sync::atomic::{AtomicBool, Ordering};
 

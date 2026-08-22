@@ -7,3 +7,4 @@ pub mod conflict_of_interest;
 pub mod corrections;
 pub mod disputes;
 pub mod governance_meetings;
+pub mod sentinel_policy_studio;

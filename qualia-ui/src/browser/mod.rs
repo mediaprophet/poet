@@ -13,6 +13,7 @@
 
 pub mod agreement_views;
 pub mod capabilities;
+pub mod clipboard;
 pub mod cml_document;
 pub mod command_palette;
 pub mod container_inline_views;

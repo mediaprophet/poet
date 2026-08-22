@@ -29,6 +29,7 @@ pub mod device_views;
 pub mod diagnostics;
 pub mod docks;
 pub mod domain_presence;
+pub mod git_forge;
 pub mod governance_views;
 pub mod health_views;
 pub mod history;

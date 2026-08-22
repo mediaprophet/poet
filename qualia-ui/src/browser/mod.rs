@@ -55,6 +55,7 @@ pub mod search_workbench;
 pub mod shader_pipelines;
 pub mod solid_interop;
 pub mod studio_views;
+pub mod submanifold_nav;
 pub mod theme;
 pub mod topbar;
 pub mod vibe_cell;

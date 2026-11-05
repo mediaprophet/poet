@@ -12,7 +12,7 @@ use super::radial_menu::{RadialActionRing, RadialState};
 use super::stage::CanvasStage;
 use super::store::Workbench;
 use super::styles::HyperCanvasStyles;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 fn CatalogStudioBay() -> Element {

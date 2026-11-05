@@ -5,7 +5,7 @@
 //! `EtalonStatusBadge` Dioxus telemetry badge wired into `PoetGpuFrame`.
 
 use crate::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 use etalon_render::frame_quality::{
     classify_screen_metric, exposure_scale_from_ev, select_quality_profile,
     GraphicsCapabilitySnapshot, RenderQualityProfile, ScreenSpaceMetric,

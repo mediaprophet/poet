@@ -1,6 +1,6 @@
 //! UI-only selection from an inspected HMC inventory. No source is changed here.
 use super::{checkpoints::ResourceInspectionRequest,controller::EditorSnapshot,jobs::Context};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[derive(Clone,PartialEq,Eq)]
 pub(crate) struct TimelineResourceSelection {pub context:Context,pub request:ResourceInspectionRequest}

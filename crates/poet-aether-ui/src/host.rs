@@ -5,7 +5,7 @@
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 
 use super::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 /// Async sleep helper without external timer crates.
 pub async fn sleep_ms(ms: u32) {

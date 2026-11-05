@@ -2,7 +2,7 @@ mod projection;
 pub(super) use projection::{project, WorkbenchProjection};
 
 use super::package::hex_digest;
-use dioxus::prelude::*;
+use aether::prelude::*;
 use projection::DecisionRow;
 
 fn decision_row(row: &DecisionRow, historical: bool) -> Element {

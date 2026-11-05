@@ -4,7 +4,7 @@ use crate::graphical::{
     preview::SourceRef,
     surfaces::{uv, SurfaceDraft, TextureBindingDraft, TextureRole},
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 use qualia_core_db::container_10d::{MaterialRecord, OpacityMode, ShadingModel, TextureTransform};
 use vibe::Value;
 const FACTORS: [&str; 13] = [

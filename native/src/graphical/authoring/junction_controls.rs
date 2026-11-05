@@ -2,7 +2,7 @@
 use super::{AuthoringEdit, botanical::{BotanicalEdit, BotanicalLimits, BotanicalRecipe, JunctionSource}};
 use crate::graphical::controller::EditorSnapshot;
 use crate::graphical::preview::SourceRef;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 pub(super) fn JunctionControls(

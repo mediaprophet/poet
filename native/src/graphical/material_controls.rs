@@ -1,7 +1,7 @@
 //! Native inputs generate an inspectable Vibe draft; submit owns admission.
 use super::controller::EditorSnapshot;
 use super::materials::MaterialDraft;
-use dioxus::prelude::*;
+use aether::prelude::*;
 use qualia_core_db::container_10d::OpacityMode;
 
 const LABELS: [&str; 11] = [

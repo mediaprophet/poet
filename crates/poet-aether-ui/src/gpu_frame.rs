@@ -2,7 +2,7 @@
 
 use super::engine::{self, PoetRenderResult};
 use super::etalon_bridge::EtalonStatusBadge;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `PoetGpuFrame` component.

@@ -6,7 +6,7 @@
 use super::bodies::ShedToolboxRunner;
 use super::kinds::{ContainerKind, Epistemic, Strata};
 use super::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 /// Wire kinds that have real CSS lane colours in `css/canvas.css`.
 const WIRE_KINDS: &[&str] = &[

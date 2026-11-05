@@ -11,7 +11,7 @@ use super::bodies::{
 use super::kinds::{ContainerKind, ManifoldId};
 use super::store::Workbench;
 use super::vibe_console::VibeConsole;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 /// Live miniature SVG node-and-wire topological preview card with one-click manifold jump buttons.
 #[component]

@@ -175,7 +175,7 @@ impl WavDevice {
                 Err(mpsc::RecvTimeoutError::Timeout)=>{
                     if active.as_ref().is_some_and(|a|a.cancelled.load(Ordering::Acquire)||a.view_closed.load(Ordering::Acquire)||!current(&a.context)) {
                         thread_status.store(INVALID,Ordering::Release);
-                        drop(active.take());
+                        active=None;
                         break;
                     }
                     continue
@@ -195,7 +195,7 @@ impl WavDevice {
                     if active.as_ref().is_some_and(|a|!a.cancelled.load(Ordering::Acquire) && thread_status.load(Ordering::Acquire)==PLAYING) {thread_clock.resume();}
                     let _=reply.send(result);
                 },
-                Command::Stop{reply}=>{thread_clock.clear();drop(active.take());thread_status.store(IDLE,Ordering::Release);let _=reply.send(Ok(()));break;},
+                Command::Stop{reply}=>{thread_clock.clear();active=None;thread_status.store(IDLE,Ordering::Release);let _=reply.send(Ok(()));break;},
                 Command::Shutdown=>break,
             }}
         });

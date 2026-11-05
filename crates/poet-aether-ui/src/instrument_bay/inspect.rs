@@ -1,7 +1,7 @@
 //! Studio full-context inspector (SI-10). Inspect before network fetch.
 //! Artwork is a handle, not proof. No Host IDs.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 pub const INSPECT_BEFORE_FETCH: &str = "inspect before network fetch";
 const HELD_OPEN: &str = "held / not yet — open a pack or seed demos";

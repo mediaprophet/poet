@@ -1,7 +1,7 @@
 //! Hypermedia bookmarks body — Meaning Shelf & autonomous VibeMark probes.
 
 use crate::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const HARVEST_BOOKMARKS: &str = r#"requires [ capability("capability.invoke") ];
 effect fn list_bookmarks() {

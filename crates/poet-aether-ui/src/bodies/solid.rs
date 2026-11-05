@@ -1,6 +1,6 @@
 //! Solid body — W3C Solid Pod LDP explorer & zero-lock-in migration wizard.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `SolidBody` component.

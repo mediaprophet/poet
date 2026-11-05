@@ -2,7 +2,7 @@
 //! Dispatch is typed; the parent controller still owns actor, revision and source.
 use super::{BotanicalEdit, BotanicalLimits, BotanicalRecipe};
 use crate::graphical::{controller::EditorSnapshot, preview::SourceRef};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const MAX_ADOPTION_JSON_BYTES: usize = 64 * 1024;
 

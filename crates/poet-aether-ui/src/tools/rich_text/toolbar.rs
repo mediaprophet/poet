@@ -2,7 +2,7 @@
 
 use super::spec::{RichCommand, ToolbarSpec};
 use crate::engine::{self, PoetGazetteerResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `RichTextTool` component.

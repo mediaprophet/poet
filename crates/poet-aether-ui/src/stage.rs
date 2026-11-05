@@ -4,7 +4,7 @@ use super::containers::NodeBody;
 use super::kinds::CanvasNode;
 use super::store::Workbench;
 use super::xyzd_gizmo::XyzdGizmo;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[derive(Clone, Debug)]
 enum Gesture {
@@ -67,7 +67,7 @@ pub fn CanvasStage(wb: Signal<Workbench>) -> Element {
             id: "canvas-viewport",
             onmousedown: move |e| {
                 if e.data().trigger_button()
-                    != Some(dioxus::html::input_data::MouseButton::Primary)
+                    != Some(aether::html::input_data::MouseButton::Primary)
                 {
                     return;
                 }
@@ -106,9 +106,9 @@ pub fn CanvasStage(wb: Signal<Workbench>) -> Element {
             onmouseleave: move |_| gesture.set(Gesture::Idle),
             onwheel: move |e| {
                 let delta = match e.data().delta() {
-                    dioxus::html::geometry::WheelDelta::Pixels(p) => p.y,
-                    dioxus::html::geometry::WheelDelta::Lines(l) => l.y * 80.0,
-                    dioxus::html::geometry::WheelDelta::Pages(p) => p.y * 400.0,
+                    aether::html::geometry::WheelDelta::Pixels(p) => p.y,
+                    aether::html::geometry::WheelDelta::Lines(l) => l.y * 80.0,
+                    aether::html::geometry::WheelDelta::Pages(p) => p.y * 400.0,
                 };
                 let mut s = wb();
                 let factor = if delta > 0.0 { 0.9 } else { 1.1 };

@@ -5,7 +5,7 @@ use crate::graphical::{
     package::hex_digest,
     package_workflow::{PackageSelection, PackageWorkflowAction, PackageWorkflowView},
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 use qualia_cooperative_core::authoring::{ReviewDecision, WorkStatus};
 
 #[derive(Clone)]

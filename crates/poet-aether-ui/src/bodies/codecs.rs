@@ -1,7 +1,7 @@
 //! Media codecs body — Multi-domain media codecs matrix & 3-tier sandboxing.
 
 use crate::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const CODEC_MATRIX: &str = r#"requires [ capability("capability.invoke") ];
 effect fn list_codecs() {

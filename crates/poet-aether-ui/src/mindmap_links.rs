@@ -6,7 +6,7 @@
 use super::kinds::{ContainerKind, ManifoldId, ToolboxId};
 use super::store::Workbench;
 use crate::engine;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const LABEL: &str = "font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;";
 const INPUT: &str = "width:100%;background:#131822;border:1px solid #1a2230;color:#e8eef7;border-radius:4px;padding:4px 6px;font-size:11px;box-sizing:border-box;";

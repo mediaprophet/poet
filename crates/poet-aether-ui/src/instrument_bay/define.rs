@@ -6,7 +6,7 @@
 //! Follows `AGENTS.md` §0-B (< 430 lines).
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const LBL: &str = "font-size:0.67rem;color:var(--text-muted,#94a3b8);text-transform:uppercase;font-weight:600;display:block;margin-bottom:2px;";
 const INP: &str = "width:100%;background:#111622;border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;border-radius:4px;padding:3px 6px;font-size:0.71rem;box-sizing:border-box;";

@@ -7,7 +7,7 @@ use super::engine;
 use super::inspector::InspectorPanel;
 use super::kinds::{CanvasNode, Wire};
 use super::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 /// Audience Persona level from `a11y-manager.js`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

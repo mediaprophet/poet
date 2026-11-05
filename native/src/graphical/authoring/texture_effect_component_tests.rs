@@ -1,7 +1,7 @@
 //! Programmatic interaction of the real native authoring component.
 //! This exercises Aether's mounted event path, not native layout/human acceptance.
 use super::*;
-use dioxus::core::{AttributeValue, ElementId, Mutation, Mutations};
+use aether::core::{AttributeValue, ElementId, Mutation, Mutations};
 use std::{any::Any, cell::RefCell, collections::HashMap, rc::Rc};
 
 // A retained mutation sink only: it knows no texture form state or recipe logic.
@@ -268,20 +268,20 @@ fn texture_effect_component_accepted() -> PaintRecipe {
 #[derive(Clone)]
 struct ComponentFormValue(String);
 
-impl dioxus::html::HasFileData for ComponentFormValue {
-    fn files(&self) -> Vec<dioxus::html::FileData> {
+impl aether::html::HasFileData for ComponentFormValue {
+    fn files(&self) -> Vec<aether::html::FileData> {
         vec![]
     }
 }
 
-impl dioxus::html::HasFormData for ComponentFormValue {
+impl aether::html::HasFormData for ComponentFormValue {
     fn value(&self) -> String {
         self.0.clone()
     }
     fn valid(&self) -> bool {
         true
     }
-    fn values(&self) -> Vec<(String, dioxus::html::FormValue)> {
+    fn values(&self) -> Vec<(String, aether::html::FormValue)> {
         vec![]
     }
     fn as_any(&self) -> &dyn Any {
@@ -293,40 +293,40 @@ impl dioxus::html::HasFormData for ComponentFormValue {
 // the concrete mouse contract expected by Aether's HTML event converter.
 struct ComponentMouse;
 
-impl dioxus::html::InteractionLocation for ComponentMouse {
-    fn client_coordinates(&self) -> dioxus::html::geometry::ClientPoint {
-        dioxus::html::geometry::ClientPoint::new(0.0, 0.0)
+impl aether::html::InteractionLocation for ComponentMouse {
+    fn client_coordinates(&self) -> aether::html::geometry::ClientPoint {
+        aether::html::geometry::ClientPoint::new(0.0, 0.0)
     }
-    fn page_coordinates(&self) -> dioxus::html::geometry::PagePoint {
-        dioxus::html::geometry::PagePoint::new(0.0, 0.0)
+    fn page_coordinates(&self) -> aether::html::geometry::PagePoint {
+        aether::html::geometry::PagePoint::new(0.0, 0.0)
     }
-    fn screen_coordinates(&self) -> dioxus::html::geometry::ScreenPoint {
-        dioxus::html::geometry::ScreenPoint::new(0.0, 0.0)
-    }
-}
-
-impl dioxus::html::InteractionElementOffset for ComponentMouse {
-    fn element_coordinates(&self) -> dioxus::html::geometry::ElementPoint {
-        dioxus::html::geometry::ElementPoint::new(0.0, 0.0)
+    fn screen_coordinates(&self) -> aether::html::geometry::ScreenPoint {
+        aether::html::geometry::ScreenPoint::new(0.0, 0.0)
     }
 }
 
-impl dioxus::html::ModifiersInteraction for ComponentMouse {
-    fn modifiers(&self) -> dioxus::html::Modifiers {
-        dioxus::html::Modifiers::empty()
+impl aether::html::InteractionElementOffset for ComponentMouse {
+    fn element_coordinates(&self) -> aether::html::geometry::ElementPoint {
+        aether::html::geometry::ElementPoint::new(0.0, 0.0)
     }
 }
 
-impl dioxus::html::PointerInteraction for ComponentMouse {
-    fn trigger_button(&self) -> Option<dioxus::html::input_data::MouseButton> {
-        Some(dioxus::html::input_data::MouseButton::Primary)
-    }
-    fn held_buttons(&self) -> dioxus::html::input_data::MouseButtonSet {
-        dioxus::html::input_data::MouseButtonSet::empty()
+impl aether::html::ModifiersInteraction for ComponentMouse {
+    fn modifiers(&self) -> aether::html::Modifiers {
+        aether::html::Modifiers::empty()
     }
 }
 
-impl dioxus::html::HasMouseData for ComponentMouse {
+impl aether::html::PointerInteraction for ComponentMouse {
+    fn trigger_button(&self) -> Option<aether::html::input_data::MouseButton> {
+        Some(aether::html::input_data::MouseButton::Primary)
+    }
+    fn held_buttons(&self) -> aether::html::input_data::MouseButtonSet {
+        aether::html::input_data::MouseButtonSet::empty()
+    }
+}
+
+impl aether::html::HasMouseData for ComponentMouse {
     fn as_any(&self) -> &dyn Any {
         self
     }
@@ -343,16 +343,16 @@ macro_rules! component_event_converter {
           $(#[raw = [$($raw:tt)*]])?
           $group:ident($data:ident),)*
     }) => {
-        impl dioxus::html::HtmlEventConverter for ComponentEventConverter {
-            $(fn $convert(&self, event: &PlatformEventData) -> dioxus::html::$data {
-                event.downcast::<RefCell<Option<dioxus::html::$data>>>()
+        impl aether::html::HtmlEventConverter for ComponentEventConverter {
+            $(fn $convert(&self, event: &PlatformEventData) -> aether::html::$data {
+                event.downcast::<RefCell<Option<aether::html::$data>>>()
                     .expect("matching concrete native event payload")
                     .borrow_mut().take().expect("single targeted handler")
             })*
         }
     };
 }
-dioxus::html::with_html_event_groups!(component_event_converter);
+aether::html::with_html_event_groups!(component_event_converter);
 
 struct ComponentHarness {
     dom: VirtualDom,
@@ -406,7 +406,7 @@ impl ComponentHarness {
         self.dispatch(
             "change",
             target,
-            dioxus::html::FormData::new(ComponentFormValue(value.into())),
+            aether::html::FormData::new(ComponentFormValue(value.into())),
         );
     }
 
@@ -416,7 +416,7 @@ impl ComponentHarness {
         self.dispatch(
             "input",
             target,
-            dioxus::html::FormData::new(ComponentFormValue(value.into())),
+            aether::html::FormData::new(ComponentFormValue(value.into())),
         );
     }
 
@@ -434,7 +434,7 @@ impl ComponentHarness {
         self.dispatch(
             "click",
             target,
-            dioxus::html::MouseData::new(ComponentMouse),
+            aether::html::MouseData::new(ComponentMouse),
         );
     }
 

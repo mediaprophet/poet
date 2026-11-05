@@ -1,7 +1,7 @@
 //! Shaders body — WGSL Forge shader pipelines & WebGPU compute acceleration.
 
 use crate::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const SHADER_LIST: &str = r#"requires [ capability("capability.invoke") ];
 effect fn list_shaders() {

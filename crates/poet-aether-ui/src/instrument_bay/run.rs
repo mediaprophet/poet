@@ -1,7 +1,7 @@
 //! Studio run panel (SI-10): progress, cancel, permission denial.
 //! Shape-derived input uses si:inputShape. No Host IDs.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 pub const PERMISSION_DENIED: &str =
     "held / not yet — permission denial is usable; grant was refused";

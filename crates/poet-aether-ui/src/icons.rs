@@ -3,7 +3,7 @@
 //! Provides the `IconBadge` Dioxus component, mapping semantic icon identifiers
 //! to Webizen Icons (`.wi`) PUA glyphs with automated fallback rendering.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 /// 60-bit FNV-1a hash matching QualiaDB q_hash.
 pub const fn q_hash(s: &str) -> u64 {

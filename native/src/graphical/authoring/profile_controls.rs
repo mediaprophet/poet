@@ -1,6 +1,6 @@
 //! Native metric profile controls submit the same revision-bound geometry edits.
 use super::{AuthoringEdit, AuthoringView, GeometryRecipe, ProfileRecipe};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 pub(super) fn recipe(kind: &str, dimensions: [&str; 6], points: &str, caps: bool) -> Result<GeometryRecipe, String> {
     let [width,height,radius,wall,segments,length] = dimensions;

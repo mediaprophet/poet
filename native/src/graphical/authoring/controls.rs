@@ -5,7 +5,7 @@ use crate::graphical::{
     jobs::{self, Action, Context, HostHandle},
     preview::SourceRef,
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 fn fields(values: &[f64]) -> Vec<String> {
     values.iter().map(|v| v.to_string()).collect()

@@ -4,7 +4,7 @@ use crate::graphical::surfaces::detail::{
     MaskMorphologyOperation,
     PaintLayer, PaintRecipe, PaintStroke, ProceduralRecipe, TextureEffect, TextureEffectStep,
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const STROKE_FIELDS: [&str; 5] = [
     "Diameter in pixels",

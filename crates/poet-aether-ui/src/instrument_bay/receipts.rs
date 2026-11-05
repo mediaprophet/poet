@@ -2,7 +2,7 @@
 //!
 //! Rows stay readable after revoke. Dispatch is by entry point, never a Host ID.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct ReceiptRow {

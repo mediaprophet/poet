@@ -1,6 +1,6 @@
 //! Native surface-of-revolution controls over the shared authoring command path.
 use super::{AuthoringEdit, AuthoringView, GeometryRecipe};
-use dioxus::prelude::*;
+use aether::prelude::*;
 pub(super) fn recipe(points: &str, segments: &str) -> Result<GeometryRecipe, String> {
     if points.len() > 16384 {
         return Err("Radius-height input exceeds the 16384-byte operator bound".into());

@@ -2,7 +2,7 @@
 
 use super::engine::{self, PoetEvalResult};
 use super::lexicon_bay::LexiconBay;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const SAMPLE_CELL: &str = "= math.max(0, math.min(100, 42))";
 const SAMPLE_QUERY: &str = r#"requires [ capability("graph.read") ];

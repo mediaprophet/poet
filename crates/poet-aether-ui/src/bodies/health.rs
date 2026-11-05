@@ -2,7 +2,7 @@
 
 use crate::engine::{self, PoetEvalResult};
 use crate::gpu_frame::PoetGpuFrame;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const RISK: &str = r#"requires [ capability("capability.invoke") ];
 effect fn risk() {

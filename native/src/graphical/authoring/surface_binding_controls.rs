@@ -1,6 +1,6 @@
 //! Explicit texture snapshot binding; package names are native-host selected paths.
 use crate::graphical::surface_host::SurfacePackageRequest;
-use dioxus::prelude::*;
+use aether::prelude::*;
 #[component]
 pub(super) fn SurfaceBindingControls(
     busy: Signal<bool>,

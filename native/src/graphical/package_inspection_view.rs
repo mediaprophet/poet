@@ -1,6 +1,6 @@
 //! Derived typed presentation; canonical bytes/state/authority stay in the owner.
 use super::super::{checkpoints::ResourceInspection, package::hex_digest};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 pub(super) fn M64InspectionView(view: ResourceInspection) -> Element {

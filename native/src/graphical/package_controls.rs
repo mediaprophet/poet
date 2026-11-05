@@ -5,7 +5,7 @@ use super::{
     jobs::{self, Action, Context, HostHandle},
     package::{hex_digest, ImportRequest},
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 #[path = "package_inspection_view.rs"]
 mod inspection_view;
 use inspection_view::M64InspectionView;

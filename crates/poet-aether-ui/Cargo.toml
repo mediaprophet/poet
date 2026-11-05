@@ -7,7 +7,7 @@ license = "CC-BY-NC-ND-4.0"
 description = "Poet HyperCanvas — Standalone Aether UI Workbench (Desktop & WASM)"
 
 [dependencies]
-dioxus = { workspace = true }
+aether = { workspace = true, features = ["macro", "html", "signals", "hooks", "mounted", "document"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 vibe = { workspace = true }
@@ -17,7 +17,7 @@ etalon-wgsl-forge = { workspace = true }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 qualia-core-db = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", default-features = false, features = ["profile_target_1024", "zk-culling", "gpu-runtime", "gpu-native-portable", "gpu-native-dx12", "wgsl-forge", "privacy-he", "sanctuary-crypto"], optional = true }
 webizen-render = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", optional = true }
-dioxus-native = { workspace = true, optional = true }
+aether-native = { workspace = true, optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = { workspace = true }
@@ -37,5 +37,8 @@ web-sys = { workspace = true, features = [
 
 [features]
 default = []
+desktop = ["aether/desktop"]
+web = ["aether/web"]
+native = ["aether/native"]
 native-engine = ["dep:qualia-core-db", "dep:webizen-render", "etalon-render/gpu", "etalon-wgsl-forge/naga-validate"]
-desktop-native = ["dep:dioxus-native"]
+desktop-native = ["dep:aether-native"]

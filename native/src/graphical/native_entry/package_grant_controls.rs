@@ -1,6 +1,6 @@
 //! Package grants are explicit intents; only the native steward signer can admit them.
 use super::{types::*, worker::LaunchHandle};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 pub(super) fn PackageGrantControls(

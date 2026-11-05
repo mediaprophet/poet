@@ -6,7 +6,7 @@ use super::engine::{self, DaemonProbe};
 use super::host;
 use super::kinds::{DimMode, Epistemic, ManifoldId, Strata};
 use super::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `TopMenubar` component.

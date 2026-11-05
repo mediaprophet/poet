@@ -19,10 +19,10 @@ pub fn run(args: &[String]) -> Result<(), String> {
         return Ok(());
     }
     let (worker, handle, initial) = worker::LaunchWorker::start(runtime)?;
-    let attributes = dioxus_native::WindowAttributes::default()
+    let attributes = aether_native::WindowAttributes::default()
         .with_title("Poet · Cooperative Project")
-        .with_surface_size(dioxus_native::LogicalSize::new(1500, 1000));
-    dioxus_native::launch_cfg_with_props(
+        .with_surface_size(aether_native::LogicalSize::new(1500, 1000));
+    aether_native::launch_cfg_with_props(
         ui::NativeProjectShell,
         ui::NativeProjectShellProps { handle, initial },
         Vec::new(),

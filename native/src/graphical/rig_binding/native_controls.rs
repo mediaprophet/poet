@@ -1,7 +1,7 @@
 //! Narrow human controls for the selected source-bound rig.
 //! The caller stages actions through the existing authorized native edit route.
 use super::{RigControl, RigSourceDescriptor};
-use dioxus::prelude::*;
+use aether::prelude::*;
 use qualia_core_db::render::skeletal::Motor;
 
 #[component]

@@ -3,7 +3,7 @@
 use super::{BotanicalEdit, BotanicalLimits, BotanicalRecipe, Organ};
 use crate::graphical::controller::EditorSnapshot;
 use crate::graphical::preview::SourceRef;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const MAX_KEY_BYTES: usize = 128;
 const MAX_NUMBER_BYTES: usize = 64;

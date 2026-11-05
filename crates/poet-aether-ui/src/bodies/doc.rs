@@ -1,7 +1,7 @@
 use crate::engine::{self, PoetEvalResult};
 use crate::tools::cml::AuraTray;
 use crate::tools::rich_text::RichTextTool;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const DOC_LAYOUT: &str = r#"requires [ capability("capability.invoke") ];
 effect fn layout_doc() {

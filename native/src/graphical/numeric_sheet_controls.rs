@@ -1,6 +1,6 @@
 //! Typed controls for an existing source-owned numeric grid.
 use super::{controller::EditorSnapshot, jobs::{self, Action, Context, HostHandle}, numeric_sheet::{SheetEdit, SheetView}};
-use dioxus::prelude::*;
+use aether::prelude::*;
 use vibe::Value;
 
 fn display(value: &Value) -> String {

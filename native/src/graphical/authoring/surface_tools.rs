@@ -5,7 +5,7 @@ use crate::graphical::{
     jobs::{self, Action, Context, HostHandle},
     surfaces::inspection::SurfaceInspection,
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 #[derive(Default)]
 pub(crate) struct DraftCursor {
     last: Option<(Context, String)>,

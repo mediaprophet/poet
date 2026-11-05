@@ -1,7 +1,7 @@
 //! Git body — In-process Git forge, P2P remotes & DID-signed commits.
 
 use crate::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const GIT_STATUS: &str = r#"requires [ capability("capability.invoke") ];
 effect fn git_status() {

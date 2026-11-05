@@ -8,7 +8,7 @@
 
 use super::kinds::DimMode;
 use super::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const RAD: f64 = std::f64::consts::PI / 180.0;
 const AXIS_RADIUS: f64 = 36.0;
@@ -296,9 +296,9 @@ pub fn XyzdGizmo(wb: Signal<Workbench>) -> Element {
                     onwheel: move |e| {
                         e.stop_propagation();
                         let raw_dy = match e.data().delta() {
-                            dioxus::html::geometry::WheelDelta::Pixels(p) => p.y,
-                            dioxus::html::geometry::WheelDelta::Lines(l) => l.y * 40.0,
-                            dioxus::html::geometry::WheelDelta::Pages(p) => p.y * 200.0,
+                            aether::html::geometry::WheelDelta::Pixels(p) => p.y,
+                            aether::html::geometry::WheelDelta::Lines(l) => l.y * 40.0,
+                            aether::html::geometry::WheelDelta::Pages(p) => p.y * 200.0,
                         };
                         let step = if raw_dy > 0.0 { -5.0 } else { 5.0 };
                         let mut s = wb();

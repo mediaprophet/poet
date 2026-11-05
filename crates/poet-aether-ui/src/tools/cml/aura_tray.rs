@@ -8,7 +8,7 @@
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 
 use crate::host;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `AuraTray` component.

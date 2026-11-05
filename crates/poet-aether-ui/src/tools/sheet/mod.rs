@@ -1,6 +1,6 @@
 //! Spreadsheet / tensor toolbar. Formula bar lives here; grid body stays in `bodies/`.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `SheetToolbar` component.

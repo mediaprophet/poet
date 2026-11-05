@@ -1,6 +1,6 @@
 //! Explicit typed authoring intents; all authority, validation and execution remain host-owned.
 use super::{AuthoringEdit, AuthoringView, GeometryRecipe};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 fn recipe(kind: &str, radius: &str, extra: &str, first: &str, second: &str, caps: bool) -> Result<GeometryRecipe, String> {
     let dimension = |s: &str| s.parse::<f64>().map_err(|_| "Enter numeric geometry dimensions".to_string());

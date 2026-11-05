@@ -6,7 +6,7 @@
 
 use super::chrome::NativeDaemonChip;
 use super::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 use crate::lexicon_catalog::{
     catalog_filter_chips as filter_chips, chips_for_framing as framing_chips, framing_copy,
     held_outcome, interpret_invoke, recipe_beat, FramingChip as Chip, ManifestOutcome, PackCard,

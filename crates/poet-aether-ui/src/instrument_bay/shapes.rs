@@ -4,7 +4,7 @@
 //! `recognise` constraints; `Host.*` is empty. Not a visual SHACL canvas.
 
 use super::select::{filter_constraints, rail_for_flow_label, Rail};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 /// One property constraint on an instrument entry-point shape.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

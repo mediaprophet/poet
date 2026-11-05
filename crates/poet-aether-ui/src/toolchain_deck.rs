@@ -5,7 +5,7 @@
 use super::engine;
 use super::kinds::{ContainerKind, DimMode};
 use super::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 /// Presentation mode for the Global Manifold Deck.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

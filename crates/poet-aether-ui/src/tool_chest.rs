@@ -1,7 +1,7 @@
 //! Tool chest: the dock. Toolboxes are drawers. Tools place containers.
 
 use super::kinds::{ContainerInstance, ManifoldId, ToolSpec, ToolboxId};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `ToolChest` component.

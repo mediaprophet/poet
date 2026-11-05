@@ -2,7 +2,7 @@
 
 use crate::engine::{self, PoetEvalResult};
 use crate::tools::sheet::SheetToolbar;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const SUM: &str = r#"requires [ capability("capability.invoke") ];
 effect fn sum() {

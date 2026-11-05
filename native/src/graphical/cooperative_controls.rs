@@ -5,7 +5,7 @@ use super::{
     jobs::{self, Action, Context, HostHandle},
     package::hex_digest,
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 use qualia_cooperative_core::authoring::{
     HumanAuthorityStatus, PrincipalKind, ReviewDecision, WorkStatus,
 };

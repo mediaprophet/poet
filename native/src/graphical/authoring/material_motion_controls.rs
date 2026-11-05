@@ -7,7 +7,7 @@ use super::material_motion::{
 };
 use super::{AuthoringEdit, AuthoringView, PartView};
 use crate::graphical::preview::SourceRef;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const FACTORS: [&str; 6] = [
     "Linear red",

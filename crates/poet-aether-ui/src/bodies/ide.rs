@@ -2,7 +2,7 @@
 
 use crate::engine::{self, PoetEvalResult};
 use crate::lexicon_bay::LexiconBay;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const VIBE_REPL: &str = r#"requires [ capability("capability.invoke") ];
 effect fn repl_demo() {

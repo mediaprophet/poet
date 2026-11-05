@@ -1,7 +1,7 @@
 //! Cooperative economics body — SDN permissive lanes & true-cost personal modeler.
 
 use crate::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const ECON_RATE: &str = r#"requires [ capability("capability.invoke") ];
 effect fn peer_rate() {

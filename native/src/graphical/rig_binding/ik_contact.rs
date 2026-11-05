@@ -372,7 +372,7 @@ mod tests {
             Err(IkContactError::InvalidLimbLength)
         );
 
-        let spec_ok = sample_spec();
+        let mut spec_ok = sample_spec();
         let mut target_bad_norm = target;
         target_bad_norm.terrain_normal = [0.0, 0.0, 0.0];
         assert_eq!(

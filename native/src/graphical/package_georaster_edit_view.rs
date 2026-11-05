@@ -4,7 +4,7 @@ use crate::graphical::{
     controller::EditorSnapshot,
     jobs::{self, Action, Context, HostHandle},
 };
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 pub(super) fn GeoRasterEditView(

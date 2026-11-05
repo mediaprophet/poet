@@ -4,7 +4,7 @@
 
 use super::kinds::{ContainerKind, DockPos, ToolSpec, ToolboxId};
 use super::store::Workbench;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `ToolChest` component.

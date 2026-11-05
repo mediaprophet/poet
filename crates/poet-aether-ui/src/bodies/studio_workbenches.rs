@@ -2,7 +2,7 @@
 //!
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const LABEL_STYLE: &str = "font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:2px;";
 const SELECT_STYLE: &str = "width:100%;background:#141a23;color:#e8eef7;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:4px 6px;font-size:11px;";

@@ -1,7 +1,7 @@
 //! Job center body — Background task queue & telemetry HUD via `Job.list`.
 
 use crate::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const JOB_LIST_SRC: &str = r#"requires [ capability("capability.invoke") ];
 effect fn list_jobs() {

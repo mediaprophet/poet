@@ -1,6 +1,6 @@
 //! HyperCanvas tokens — copied from `C:\Projects\NLP\Canvas_Workbench\styles`.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const THEME: &str = include_str!("css/theme.css");
 const LAYOUT: &str = include_str!("css/layout.css");

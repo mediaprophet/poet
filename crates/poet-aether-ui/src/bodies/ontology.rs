@@ -1,7 +1,7 @@
 //! Aura / SHACL catalog body.
 
 use crate::engine::{self, PoetEvalResult};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const EXT: &str = r#"requires [ capability("capability.invoke") ];
 effect fn ext() {

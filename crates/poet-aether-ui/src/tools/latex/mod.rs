@@ -1,6 +1,6 @@
 //! LaTeX / CAS toolbar. Wraps SymbolicAlgebra; does not embed a third-party editor.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `LatexToolbar` component.

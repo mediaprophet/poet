@@ -59,10 +59,10 @@ use controller::EditorHost;
 pub fn launch(host: Box<dyn EditorHost>, initial_draft: String) -> Result<(), String> {
     let initial = host.snapshot()?;
     let (worker, host) = jobs::Worker::start(host)?;
-    let attributes = dioxus_native::WindowAttributes::default()
+    let attributes = aether_native::WindowAttributes::default()
         .with_title("Poet · Studio")
-        .with_surface_size(dioxus_native::LogicalSize::new(1440, 900));
-    dioxus_native::launch_cfg_with_props(
+        .with_surface_size(aether_native::LogicalSize::new(1440, 900));
+    aether_native::launch_cfg_with_props(
         ui::NativeStudio,
         ui::NativeStudioProps {
             host,
@@ -78,10 +78,10 @@ pub fn launch(host: Box<dyn EditorHost>, initial_draft: String) -> Result<(), St
 }
 
 pub fn launch_workbench() -> Result<(), String> {
-    let attributes = dioxus_native::WindowAttributes::default()
+    let attributes = aether_native::WindowAttributes::default()
         .with_title("Poet · HyperCanvas Workbench")
-        .with_surface_size(dioxus_native::LogicalSize::new(1600, 960));
-    dioxus_native::launch_cfg(
+        .with_surface_size(aether_native::LogicalSize::new(1600, 960));
+    aether_native::launch_cfg(
         poet_aether_ui::PoetWorkbench,
         Vec::new(),
         vec![Box::new(attributes)],

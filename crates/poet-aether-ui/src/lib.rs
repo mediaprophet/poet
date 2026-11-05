@@ -2,7 +2,7 @@
 //!
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 mod bodies;
 mod chest;

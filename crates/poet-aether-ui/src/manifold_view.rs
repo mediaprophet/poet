@@ -3,7 +3,7 @@
 use super::containers::ContainerCard;
 use super::gpu_frame::PoetGpuFrame;
 use super::kinds::{ContainerInstance, ManifoldId};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 #[component]
 /// Dioxus `ManifoldView` component.

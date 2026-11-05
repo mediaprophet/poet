@@ -1,7 +1,7 @@
 //! Studio library lifecycle: update / suspend / remove (SI-10).
 //! Receipts remain after remove. No Host IDs.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 pub const HELD_SUSPEND_UPDATE: &str = "held / not yet — suspended or removed pack cannot update";
 pub const HELD_REMOVED_RUN: &str = "held / not yet — removed pack cannot start a new run";

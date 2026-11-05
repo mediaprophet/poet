@@ -1,6 +1,6 @@
 //! Explicit seam/density editing; display data comes from the native worker.
 use crate::graphical::surfaces::{inspection::SurfaceInspection, uv_atlas::AtlasDraft};
-use dioxus::prelude::*;
+use aether::prelude::*;
 #[component]
 pub(super) fn UvAtlasControls(
     atlas: Option<AtlasDraft>,

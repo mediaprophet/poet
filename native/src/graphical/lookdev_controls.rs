@@ -1,6 +1,6 @@
 //! Native view-only lighting controls for source look development.
 use super::viewport::{ViewLighting, ViewportCommand};
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 fn bounded(text: &str, label: &str, min: f32, max: f32) -> Result<f32, String> {
     let value = text

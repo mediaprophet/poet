@@ -1,7 +1,7 @@
 //! Studio dependency election (SI-10). Unresolved required deps stay held.
 //! Host.* names are refused. Studio does not depend on poet.
 
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 const HELD_UNRESOLVED: &str = "held / not yet — unresolved required dependency";
 const CLOSED: &str = "dependencies closed";

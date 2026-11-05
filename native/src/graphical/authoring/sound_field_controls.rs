@@ -1,7 +1,7 @@
 //! Native controls issue the same checked source operations as Vibe edits.
 use super::{sound_field::SoundFieldEdit, AuthoringEdit, AuthoringView};
 use crate::graphical::preview::SourceRef;
-use dioxus::prelude::*;
+use aether::prelude::*;
 
 fn position(text: &str) -> Result<[f64; 3], String> {
     if text.len() > 256 {

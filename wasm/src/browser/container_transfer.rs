@@ -8,6 +8,7 @@ use web_sys::{Document, Element, Event, HtmlInputElement, HtmlSelectElement};
 
 use crate::tool_chest::core::registry::{ManifoldSeed, SeedConnection};
 
+/// Opens transfer-dialog.
 pub fn open_transfer_dialog(document: &Document, copy: bool) {
     let return_focus = document.active_element();
     let selected = selected_container_ids(document);
@@ -391,6 +392,7 @@ mod tests {
                 to: 1,
                 wire_type: "active".into(),
                 label: "p".into(),
+                ..Default::default()
             },
             SeedConnection {
                 id: "external".into(),
@@ -398,6 +400,7 @@ mod tests {
                 to: 2,
                 wire_type: "active".into(),
                 label: "q".into(),
+                ..Default::default()
             },
         ];
         let mut target = ManifoldSeed {

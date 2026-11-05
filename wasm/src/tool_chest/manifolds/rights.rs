@@ -6,6 +6,7 @@ use super::super::core::registry::{
     DockPosition, ManifoldSeed, SeedConnection, SeedContainer, SeedPanel,
 };
 
+/// `rights` manifold seed.
 pub fn rights_manifold_seed() -> ManifoldSeed {
     ManifoldSeed {
         id: "rights".into(),
@@ -51,6 +52,8 @@ pub fn rights_manifold_seed() -> ManifoldSeed {
         ],
         connections: vec![
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-rw1".into(),
                 from: 0,
                 to: 1,
@@ -58,6 +61,8 @@ pub fn rights_manifold_seed() -> ManifoldSeed {
                 label: "rights:hasWallet".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-rw2".into(),
                 from: 0,
                 to: 2,

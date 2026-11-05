@@ -31,5 +31,13 @@ pub use tool_chest::core::{
 /// Thin vibe-host-0.1 facade — prefer these over reaching into `vibe` AST/Host.
 pub use vibe_host::{
     capability_invoke, check_cell, check_program, diagnose, diagnose_json, host_version,
-    language_version, parse_cell, parse_program, CRATE_STAMP, HOST_VERSION, LANGUAGE_VERSION,
+    language_version, packaged_vibe_script, packaged_vibe_scripts, parse_cell, parse_program,
+    PackagedVibeScript, CRATE_STAMP, HOST_VERSION, LANGUAGE_VERSION, PACKAGED_VIBE_SCRIPTS,
+};
+
+/// Canonical POET Authoring Studio Registry.
+pub mod studio_registry;
+pub use studio_registry::{
+    studio_by_domain, studio_by_id, studios_for_capability, InspectorPropertyBinding,
+    StudioDescriptor, StudioDomain, StudioToolbox, StudioToolchainStep, STUDIO_REGISTRY,
 };

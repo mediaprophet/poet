@@ -1,0 +1,57 @@
+// Poet Packaged VibeScript — Research Manifold & SHACL Verification Workflow
+module <https://qualiadb.org/modules/poet/research_manifold>;
+
+using Research;
+using SHACL;
+using EpistemicLogic;
+using DeonticLogic;
+using Poet;
+
+effect fn verify_research_manifold(study_id: string, hypothesis_claim: string) -> Record {
+    let study = Research.new({
+        id: study_id
+    });
+    let scope = Research.define_scope({
+        id: study_id,
+        domains: ["ecology", "hydrology", "governance"],
+        timeframe: "2020-2026"
+    });
+    let inference = Research.make_inference({
+        id: study_id,
+        premise: "Catchment sensor telemetry and isotope assays converge",
+        conclusion: hypothesis_claim,
+        confidence: 0.92
+    });
+    let grounding = Research.verify_grounding({
+        id: study_id,
+        claim: hypothesis_claim
+    });
+    let shacl = SHACL.validate({
+        shape: "ResearchManifoldShape",
+        target: study_id
+    });
+    let epistemic = EpistemicLogic.evaluate({
+        claim: hypothesis_claim,
+        min_certainty: 200
+    });
+    let deontic = DeonticLogic.evaluate({
+        context: study_id,
+        norm: "water-custody-norms"
+    });
+    let topology = Poet.topology_bind({
+        geometry_id: "north-spring-catchment-3d",
+        active_graph_id: "water-custody-norms",
+        complex_kind: "MixedCellComplex3D",
+        anchor_domain: "Cell2Face"
+    });
+    return {
+        study: study,
+        scope: scope,
+        inference: inference,
+        grounding: grounding,
+        shacl: shacl,
+        epistemic: epistemic,
+        deontic: deontic,
+        topology: topology
+    };
+}

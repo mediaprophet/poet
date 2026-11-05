@@ -6,6 +6,7 @@ use super::super::core::registry::{
     DockPosition, ManifoldSeed, SeedConnection, SeedContainer, SeedPanel,
 };
 
+/// `sanctuary` manifold seed.
 pub fn sanctuary_manifold_seed() -> ManifoldSeed {
     ManifoldSeed {
         id: "sanctuary".into(),
@@ -62,6 +63,8 @@ pub fn sanctuary_manifold_seed() -> ManifoldSeed {
             },
         ],
         connections: vec![SeedConnection {
+            graph_ids: Vec::new(),
+            cell_anchor: None,
             id: "wire-san1".into(),
             from: 2,
             to: 3,

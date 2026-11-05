@@ -1,0 +1,58 @@
+// Poet Packaged VibeScript — Spatial, Botanical & Terrain Authoring Workflow
+module <https://qualiadb.org/modules/poet/spatial_authoring>;
+
+using BotanicalAnatomy;
+using Terrain;
+using PoetGeo;
+using Topology;
+using SceneGraph10D;
+
+effect fn author_spatial_biome(species_id: string, wx_m: f64, wz_m: f64) -> Record {
+    let canopy = BotanicalAnatomy.synthesize_organ_10d({
+        species_id: species_id,
+        scale: 1,
+        explode_01: 0.0,
+        cutaway_01: 0.0,
+        anthesis_01: 0.65
+    });
+    let sapwood = BotanicalAnatomy.evaluate_pipe_model_sapwood({
+        leaf_area_m2: 185.0,
+        huber_value: 0.00028,
+        dbh_cm: 62.0
+    });
+    let landform = Terrain.fbm({
+        x: wx_m,
+        y: wz_m,
+        octaves: 6,
+        lacunarity: 2.0,
+        gain: 0.5
+    });
+    let erosion = Terrain.erode_fixed824({
+        steps: 32,
+        rain_rate: 0.015
+    });
+    let brush = PoetGeo.cow_stroke_apply({
+        layer: "elevation",
+        x: wx_m,
+        z: wz_m,
+        radius_m: 24.0,
+        delta: 1.5
+    });
+    let geometry = Topology.define_geometry({
+        id: "north-spring-catchment-3d",
+        complex_kind: "MixedCellComplex3D"
+    });
+    let ontogeny = SceneGraph10D.step_ontogeny({
+        month: 11.0,
+        growth_01: 0.75
+    });
+    return {
+        canopy: canopy,
+        sapwood: sapwood,
+        landform: landform,
+        erosion: erosion,
+        brush: brush,
+        geometry: geometry,
+        ontogeny: ontogeny
+    };
+}

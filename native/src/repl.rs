@@ -3,8 +3,10 @@
 use std::io::{self, BufRead, Write};
 use vibe::session::{SessionLimits, SourceSession, SubmissionError, SubmissionResult};
 #[cfg(test)]
-use vibe::{check_cell, check_program, parse_cell, parse_program, Diagnostic, Engine, Env, Value};
-use vibe::{Budget, Host, LocalHost};
+use vibe::{
+    check_cell, check_program, parse_cell, parse_program, Diagnostic, Engine, Env, LocalHost, Value,
+};
+use vibe::{Budget, Host};
 #[path = "repl_sheet_host.rs"]
 pub(crate) mod sheet_host;
 

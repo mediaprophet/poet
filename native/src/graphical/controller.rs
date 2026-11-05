@@ -563,7 +563,7 @@ impl CanonicalEditorHost {
                     return Err(vibe::Diagnostic::new(vibe::DiagCode::E400, vibe::Span::point(0),
                         "Junction requires an explicitly configured botanical replay profile"));
                 }
-                crate::graphical::authoring::junction_session::validate_tentative(bindings, host)
+                crate::graphical::authoring::junction_session::validate_tentative(&bindings, host)
                     .map_err(|message| vibe::Diagnostic::new(vibe::DiagCode::E701, vibe::Span::point(0), message))?;
                 crate::graphical::authoring::timeline_associations::validate_pair(bindings.value("poet_timeline"),bindings.value("poet_timeline_media"))
                     .map_err(|message|vibe::Diagnostic::new(vibe::DiagCode::E701,vibe::Span::point(0),message))?;

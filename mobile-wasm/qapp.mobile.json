@@ -1,0 +1,37 @@
+{
+  "name": "Poet Mobile",
+  "version": "0.0.40",
+  "required_shapes": [
+    "schema:CreativeWork",
+    "schema:DigitalDocument"
+  ],
+  "x_qualia": {
+    "app_id": "org.webizen.poet.mobile",
+    "display_name": "Poet Mobile Studio",
+    "category": "studio",
+    "launch_modes": [
+      "wasm-mobile",
+      "wasm-browser"
+    ],
+    "preferred_launch_mode": "wasm-mobile",
+    "supports_offline": true,
+    "entrypoints": {
+      "web": "index.html",
+      "wasm_symbol": "start_mobile_poet"
+    },
+    "viewport_profile": {
+      "dock_mode": "compact-single-column",
+      "touch_first": true,
+      "radial_long_press_ms": 550,
+      "pinch_zoom_enabled": true,
+      "pan_gesture_enabled": true
+    },
+    "export_targets": [
+      "wasm-mobile",
+      "embedded"
+    ],
+    "notes": [
+      "Touch-first mobile WASM surface for Poet HyperCanvas with radial wheel gestures and packaged VibeScript execution."
+    ]
+  }
+}

@@ -77,6 +77,18 @@ pub fn launch(host: Box<dyn EditorHost>, initial_draft: String) -> Result<(), St
     worker.finish()
 }
 
+pub fn launch_workbench() -> Result<(), String> {
+    let attributes = dioxus_native::WindowAttributes::default()
+        .with_title("Poet · HyperCanvas Workbench")
+        .with_surface_size(dioxus_native::LogicalSize::new(1600, 960));
+    dioxus_native::launch_cfg(
+        poet_aether_ui::PoetWorkbench,
+        Vec::new(),
+        vec![Box::new(attributes)],
+    );
+    Ok(())
+}
+
 #[cfg(test)]
 mod reference_authoring_tests;
 

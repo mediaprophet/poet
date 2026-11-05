@@ -175,7 +175,7 @@ impl WavDevice {
                 Err(mpsc::RecvTimeoutError::Timeout)=>{
                     if active.as_ref().is_some_and(|a|a.cancelled.load(Ordering::Acquire)||a.view_closed.load(Ordering::Acquire)||!current(&a.context)) {
                         thread_status.store(INVALID,Ordering::Release);
-                        active=None;
+                        drop(active.take());
                         break;
                     }
                     continue
@@ -185,7 +185,7 @@ impl WavDevice {
                 Command::Pause{context,paused,reply}=>{let result=with_active(&mut active,&context,|a|{
                     thread_clock.suspend();
                     let mut s=a.samples.lock().map_err(|_|"Audio state poisoned")?;s.paused=paused;drop(s);
-                    let result=if paused {a.stream.pause()}else{a.stream.play()};
+                    let result=if paused {a.stream.pause().map_err(|e|e.to_string())}else{a.stream.play().map_err(|e|e.to_string())};
                     if let Err(error)=result {a.cancelled.store(true,Ordering::Release);thread_status.store(FAILED,Ordering::Release);return Err(format!("Audio pause/resume failed: {error}"));}
                     thread_clock.paused.store(paused,Ordering::Release);
                     if !paused {thread_clock.resume();}thread_status.store(if paused {PAUSED}else{PLAYING},Ordering::Release); Ok(())});let _=reply.send(result);},
@@ -195,7 +195,7 @@ impl WavDevice {
                     if active.as_ref().is_some_and(|a|!a.cancelled.load(Ordering::Acquire) && thread_status.load(Ordering::Acquire)==PLAYING) {thread_clock.resume();}
                     let _=reply.send(result);
                 },
-                Command::Stop{reply}=>{thread_clock.clear();active=None;thread_status.store(IDLE,Ordering::Release);let _=reply.send(Ok(()));break;},
+                Command::Stop{reply}=>{thread_clock.clear();drop(active.take());thread_status.store(IDLE,Ordering::Release);let _=reply.send(Ok(()));break;},
                 Command::Shutdown=>break,
             }}
         });

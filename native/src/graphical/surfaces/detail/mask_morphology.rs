@@ -114,10 +114,10 @@ pub(crate) fn prepare(
     let decode_budget = limits.working_bytes - output_reservation;
 
     let mut channel = None::<Vec<u8>>;
-    let mut output_channel = match &layer.mask {
+    let output_channel = match &layer.mask {
         None => MaskChannel::Alpha,
         Some(LayerMask::Rectangle { x, y, width, height, coverage }) => {
-            let right = x.checked_add(*width).filter(|right| *right <= paint.side)
+            let _right = x.checked_add(*width).filter(|right| *right <= paint.side)
                 .ok_or("Rectangle mask exceeds paint extent")?;
             let bottom = y.checked_add(*height).filter(|bottom| *bottom <= paint.side)
                 .ok_or("Rectangle mask exceeds paint extent")?;

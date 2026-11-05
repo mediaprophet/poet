@@ -82,6 +82,33 @@ impl ViewLighting {
     pub fn command(self) -> ViewportCommand {
         preview_lighting(self)
     }
+    /// Construct a pure `etalon_render::FrameCameraPod` for this view lighting at `aspect_ratio`.
+    pub fn etalon_frame_camera(&self, aspect_ratio: f32) -> etalon_render::FrameCameraPod {
+        let aspect = if aspect_ratio.is_finite() {
+            aspect_ratio.max(0.05)
+        } else {
+            1.0
+        };
+        let cam = crate::graphical::preview::PreviewCamera {
+            yaw: 0.0,
+            pitch: 0.25,
+            distance: 3.5,
+            target: [0.0; 3],
+        };
+        let mut pod = etalon_camera_pod(cam, self.exposure_ev);
+        pod.view_proj = etalon_render::spatial_math::camera::orbit_view_projection_with_near(
+            cam.yaw,
+            cam.pitch,
+            cam.distance,
+            cam.target,
+            aspect,
+            etalon_render::spatial_math::camera::CAMERA_NEAR_PLANE,
+        );
+        pod.inv_view_proj = poet_aether_ui::etalon_bridge::invert_mat4_col(pod.view_proj);
+        pod.viewport_wh_near_far[0] = 512.0 * aspect;
+        pod.viewport_wh_near_far[1] = 512.0;
+        pod
+    }
     pub fn validate(self) -> Result<(), String> {
         use qualia_core_db::render::output::{MAX_HDR_EXPOSURE_EV, MIN_HDR_EXPOSURE_EV};
         if !self.exposure_ev.is_finite()
@@ -149,6 +176,34 @@ pub fn preview_lighting(s: ViewLighting) -> ViewportCommand {
         ambient_intensity: s.ambient_intensity,
         shadows: s.shadows,
         screen_space_ao: s.screen_space_ao,
+    }
+}
+
+/// Build an `etalon_render::FrameCameraPod` from a `PreviewCamera` and `exposure_ev`.
+pub fn etalon_camera_pod(
+    camera: crate::graphical::preview::PreviewCamera,
+    exposure_ev: f32,
+) -> etalon_render::FrameCameraPod {
+    use etalon_render::spatial_math::camera::{
+        orbit_eye_position_target, orbit_view_projection_with_near, CAMERA_FAR_PLANE,
+        CAMERA_NEAR_PLANE,
+    };
+    let view_proj = orbit_view_projection_with_near(
+        camera.yaw,
+        camera.pitch,
+        camera.distance,
+        camera.target,
+        1.0,
+        CAMERA_NEAR_PLANE,
+    );
+    let inv_view_proj = poet_aether_ui::etalon_bridge::invert_mat4_col(view_proj);
+    let eye = orbit_eye_position_target(camera.yaw, camera.pitch, camera.distance, camera.target);
+    let ev_scale = etalon_render::frame_quality::exposure_scale_from_ev(exposure_ev).unwrap_or(1.0);
+    etalon_render::FrameCameraPod {
+        view_proj,
+        inv_view_proj,
+        eye_pos: [eye[0], eye[1], eye[2], ev_scale],
+        viewport_wh_near_far: [512.0, 512.0, CAMERA_NEAR_PLANE, CAMERA_FAR_PLANE],
     }
 }
 

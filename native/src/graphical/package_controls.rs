@@ -160,10 +160,13 @@ pub(super) fn PackageControls(
                     {let key=format!("{}:{}:{}:{}",view.result.request.filename,view.result.request.key,
                         hex_digest(&view.result.request.package_digest),hex_digest(&view.result.request.resource_digest));
                         rsx!{
-                            GeoRasterEditView{key:"{key}",view:view.result.clone(),host:host.clone(),current:current.clone(),busy,status,
-                                on_saved:move |_|{inventory.set(None);inspection.set(None);}}
-                            TerrainBrushView{key:"terrain-{key}",view:view.result,host:host.clone(),current:current.clone(),busy,status,
-                                on_saved:move |_|{inventory.set(None);inspection.set(None);}}
+                            div {
+                                key: "{key}",
+                                GeoRasterEditView{view:view.result.clone(),host:host.clone(),current:current.clone(),busy,status,
+                                    on_saved:move |_|{inventory.set(None);inspection.set(None);}}
+                                TerrainBrushView{view:view.result,host:host.clone(),current:current.clone(),busy,status,
+                                    on_saved:move |_|{inventory.set(None);inspection.set(None);}}
+                            }
                         }}
 
 

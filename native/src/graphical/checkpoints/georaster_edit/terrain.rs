@@ -130,7 +130,7 @@ pub(super) fn brush_payload(
     // One imported tile + one preview + conservative history-reference charge,
     // plus the local journal; projection Vec is separately reserved below.
     let brush_bytes = count.checked_mul(12)
-        .and_then(|b| request.samples.len().checked_mul(core::mem::size_of::<StrokeSample>()).and_then(|s| b.checked_add(s)))
+        .and_then(|b| request.samples.len().checked_mul(std::mem::size_of::<StrokeSample>()).and_then(|s| b.checked_add(s)))
         .ok_or("Brush payload budget overflow")?;
     let extra = count.checked_mul(4).and_then(|b| b.checked_add(brush_bytes))
         .ok_or("Brush working budget overflow")?;

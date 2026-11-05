@@ -16,7 +16,7 @@ pub(crate) fn is_junction_binding(value: &vibe::Value) -> bool {
         if matches!(r.get("schema"), Some(vibe::Value::String(s)) if s == super::botanical::junction_source::SCHEMA
             || s == super::botanical::junction_source::SMOOTH_SCHEMA))
 }
-pub(crate) fn validate_tentative(bindings: SessionBindings<'_>, host: &mut GeometryHost) -> Result<(), String> {
+pub(crate) fn validate_tentative(bindings: &SessionBindings<'_>, host: &mut GeometryHost) -> Result<(), String> {
     let Some(binding) = bindings.value("poet_botanical_junction") else { return Ok(()); };
     if !is_junction_binding(binding) { return Ok(()); }
     if bindings.value("poet_botanical").is_some() || bindings.value("poet_source_layer").is_some()

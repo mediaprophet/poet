@@ -1,0 +1,48 @@
+// Poet Packaged VibeScript — Reactive Sheet Formula & Tensor Evaluation Workflow
+module <https://qualiadb.org/modules/poet/numeric_sheet>;
+
+using Sheet;
+using Statistics;
+using LinearAlgebra;
+
+effect fn evaluate_numeric_sheet(sheet_id: string, formula_expr: string) -> Record {
+    let sheet = Sheet.create({
+        id: sheet_id,
+        rows: 64,
+        cols: 16
+    });
+    let cell_eval = Sheet.eval_formula({
+        sheet_id: sheet_id,
+        cell: "C4",
+        formula: formula_expr
+    });
+    let series_mean = Statistics.mean({
+        data: [120.5, 145.2, 188.0, 210.4]
+    });
+    let series_std = Statistics.std_dev({
+        data: [120.5, 145.2, 188.0, 210.4]
+    });
+    let tensor_proj = LinearAlgebra.matmul({
+        a: [[1.0, 0.25], [0.0, 1.0]],
+        b: [[120.5, 145.2], [188.0, 210.4]]
+    });
+    let pivot = Sheet.pivot_analyze({
+        sheet_id: sheet_id,
+        group_by: "category",
+        value_col: "amount"
+    });
+    let chart = Sheet.chart_spec({
+        sheet_id: sheet_id,
+        kind: "line",
+        range: "A1:D16"
+    });
+    return {
+        sheet: sheet,
+        cell_eval: cell_eval,
+        series_mean: series_mean,
+        series_std: series_std,
+        tensor_proj: tensor_proj,
+        pivot: pivot,
+        chart: chart
+    };
+}

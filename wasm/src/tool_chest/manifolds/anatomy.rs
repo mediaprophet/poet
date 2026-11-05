@@ -2,6 +2,7 @@
 
 use super::super::core::registry::{ManifoldSeed, SeedConnection, SeedContainer};
 
+/// `anatomy` manifold seed.
 pub fn anatomy_manifold_seed() -> ManifoldSeed {
     ManifoldSeed {
         id: "anatomy".into(),
@@ -47,6 +48,8 @@ pub fn anatomy_manifold_seed() -> ManifoldSeed {
             },
         ],
         connections: vec![SeedConnection {
+            graph_ids: Vec::new(),
+            cell_anchor: None,
             id: "wire-anat-docs".into(),
             from: 0,
             to: 1,

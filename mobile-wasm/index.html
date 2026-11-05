@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Webizen Poet Mobile WASM — Touch HyperCanvas</title>
+  <meta name="author" content="Timothy Charles Holborn">
+  <meta name="copyright" content="Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.">
+  <meta name="theme-color" content="#07090e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #07090e;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #6b7689;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+    }
+  </style>
+  <link data-trunk rel="rust" />
+</head>
+<body data-poet-surface="mobile-wasm" data-dock-mode="compact-single-column">
+  <div id="loading">Loading Webizen Poet Mobile WASM…</div>
+  <script type="module">
+    window.addEventListener("TrunkApplicationStarted", () => {
+      if (window.wasmBindings && typeof window.wasmBindings.start_mobile_poet === "function") {
+        window.wasmBindings.start_mobile_poet();
+      }
+    });
+  </script>
+</body>
+</html>

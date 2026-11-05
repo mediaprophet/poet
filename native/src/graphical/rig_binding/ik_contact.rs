@@ -144,7 +144,7 @@ pub fn solve_terrain_foot_contact_zero_heap(
     let l1 = spec.upper_length;
     let l2 = spec.lower_length;
     let max_reach = l1 + l2;
-    let mut initial_diff = sub3(target.target_position, hip_origin);
+    let initial_diff = sub3(target.target_position, hip_origin);
     let initial_dist = len3(initial_diff);
 
     let mut pelvis_sink = 0.0f32;
@@ -164,7 +164,7 @@ pub fn solve_terrain_foot_contact_zero_heap(
     }
 
     let diff = sub3(ankle, hip);
-    let mut dist = len3(diff);
+    let dist = len3(diff);
 
     // Clamp distance within reachable two-bone envelope:
     let min_reach = (l1 - l2).abs() + 1e-4;
@@ -372,7 +372,7 @@ mod tests {
             Err(IkContactError::InvalidLimbLength)
         );
 
-        let mut spec_ok = sample_spec();
+        let spec_ok = sample_spec();
         let mut target_bad_norm = target;
         target_bad_norm.terrain_normal = [0.0, 0.0, 0.0];
         assert_eq!(

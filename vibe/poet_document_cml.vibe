@@ -1,0 +1,50 @@
+// Poet Packaged VibeScript — CML Document Grounding & Gazetteer Workflow
+module <https://qualiadb.org/modules/poet/document_cml>;
+
+using Document;
+using NLP;
+using Inference;
+using GraphDatabase;
+
+effect fn ground_cml_document(doc_id: string, body_text: string) -> Record {
+    let doc = Document.create({
+        id: doc_id,
+        format: "cml+rdfstar",
+        body: body_text
+    });
+    let layout = Document.layout_paragraph({
+        id: doc_id,
+        text: body_text
+    });
+    let entities = NLP.fst_lookup({
+        text: body_text,
+        gazetteer: "poet_core_lexicon"
+    });
+    let relations = NLP.relation_extract({
+        text: body_text
+    });
+    let grounding = Inference.grounding({
+        text: body_text
+    });
+    let citations = Document.citations_sync({
+        id: doc_id,
+        verify_provenance: true
+    });
+    let proof = Document.proof_check({
+        id: doc_id,
+        strict_shacl: true
+    });
+    let lexicon = GraphDatabase.lexicon_manifest({
+        scope: doc_id
+    });
+    return {
+        document: doc,
+        layout: layout,
+        entities: entities,
+        relations: relations,
+        grounding: grounding,
+        citations: citations,
+        proof: proof,
+        lexicon: lexicon
+    };
+}

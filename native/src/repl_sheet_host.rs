@@ -28,6 +28,7 @@ fn same_numeric_list(a: &Value, b: &Value) -> bool {
 
 pub(crate) struct ReplHost {
     local: LocalHost,
+    #[cfg_attr(not(feature = "native-graphical"), allow(dead_code))]
     grants: Vec<String>,
     #[cfg(feature = "native-graphical")]
     core: qualia_core_db::poet_host::PoetSnapshot,

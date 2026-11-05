@@ -237,6 +237,7 @@ fn texture_effect_component_app(props: ComponentHarnessProps) -> Element {
             preview_uri: None,
             onapply: move |recipe| props.emitted.borrow_mut().push(recipe),
             oninspect: move |_| {},
+            onmorphology: move |_| {},
         }
     }
 }

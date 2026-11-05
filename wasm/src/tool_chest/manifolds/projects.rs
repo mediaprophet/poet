@@ -7,6 +7,7 @@ use super::super::core::registry::{
 };
 use super::super::core::ManifoldSociality;
 
+/// `projects` manifold seed.
 pub fn projects_manifold_seed() -> ManifoldSeed {
     ManifoldSeed {
         id: "projects".into(),
@@ -613,6 +614,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
         ],
         connections: vec![
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p1".into(),
                 from: 0,
                 to: 1,
@@ -620,6 +623,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasWorkItems".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p2".into(),
                 from: 0,
                 to: 2,
@@ -627,6 +632,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasGraph".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p3".into(),
                 from: 0,
                 to: 3,
@@ -634,6 +641,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasBudget".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p4".into(),
                 from: 3,
                 to: 4,
@@ -641,6 +650,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasCostBase".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p5".into(),
                 from: 1,
                 to: 5,
@@ -648,6 +659,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasDeliverables".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p6".into(),
                 from: 5,
                 to: 6,
@@ -655,6 +668,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasReviews".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p7".into(),
                 from: 0,
                 to: 8,
@@ -662,6 +677,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasRoadmap".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p8".into(),
                 from: 4,
                 to: 9,
@@ -669,6 +686,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:publishesTo".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p9".into(),
                 from: 1,
                 to: 10,
@@ -676,6 +695,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:emitsPulse".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p10".into(),
                 from: 0,
                 to: 11,
@@ -683,6 +704,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasAgreement".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p11".into(),
                 from: 11,
                 to: 12,
@@ -690,6 +713,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasCompensationModel".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p12".into(),
                 from: 12,
                 to: 13,
@@ -697,6 +722,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasContributionLedger".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p13".into(),
                 from: 11,
                 to: 14,
@@ -704,6 +731,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasLicense".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p14".into(),
                 from: 14,
                 to: 15,
@@ -711,6 +740,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:tracksObligation".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p15".into(),
                 from: 13,
                 to: 15,
@@ -718,6 +749,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:contributesToObligation".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p16".into(),
                 from: 0,
                 to: 16,
@@ -725,6 +758,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasIP".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p17".into(),
                 from: 12,
                 to: 17,
@@ -732,6 +767,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:usesDataSource".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p18".into(),
                 from: 0,
                 to: 18,
@@ -739,6 +776,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasDisputes".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p19".into(),
                 from: 18,
                 to: 19,
@@ -746,6 +785,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:disputeToComplaint".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p20".into(),
                 from: 18,
                 to: 20,
@@ -753,6 +794,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:disputeToCorrection".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p21".into(),
                 from: 0,
                 to: 21,
@@ -760,6 +803,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasMeetings".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p22".into(),
                 from: 21,
                 to: 22,
@@ -767,6 +812,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasCOI".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p23".into(),
                 from: 0,
                 to: 23,
@@ -774,6 +821,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasOnboarding".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p24".into(),
                 from: 23,
                 to: 24,
@@ -781,6 +830,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasBulkImport".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p25".into(),
                 from: 0,
                 to: 25,
@@ -788,6 +839,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasKnowledgeBase".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p26".into(),
                 from: 25,
                 to: 26,
@@ -795,6 +848,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasAgentConsole".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p27".into(),
                 from: 0,
                 to: 29,
@@ -802,6 +857,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasDashboard".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p28".into(),
                 from: 0,
                 to: 30,
@@ -809,6 +866,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasWiki".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p29".into(),
                 from: 0,
                 to: 31,
@@ -816,6 +875,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasGovernance".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p30".into(),
                 from: 31,
                 to: 32,
@@ -823,6 +884,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasCredentials".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p31".into(),
                 from: 31,
                 to: 33,
@@ -830,6 +893,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasTokens".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p32".into(),
                 from: 33,
                 to: 34,
@@ -837,6 +902,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasAwards".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p33".into(),
                 from: 0,
                 to: 35,
@@ -844,6 +911,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasGantt".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p34".into(),
                 from: 35,
                 to: 36,
@@ -851,6 +920,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasTimeline".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p35".into(),
                 from: 36,
                 to: 37,
@@ -858,6 +929,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasCalendar".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p36".into(),
                 from: 0,
                 to: 38,
@@ -865,6 +938,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasDocMgmt".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p37".into(),
                 from: 0,
                 to: 39,
@@ -872,6 +947,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasResourceReport".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p38".into(),
                 from: 39,
                 to: 40,
@@ -879,6 +956,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasTimeTracking".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p39".into(),
                 from: 31,
                 to: 41,
@@ -886,6 +965,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasVoting".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p40".into(),
                 from: 0,
                 to: 42,
@@ -893,6 +974,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasRiskRegister".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p41".into(),
                 from: 1,
                 to: 43,
@@ -900,6 +983,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasTaskList".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p42".into(),
                 from: 43,
                 to: 44,
@@ -907,6 +992,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasIssues".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p43".into(),
                 from: 0,
                 to: 45,
@@ -914,6 +1001,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasAssetMgr".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p44".into(),
                 from: 33,
                 to: 46,
@@ -921,6 +1010,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasBounties".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p45".into(),
                 from: 0,
                 to: 47,
@@ -928,6 +1019,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasAutomation".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p46".into(),
                 from: 29,
                 to: 48,
@@ -935,6 +1028,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasAnalytics".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p47".into(),
                 from: 37,
                 to: 49,
@@ -942,6 +1037,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasEvents".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p48".into(),
                 from: 49,
                 to: 50,
@@ -949,6 +1046,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasNews".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p49".into(),
                 from: 0,
                 to: 51,
@@ -956,6 +1055,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasPortfolio".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p50".into(),
                 from: 0,
                 to: 52,
@@ -963,6 +1064,8 @@ pub fn projects_manifold_seed() -> ManifoldSeed {
                 label: "coop:hasIntegrations".into(),
             },
             SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: "wire-p51".into(),
                 from: 48,
                 to: 53,

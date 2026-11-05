@@ -16,6 +16,7 @@ use crate::tool_chest::core::registry::{
 
 static NEXT_DYNAMIC_ID: AtomicU32 = AtomicU32::new(1);
 
+/// Normalises seed ids.
 pub fn normalise_seed_ids(seeds: &mut [ManifoldSeed]) {
     for seed in seeds {
         let mut container_ids = HashSet::new();
@@ -59,6 +60,7 @@ pub fn normalise_seed_ids(seeds: &mut [ManifoldSeed]) {
     }
 }
 
+/// `next-container` id.
 pub fn next_container_id(container_type: &str) -> String {
     let serial = NEXT_DYNAMIC_ID.fetch_add(1, Ordering::SeqCst);
     format!(
@@ -69,11 +71,13 @@ pub fn next_container_id(container_type: &str) -> String {
     )
 }
 
+/// `next-wire` id.
 pub fn next_wire_id() -> String {
     let serial = NEXT_DYNAMIC_ID.fetch_add(1, Ordering::SeqCst);
     format!("wire-{}-{}", js_sys::Date::now() as u64, serial)
 }
 
+/// Snapshots a seed from the DOM.
 pub fn snapshot_seed_from_dom(document: &Document, base: &ManifoldSeed) -> ManifoldSeed {
     let mut seed = base.clone();
     if let Some(label) = document
@@ -119,6 +123,8 @@ pub fn snapshot_seed_from_dom(document: &Document, base: &ManifoldSeed) -> Manif
                 continue;
             };
             seed.connections.push(SeedConnection {
+                graph_ids: Vec::new(),
+                cell_anchor: None,
                 id: path.get_attribute("data-id").unwrap_or_else(next_wire_id),
                 from,
                 to,
@@ -135,6 +141,7 @@ pub fn snapshot_seed_from_dom(document: &Document, base: &ManifoldSeed) -> Manif
     seed
 }
 
+/// Container from an element.
 pub fn container_from_element(element: &Element) -> SeedContainer {
     let style = element.get_attribute("style").unwrap_or_default();
     let container_type = element
@@ -288,6 +295,8 @@ mod tests {
             ],
             connections: vec![
                 SeedConnection {
+                    graph_ids: Vec::new(),
+                    cell_anchor: None,
                     id: "wire-old".into(),
                     from: 0,
                     to: 1,
@@ -295,6 +304,8 @@ mod tests {
                     label: "a".into(),
                 },
                 SeedConnection {
+                    graph_ids: Vec::new(),
+                    cell_anchor: None,
                     id: "wire-old".into(),
                     from: 1,
                     to: 0,

@@ -8,7 +8,7 @@ fn position(text: &str) -> Result<[f64; 3], String> {
         return Err("Position text exceeds 256 bytes".into());
     }
     let mut components = text.split(',');
-    let mut values = [0.0; 3];
+    let mut values = [0.0_f64; 3];
     for value in &mut values {
         *value = components
             .next()

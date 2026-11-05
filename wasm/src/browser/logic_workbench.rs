@@ -8,7 +8,7 @@
 //! P1 legal/governance tools:
 //! - Jural Relations, STIT Agency, Causal Liability, Responsibility
 //! - Capacity, Delegation, Contract, Consensus, Meta-Deontic
-//! - Value Flow, Interaction Governance, Identity Fabric, Capability Gap
+//! - Socioeconomics, Interaction Governance, Identity Fabric, Capability Gap
 //! - Legal Compose, Deontic Compose, Argumentation
 //!
 //! P1 formal/advanced logic tools:
@@ -87,7 +87,7 @@ const P1_LEGAL_TOOLS: &[(&str, &str, &str)] = &[
 ];
 
 const P1_GOV_TOOLS: &[(&str, &str, &str)] = &[
-    ("value_flow", "Value Flow", "\u{1F4B0}"),
+    ("socioeconomics", "Socioeconomics", "\u{1F4B0}"),
     ("interaction_gov", "Interaction Gov", "\u{1F6E1}"),
     ("identity_fabric", "Identity Fabric", "\u{1F575}"),
     ("capability_gap", "Capability Gap", "\u{1F4CA}"),
@@ -190,7 +190,7 @@ const ALL_MODALITIES: &[(&str, &str)] = &[
     ("contract", "Contract Formation"),
     ("consensus", "Consensus / Partition"),
     ("meta_deontic", "Meta-Deontic Breach"),
-    ("value_flow", "Value Flow / Commons"),
+    ("socioeconomics", "Socioeconomics"),
     ("interaction_gov", "Interaction Governance"),
     ("identity_fabric", "Identity Fabric"),
     ("capability_gap", "Capability Gap Analyzer"),
@@ -267,6 +267,7 @@ const RDFSTAR_ROLES: &[(&str, &str)] = &[
 // Build the logic workbench overlay
 // ---------------------------------------------------------------------------
 
+/// Builds logic-workbench.
 pub fn build_logic_workbench(document: &Document) -> Element {
     let overlay = document.create_element("div").unwrap();
     overlay.set_id("logic-workbench");
@@ -432,7 +433,7 @@ pub fn build_logic_workbench(document: &Document) -> Element {
 
     // P1 governance panels
     content
-        .append_child(&p1_governance::build_value_flow_panel(document))
+        .append_child(&p1_governance::build_socioeconomics_panel(document))
         .unwrap();
     content
         .append_child(&p1_governance::build_interaction_gov_panel(document))
@@ -568,7 +569,7 @@ pub fn build_logic_workbench(document: &Document) -> Element {
     p1_legal::wire_consensus_panel(document);
     p1_legal::wire_meta_deontic_panel(document);
     p1_legal::wire_argumentation_panel(document);
-    p1_governance::wire_value_flow_panel(document);
+    p1_governance::wire_socioeconomics_panel(document);
     p1_governance::wire_interaction_gov_panel(document);
     p1_governance::wire_identity_fabric_panel(document);
     p1_governance::wire_capability_gap_panel(document);
@@ -710,6 +711,7 @@ pub fn build_domain_lab_view(document: &Document) -> Element {
     root
 }
 
+/// Toggles the logic workbench.
 pub fn toggle_logic_workbench(document: &Document) {
     if let Some(wb) = document.get_element_by_id("logic-workbench") {
         let wb_el: HtmlElement = wb.dyn_into().unwrap();
@@ -725,6 +727,7 @@ pub fn toggle_logic_workbench(document: &Document) {
     }
 }
 
+/// Opens to-tool.
 pub fn open_to_tool(document: &Document, tool: &str) {
     if let Some(wb) = document.get_element_by_id("logic-workbench") {
         let wb_el: HtmlElement = wb.dyn_into().unwrap();
@@ -762,10 +765,12 @@ pub fn open_to_tool(document: &Document, tool: &str) {
     show_tool_panel(document, tool);
 }
 
+/// Dispatches command.
 pub fn dispatch_command(document: &Document, label: &str) -> bool {
     dispatch::dispatch_command(document, label)
 }
 
+/// Wires the logic-workbench shortcut.
 pub fn wire_logic_workbench_shortcut(document: &Document) {
     let closure = Closure::wrap(Box::new(move |e: KeyboardEvent| {
         if e.key() == "L" && e.shift_key() && (e.ctrl_key() || e.meta_key()) {

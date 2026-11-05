@@ -189,6 +189,7 @@ pub(super) fn NativeStudio(
         super::poet_workspace::WorkspaceProjection::for_source(&current.artifact_id).ok();
     let mut restore_context = use_signal(|| None::<jobs::Context>);
     let mut checkpoint_name = use_signal(|| "poet-checkpoint.hmc".to_string());
+    let mut show_hypercanvas = use_signal(|| false);
     let save = {
         let host = host.clone();
         let draft_buffer = draft_buffer.clone();
@@ -319,8 +320,38 @@ pub(super) fn NativeStudio(
     let restore_buffer = draft_buffer.clone();
     let template_botanical_buffer = draft_buffer.clone();
     let template_equipment_buffer = draft_buffer.clone();
+    let template_packaged_buffer = draft_buffer.clone();
     rsx! {
-        div { style: "height:100vh;box-sizing:border-box;overflow:auto;background:#111820;color:#e8eef4;display:flex;font-family:sans-serif;",
+        div { style: "height:100vh;box-sizing:border-box;overflow:hidden;background:#111820;color:#e8eef4;display:flex;flex-direction:column;font-family:sans-serif;",
+            div { style: "display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 16px;background:#0d141c;border-bottom:1px solid #243447;flex-shrink:0;",
+                strong { style: "font-size:14px;letter-spacing:0.04em;color:#9fb6cc;", "Poet Native Desktop" }
+                div { style: "display:flex;gap:8px;",
+                    button {
+                        style: if !show_hypercanvas() {
+                            "padding:6px 12px;border-radius:6px;border:1px solid #4a90e2;background:#1b3654;color:#ffffff;font-weight:bold;cursor:pointer;"
+                        } else {
+                            "padding:6px 12px;border-radius:6px;border:1px solid #2d3e50;background:#141f2a;color:#9fb6cc;cursor:pointer;"
+                        },
+                        onclick: move |_| show_hypercanvas.set(false),
+                        "🧊 3D Asset & Source Studio"
+                    }
+                    button {
+                        style: if show_hypercanvas() {
+                            "padding:6px 12px;border-radius:6px;border:1px solid #4a90e2;background:#1b3654;color:#ffffff;font-weight:bold;cursor:pointer;"
+                        } else {
+                            "padding:6px 12px;border-radius:6px;border:1px solid #2d3e50;background:#141f2a;color:#9fb6cc;cursor:pointer;"
+                        },
+                        onclick: move |_| show_hypercanvas.set(true),
+                        "🌌 HyperCanvas 10-Manifold Workbench"
+                    }
+                }
+            }
+            if show_hypercanvas() {
+                div { style: "flex:1;min-height:0;overflow:auto;",
+                    poet_aether_ui::PoetWorkbench {}
+                }
+            } else {
+                div { style: "flex:1;min-height:0;overflow:auto;display:flex;",
             aside { style: "width:160px;flex-shrink:0;box-sizing:border-box;padding:18px;background:#18232e;",
                 h2 { "Poet" }
                 p { "Tool-Chest" }
@@ -346,7 +377,7 @@ pub(super) fn NativeStudio(
                             oninput: move |event| {let text=event.value();if let Some(buffer)=&input_buffer{buffer.set(text.clone());}draft.set(text);},
                         }
                         details {
-                            summary { "Starter asset templates (Botanical Tree / Equipment Assembly)" }
+                            summary { "Starter asset templates (Botanical Tree / Equipment Assembly / Packaged .vibe Workflows)" }
                             div { style: "display:flex;gap:8px;flex-wrap:wrap;padding:6px 0;",
                                 button { disabled: busy(), onclick: move |_| {
                                     let text = BOTANICAL_TREE_TEMPLATE.to_string();
@@ -360,6 +391,29 @@ pub(super) fn NativeStudio(
                                     draft.set(text);
                                     status.set("Loaded Community Grounds Growing Station starter into local draft. Click Submit source, then Inspect accepted assembly.".into());
                                 }, "Load Equipment Assembly (Growing Station starter)" }
+                                for script in crate::packaged_vibe::packaged_vibe_scripts() {
+                                    {
+                                        let script_id = script.id;
+                                        let script_title = script.title;
+                                        let script_source = script.source;
+                                        let buffer_clone = template_packaged_buffer.clone();
+                                        rsx! {
+                                            button {
+                                                key: "{script_id}",
+                                                disabled: busy(),
+                                                onclick: move |_| {
+                                                    let text = script_source.to_string();
+                                                    if let Some(buffer) = &buffer_clone {
+                                                        buffer.set(text.clone());
+                                                    }
+                                                    draft.set(text);
+                                                    status.set(format!("Loaded packaged workflow '{script_title}' ({script_id}) into local draft."));
+                                                },
+                                                "Load {script_title} ({script_id})"
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                         details {
@@ -419,6 +473,8 @@ pub(super) fn NativeStudio(
                         p { "Native assembly/material working preview. Master quality, source rights and human review remain separate." }
                         super::authoring::controls::AuthoringControls {host:host.clone(),view,draft,status,image,busy,selected,rig_filename,rig_package_digest,rig_resource_key,rig_resource_digest,rig_ready_source,timeline_resource_selection,buffer:draft_buffer.clone()}
                     }
+                }
+            }
                 }
             }
         }

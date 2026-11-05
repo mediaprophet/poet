@@ -3,6 +3,7 @@
 
 use web_sys::Document;
 
+/// Dispatches command.
 pub(super) fn dispatch_command(document: &Document, label: &str) -> bool {
     let tool = match label {
         "Logic Workbench" => {
@@ -29,7 +30,7 @@ pub(super) fn dispatch_command(document: &Document, label: &str) -> bool {
         "Consensus / Partition" => "consensus",
         "Meta-Deontic Breach" => "meta_deontic",
         // P1 governance
-        "Value Flow / Commons" => "value_flow",
+        "Socioeconomics" => "socioeconomics",
         "Interaction Governance" => "interaction_gov",
         "Identity Fabric" => "identity_fabric",
         "Capability Gap Analyzer" => "capability_gap",

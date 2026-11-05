@@ -148,7 +148,7 @@ pub(super) fn TimelineMediaView(
         if busy() || !gif_current.publication_is_current() {return;}
         let clip_id=clip(); if clip_id.is_empty()||clip_id.len()>128 {status.set("Enter the existing clip ID.".into());return;}
         let timeline_tick=match tick().parse::<u64>(){Ok(n)=>n,Err(_)=>{status.set("Enter a whole nonnegative timeline tick.".into());return;}};
-        let binding=super::timeline_wav_device::PlaybackBinding{clip_id:clip_id.clone(),resource:gif_resource.clone(),secondary:Vec::new()};
+        let binding=crate::graphical::timeline_wav_device::PlaybackBinding{clip_id:clip_id.clone(),resource:gif_resource.clone(),secondary:Vec::new()};
         let request=TimelineMediaRequest{clip_id,timeline_tick,resource:gif_resource.clone()};
         let paired_at_start=can_play_mp4 && paired_audio();
         let follow_audio_at_start=follow_audio() || paired_at_start;
@@ -244,7 +244,7 @@ pub(super) fn TimelineMediaView(
             }
             let Some(frames)=reply.gif_frames.take() else {if paired_at_start {token.store(true,Ordering::Release);}gif_playing.set(false);status.set(reply.message);return;};
             status.set(if follow_audio_at_start {"Following the predicted audio-device clock; acoustic and display synchronization are not qualified."} else {"Playing bounded video without audio; colour/presentation remain unqualified."}.into());
-            let mut elapsed=0u128; let mut last=std::time::Instant::now(); let mut index=0usize; let mut shown=None; let mut frame_end=u128::from(frames[0].duration_ticks);
+            let mut elapsed=0u128; let mut last=std::time::Instant::now(); let mut shown=None;
             let mut missing_clock_since=None::<std::time::Instant>;let mut clock_unavailable=false;
             loop {
                 if token.load(Ordering::Acquire)||closed.load(Ordering::Acquire)||!guard.playback_context_is_current(&origin) {break;}
@@ -273,7 +273,7 @@ pub(super) fn TimelineMediaView(
                 } else if !gif_paused() {let delta=now.saturating_duration_since(last).as_nanos();elapsed=elapsed.saturating_add(delta.saturating_mul(timeline_editing::TICKS_PER_SECOND as u128)/1_000_000_000);}
                 last=now;
                 // Recompute because an accepted audio seek can move backward.
-                index=0;frame_end=u128::from(frames[0].duration_ticks);
+                let mut index=0usize;let mut frame_end=u128::from(frames[0].duration_ticks);
                 while elapsed>=frame_end {index+=1;if index>=frames.len(){break;}frame_end=frame_end.saturating_add(u128::from(frames[index].duration_ticks));}
                 if index>=frames.len(){break;}
                 if shown!=Some(index) {image.set(Some((origin.clone(),resource.clone(),frames[index].uri.clone())));shown=Some(index);}
@@ -320,10 +320,10 @@ pub(super) fn TimelineMediaView(
         let first=TimelineMediaRequest{clip_id:first_id,timeline_tick,resource:mix_resource.clone()};
         let second=TimelineMediaRequest{clip_id:second_id,timeline_tick,resource:second_resource};
         let mut tracks=vec![first,second];
-        let parse_control=|gain:&str,pan:&str|->Result<super::timeline_audio_mix::MixControls,String>{
+        let parse_control=|gain:&str,pan:&str|->Result<crate::graphical::timeline_audio_mix::MixControls,String>{
             let gain=gain.parse::<f32>().map_err(|_|"Enter a numeric track gain")?;
             let pan=pan.parse::<f32>().map_err(|_|"Enter a numeric track pan")?;
-            let control=super::timeline_audio_mix::MixControls{gain,pan};control.validate()?;Ok(control)
+            let control=crate::graphical::timeline_audio_mix::MixControls{gain,pan};control.validate()?;Ok(control)
         };
         let mut controls=Vec::new();
         for (gain,pan) in [(first_gain(),first_pan()),(second_gain(),second_pan())] {
@@ -335,7 +335,7 @@ pub(super) fn TimelineMediaView(
             let fields:Vec<_>=line.split('|').map(str::trim).collect();
             if !(fields.len()==3 || fields.len()==5) || fields[0].is_empty() || fields[1].is_empty() {status.set("Each additional track needs clip ID | resource key | SHA256, optionally followed by | gain | pan.".into());return;}
             let resource_digest=match crate::graphical::package::parse_digest(fields[2]) {Ok(v)=>v,Err(error)=>{status.set(error);return;}};
-            let control=if fields.len()==5 {match parse_control(fields[3],fields[4]) {Ok(c)=>c,Err(error)=>{status.set(error);return;}}} else {super::timeline_audio_mix::MixControls::default()};
+            let control=if fields.len()==5 {match parse_control(fields[3],fields[4]) {Ok(c)=>c,Err(error)=>{status.set(error);return;}}} else {crate::graphical::timeline_audio_mix::MixControls::default()};
             tracks.push(TimelineMediaRequest{clip_id:fields[0].into(),timeline_tick,resource:ResourceInspectionRequest{filename:mix_resource.filename.clone(),package_digest:mix_resource.package_digest,key:fields[1].into(),resource_digest}});
             controls.push(control);
             if tracks.len()>qualia_audio::MAX_TRACKS {status.set("Audio mix supports at most 16 tracks.".into());return;}

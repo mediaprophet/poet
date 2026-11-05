@@ -2,3 +2,5 @@
 pub mod domains;
 #[cfg(feature = "native-graphical")]
 pub mod graphical;
+pub mod packaged_vibe;
+

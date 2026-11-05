@@ -6,6 +6,7 @@ pub(super) struct CommandEntry {
     pub shortcut: &'static str,
 }
 
+/// Builds command-list.
 pub(super) fn build_command_list() -> Vec<CommandEntry> {
     vec![
         CommandEntry {
@@ -220,7 +221,7 @@ pub(super) fn build_command_list() -> Vec<CommandEntry> {
         },
         CommandEntry {
             icon: "\u{1F4B0}",
-            label: "Value Flow / Commons",
+            label: "Socioeconomics",
             shortcut: "",
         },
         CommandEntry {

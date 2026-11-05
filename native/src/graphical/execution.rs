@@ -159,7 +159,7 @@ pub(super) fn prepare(
     }
     // Reconstruct bounded inline source first; qualify the final junction once.
     // This does not certify each historical intermediate geometry.
-    crate::graphical::authoring::junction_session::validate_tentative(session.bindings(), &mut host)?;
+    crate::graphical::authoring::junction_session::validate_tentative(&session.bindings(), &mut host)?;
     crate::graphical::authoring::botanical_session::validate(&session, &host)?;
     source.check_current()?;
     host.end_junction_operation();

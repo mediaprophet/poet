@@ -22,6 +22,7 @@ fn construct(
         honesty: honesty.into(),
         default_manifold: default_manifold.into(),
         manifold_ids: manifold_ids.iter().map(|id| (*id).to_string()).collect(),
+        geometry_ids: Vec::new(),
         library_uri: format!("urn:poet:construct:{id}"),
         required_shapes: required_shapes.iter().map(|id| (*id).to_string()).collect(),
         source,
@@ -80,6 +81,7 @@ pub fn health_construct() -> ConstructSeed {
     )
 }
 
+/// Research-lab construct.
 pub fn research_lab_construct() -> ConstructSeed {
     construct(
         "research-lab",
@@ -94,6 +96,7 @@ pub fn research_lab_construct() -> ConstructSeed {
     )
 }
 
+/// Studio construct.
 pub fn studio_construct() -> ConstructSeed {
     construct(
         "studio",
@@ -108,6 +111,7 @@ pub fn studio_construct() -> ConstructSeed {
     )
 }
 
+/// Rights construct.
 pub fn rights_construct() -> ConstructSeed {
     construct(
         "rights",
@@ -138,6 +142,7 @@ pub fn projects_construct() -> ConstructSeed {
     )
 }
 
+/// Knowledge construct.
 pub fn knowledge_construct() -> ConstructSeed {
     construct(
         "knowledge",
@@ -178,6 +183,7 @@ pub fn stub_constructs() -> Vec<ConstructSeed> {
         honesty: "stub".into(),
         default_manifold: String::new(),
         manifold_ids: vec![],
+        geometry_ids: Vec::new(),
         library_uri: format!("urn:poet:construct:{id}"),
         required_shapes: vec![],
         source: ConstructSource::Stub,
@@ -200,6 +206,7 @@ pub fn all_constructs() -> Vec<ConstructSeed> {
     out
 }
 
+/// `construct-by` id.
 pub fn construct_by_id(id: &str) -> Option<ConstructSeed> {
     all_constructs().into_iter().find(|c| c.id == id)
 }

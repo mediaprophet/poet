@@ -2,8 +2,10 @@
 members = [
     "native",
     "wasm",
+    "mobile-wasm",
     "crates/geometry",
     "crates/spatial-authoring",
+    "crates/poet-aether-ui",
 ]
 resolver = "2"
 
@@ -21,6 +23,14 @@ wasm-bindgen-futures = "=0.4.79"
 js-sys = "=0.3.106"
 web-sys = "=0.3.106"
 vibe = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration" }
+dioxus = { git = "https://github.com/mediaprophet/Aether.git", rev = "7be4eb2c6f2fe95f30315fbbb48bfa4ad9d3abc0", default-features = false, features = ["macro", "html", "signals", "hooks"] }
+dioxus-native = { git = "https://github.com/mediaprophet/Aether.git", rev = "7be4eb2c6f2fe95f30315fbbb48bfa4ad9d3abc0", default-features = false, features = ["vello-cpu-softbuffer", "system-fonts", "data-uri", "clipboard", "accessibility"] }
+etalon = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false, features = ["std", "wgsl", "serde"] }
+etalon-render = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
+etalon-wgsl-forge = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
+etalon-nquin = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
+etalon-tensor = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
+etalon-wasm = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
 
 [profile.wasm-release]
 inherits = "release"
@@ -31,5 +41,5 @@ strip = "symbols"
 
 [patch.crates-io]
 cpal = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1" }
-wgpu = { git = "https://github.com/mediaprophet/etalon.git", rev = "072b4d9ceeebd423234359dff1dee8fbe9e62b6e" }
-naga = { git = "https://github.com/mediaprophet/etalon.git", rev = "072b4d9ceeebd423234359dff1dee8fbe9e62b6e" }
+wgpu = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea" }
+naga = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea" }

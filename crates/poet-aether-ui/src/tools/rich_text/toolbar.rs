@@ -5,7 +5,7 @@ use crate::engine::{self, PoetGazetteerResult};
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `RichTextTool` component.
+/// Aether `RichTextTool` component.
 pub fn RichTextTool(#[props(default = ToolbarSpec::OFFICE)] spec: ToolbarSpec) -> Element {
     let mut document = use_signal(|| {
         "North Spring is the reference catchment. Timothy Charles Holborn recorded 12.5 mm of rain on 2026-08-15 at the reference site.".to_string()

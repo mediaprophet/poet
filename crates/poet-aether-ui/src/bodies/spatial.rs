@@ -5,7 +5,7 @@ use crate::gpu_frame::PoetGpuFrame;
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `MapBody` component.
+/// Aether `MapBody` component.
 pub fn MapBody() -> Element {
     rsx! {
         SpatialKernel {
@@ -19,7 +19,7 @@ pub fn MapBody() -> Element {
 }
 
 #[component]
-/// Dioxus `MediaBody` component.
+/// Aether `MediaBody` component.
 pub fn MediaBody() -> Element {
     rsx! {
         SpatialKernel {
@@ -33,7 +33,7 @@ pub fn MediaBody() -> Element {
 }
 
 #[component]
-/// Dioxus `SubmanifoldBody` component.
+/// Aether `SubmanifoldBody` component.
 pub fn SubmanifoldBody() -> Element {
     rsx! {
         SpatialKernel {

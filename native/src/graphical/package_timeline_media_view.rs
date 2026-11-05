@@ -244,7 +244,7 @@ pub(super) fn TimelineMediaView(
             }
             let Some(frames)=reply.gif_frames.take() else {if paired_at_start {token.store(true,Ordering::Release);}gif_playing.set(false);status.set(reply.message);return;};
             status.set(if follow_audio_at_start {"Following the predicted audio-device clock; acoustic and display synchronization are not qualified."} else {"Playing bounded video without audio; colour/presentation remain unqualified."}.into());
-            let mut elapsed=0u128; let mut last=std::time::Instant::now(); let mut index=0usize; let mut shown=None; let mut frame_end=u128::from(frames[0].duration_ticks);
+            let mut elapsed=0u128; let mut last=std::time::Instant::now(); let mut shown=None;
             let mut missing_clock_since=None::<std::time::Instant>;let mut clock_unavailable=false;
             loop {
                 if token.load(Ordering::Acquire)||closed.load(Ordering::Acquire)||!guard.playback_context_is_current(&origin) {break;}
@@ -273,7 +273,7 @@ pub(super) fn TimelineMediaView(
                 } else if !gif_paused() {let delta=now.saturating_duration_since(last).as_nanos();elapsed=elapsed.saturating_add(delta.saturating_mul(timeline_editing::TICKS_PER_SECOND as u128)/1_000_000_000);}
                 last=now;
                 // Recompute because an accepted audio seek can move backward.
-                index=0;frame_end=u128::from(frames[0].duration_ticks);
+                let mut index=0usize;let mut frame_end=u128::from(frames[0].duration_ticks);
                 while elapsed>=frame_end {index+=1;if index>=frames.len(){break;}frame_end=frame_end.saturating_add(u128::from(frames[index].duration_ticks));}
                 if index>=frames.len(){break;}
                 if shown!=Some(index) {image.set(Some((origin.clone(),resource.clone(),frames[index].uri.clone())));shown=Some(index);}

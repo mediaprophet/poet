@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-18
 **Principal / copyright holder:** Timothy Charles Holborn <timothy.holborn@gmail.com>
-**Target UI:** `C:\Projects\NLP\qualia-ui` (WASM HyperCanvas — the primary UI target; webizen-studio Dioxus desktop is the prior work that qualia-ui supersedes and will eventually be ported once qualia-ui passes UAT)
+**Target UI:** `C:\Projects\NLP\qualia-ui` (WASM HyperCanvas — the primary UI target; webizen-studio Aether desktop is the prior work that qualia-ui supersedes and will eventually be ported once qualia-ui passes UAT)
 **Companion document:** `C:\Projects\qualia-27062026\docs\plans\qualia-collaborative-erp-pm-todo-2026-08-18.md` (qualiaDB codebase to-do — **assumed completed** for the purposes of this requirements doc)
 
 ---

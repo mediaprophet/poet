@@ -16,7 +16,7 @@ effect fn proof_doc() {
 "#;
 
 #[component]
-/// Dioxus `DocBody` component.
+/// Aether `DocBody` component.
 pub fn DocBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

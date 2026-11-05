@@ -23,7 +23,7 @@ pub fn classify(key: &str, ctrl: bool) -> LayoutKey {
     }
 }
 
-/// Bounded layout-history stack. Clone so Dioxus signals can hold it.
+/// Bounded layout-history stack. Clone so Aether signals can hold it.
 #[derive(Clone, Debug)]
 pub struct LayoutUndo {
     pub max: usize,

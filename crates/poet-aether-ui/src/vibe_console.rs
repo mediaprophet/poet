@@ -28,7 +28,7 @@ effect fn scene() {
 "#;
 
 #[component]
-/// Dioxus `VibeConsole` component.
+/// Aether `VibeConsole` component.
 pub fn VibeConsole() -> Element {
     let mut source = use_signal(|| SAMPLE_CELL.to_string());
     let mut function_name = use_signal(|| String::new());

@@ -18,12 +18,12 @@ const MAX_PLAY_SECONDS: u64 = 15;
 
 /// Encoded display frames for a single admitted playback session, never a
 /// persisted resource. Frame durations use exact editorial ticks.
-pub(super) struct GifPlayFrame { pub uri: String, pub duration_ticks: u64 }
+pub struct GifPlayFrame { pub uri: String, pub duration_ticks: u64 }
 
 static MP4_STREAM_ACTIVE:AtomicBool=AtomicBool::new(false);
 struct StreamLease;
 impl Drop for StreamLease {fn drop(&mut self){MP4_STREAM_ACTIVE.store(false,Ordering::Release);}}
-pub(super) struct Mp4Stream {
+pub struct Mp4Stream {
     pub frames:std::sync::mpsc::Receiver<Result<GifPlayFrame,String>>,
     cancelled:std::sync::Arc<AtomicBool>,
 }
@@ -65,6 +65,7 @@ pub(super) fn start_mp4_stream(selected:super::checkpoints::TimelineMediaSelecti
 
 /// Silent MP4 frames use the same bounded native presentation queue as GIF.
 /// Container/digest/actor admission remains with the existing HMC owner.
+#[allow(dead_code)]
 pub(super) fn prepare_mp4(selected:&super::checkpoints::TimelineMediaSelection,snapshot:&super::controller::EditorSnapshot,cancelled:&AtomicBool)->Result<Vec<GifPlayFrame>,String>{
     if selected.selected.kind!="video/mp4" {return Err("Only selected MP4 video is admitted".into());}
     if cancelled.load(Ordering::Acquire)||!snapshot.publication_is_current(){return Err("Video playback cancelled or source changed".into());}

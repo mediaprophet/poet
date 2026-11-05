@@ -20,7 +20,7 @@ effect fn risk() {
 "#;
 
 #[component]
-/// Dioxus `HealthBody` component.
+/// Aether `HealthBody` component.
 pub fn HealthBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

@@ -27,7 +27,7 @@ const CHIP: &str = "border:1px solid #334155;background:#131822;color:#e8eef7;bo
 const CHIP_ACTIVE: &str = "border:1px solid var(--accent-cyan);background:rgba(56,189,248,0.15);color:var(--accent-cyan);border-radius:4px;padding:2px 7px;font-size:.68rem;cursor:pointer;font-weight:600;";
 
 #[component]
-/// Dioxus `InspectorPanel` component.
+/// Aether `InspectorPanel` component.
 pub fn InspectorPanel(wb: Signal<Workbench>) -> Element {
     let w = wb();
     if let Some(id) = w.selected.clone() {

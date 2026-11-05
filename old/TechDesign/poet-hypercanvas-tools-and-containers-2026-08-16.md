@@ -156,7 +156,7 @@ Performance ∩ capability (do these before a native chrome rewrite): [`native-p
 
 ---
 
-## 7. Dioxus version (so we do not thrash the studio)
+## 7. Aether version (so we do not thrash the studio)
 
 | Pin | Role |
 |---|---|

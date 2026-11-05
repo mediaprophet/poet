@@ -13,7 +13,7 @@ effect fn git_status() {
 "#;
 
 #[component]
-/// Dioxus `GitBody` component.
+/// Aether `GitBody` component.
 pub fn GitBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

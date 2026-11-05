@@ -29,6 +29,7 @@ pub struct JunctionLimits {
 }
 
 /// Sample-edge identifiers are local grid provenance, not organ identifiers.
+#[allow(dead_code)]
 pub struct JunctionScratchResult {
     pub vertices: Vec<cg::Point3>,
     pub triangles: Vec<[u32; 3]>,

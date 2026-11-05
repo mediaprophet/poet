@@ -8,7 +8,7 @@
 
 ## 1. Executive Overview & Architecture Bridge
 
-This document tracks the end-to-end implementation and alignment between the **Instructional Mock UI** (`C:\Projects\NLP\Canvas_Workbench`), the **Dioxus Studio Frontend** (`qualia-27062026/crates/webizen-studio/src/components/poet`), and the **Native Tauri Desktop Host** (`qualia-27062026/crates/webizen-desktop`).
+This document tracks the end-to-end implementation and alignment between the **Instructional Mock UI** (`C:\Projects\NLP\Canvas_Workbench`), the **Aether Studio Frontend** (`qualia-27062026/crates/webizen-studio/src/components/poet`), and the **Native Tauri Desktop Host** (`qualia-27062026/crates/webizen-desktop`).
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -19,7 +19,7 @@ This document tracks the end-to-end implementation and alignment between the **I
                                                │ (Port UI Architecture & Patterns)
                                                ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                              WEBIZEN-STUDIO (DIOXUS RUST WASM/UI)                           │
+│                              WEBIZEN-STUDIO (AETHER RUST WASM/UI)                           │
 │  - TopMenubar, ControlBar, Dynamic Clipable Context Ribbon, ToolChest, Stage, TechSidebar  │
 │  - 13 Container Nodes, Modular In-Container Tool Suites (tools/* directories)               │
 └──────────────────────────────────────────────┬──────────────────────────────────────────────┘
@@ -537,7 +537,7 @@ Phase 1: Architecture & Mock Foundation (Current)
 ├── [x] Build modular tool suites (rich_text, sheet, rdf_graph, ten_d_assets, media_studio, etc.)
 └── [x] Update IMPLEMENT.md with Toolchain Deck and Control Pod patterns
 
-Phase 2: Dioxus Webizen-Studio Port
+Phase 2: Aether Webizen-Studio Port
 ├── [ ] Create modular tool components under webizen-studio/src/components/poet/tools/
 ├── [ ] Implement Dynamic Context Ribbon Receptor in chrome.rs / ControlBar
 ├── [ ] Rename Canvases -> Manifolds menu in TopMenubar
@@ -565,7 +565,7 @@ Phase 3: Webizen-Desktop Tauri IPC Integration
 | **Media & 3D Kinematics** | `present` / `live` | Local CSS 3D + WGPU | Port trackball orbit to stage transform & WGPU frame. |
 | **WebRTC Audio/Video** | `present` | Native WebRTC crate | Encrypted monitor placeholder; never claim fake live feed. |
 | **Health Telemetry** | `present` | Generic Adult Baseline | Generic adult metrics only; strictly no named-person clinical data. |
-| **Dynamic Clipable Ribbon**| `live` | Local DOM / Dioxus Signal | Dynamic mounting of domain toolbar based on active node focus. |
+| **Dynamic Clipable Ribbon**| `live` | Local DOM / Aether Signal | Dynamic mounting of domain toolbar based on active node focus. |
 | **Accessibility Modes** | `live` | CSS Custom Properties | Dynamic theme classes (`a11y-high-contrast`, `a11y-scale-*`). |
 | **AI Agent Semantic Tree** | `live` / `partial`| DOM ARIA / Merkle DAG | Machine-actionable dual-use tree for human a11y and AI agents. |
 

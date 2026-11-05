@@ -736,7 +736,7 @@ fn build_app(document: &Document) -> HtmlElement {
     app.set_class_name("app");
     surface_aspects::mark(&app, "entrance");
 
-    // Build the populated registry — all 15 Dioxus-parity toolboxes + manifold seeds.
+    // Build the populated registry — all 15 Aether-parity toolboxes + manifold seeds.
     let registry = registration::build_registry();
     let defaults: Vec<ManifoldSeed> = registry.manifolds().to_vec();
     let mut seeds = manifest::load_saved_seeds()

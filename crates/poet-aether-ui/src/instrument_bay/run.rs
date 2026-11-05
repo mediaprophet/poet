@@ -77,7 +77,7 @@ fn status_copy(phase: RunPhase, entry: &str) -> &'static str {
 }
 
 #[component]
-/// Dioxus `RunPanel` component.
+/// Aether `RunPanel` component.
 pub fn RunPanel(entry: String) -> Element {
     let mut phase = use_signal(|| RunPhase::Idle);
     let mut input = use_signal(|| String::new());

@@ -267,7 +267,7 @@ The loopback HTTP server serves installed QApp assets from `{storage_path}/Qapps
 - `describe_qapp_surface_schema_json` — returns QApp host surface schema:
   - Layout strategies: PointGrid, CssGrid, FlexBox, Masonry
   - Presentation modes: GridBound, NodeRelational, Spatial
-  - Manifest surfaces: static-web, wasm-local, online-daemon-aware, native-dioxus-pane
+  - Manifest surfaces: static-web, wasm-local, online-daemon-aware, native-aether-pane
 
 **Status: live** — MCP tools implemented and available.
 

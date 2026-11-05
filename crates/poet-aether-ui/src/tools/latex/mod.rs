@@ -3,7 +3,7 @@
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `LatexToolbar` component.
+/// Aether `LatexToolbar` component.
 pub fn LatexToolbar() -> Element {
     rsx! {
         div { style: bar(),

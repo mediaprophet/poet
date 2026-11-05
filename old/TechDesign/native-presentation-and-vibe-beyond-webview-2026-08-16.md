@@ -6,17 +6,17 @@
 **Principal / inventor:** Timothy Charles Holborn  
 **Copyright © 2026 Timothy Charles Holborn.** All rights reserved.
 
-This note takes a Gemini (Antigravity) conversation on Tauri v2 vs Dioxus, Dioxus-on-WASM, a custom 10D pipeline, and a “Web VM” that eradicates V8, and **grounds it in what Qualia already is**. It adds an incremental replacement sequence that prefers **modern native technique** over compatibility with a public Webizen/Qualia release that **has not happened yet**.
+This note takes a Gemini (Antigravity) conversation on Tauri v2 vs Aether, Aether-on-WASM, a custom 10D pipeline, and a “Web VM” that eradicates V8, and **grounds it in what Qualia already is**. It adds an incremental replacement sequence that prefers **modern native technique** over compatibility with a public Webizen/Qualia release that **has not happened yet**.
 
 **The point of that sequence is not “a nicer website.”** Qualia/Webizen is allowed to be an **advanced, optimised, re-envisaged environment that is different from the traditional WWW ecosystem.** HTML, CSS, JS, and JSON do not define it. They do not veto it. Ontologies of those parts exist so WWW can be a **named, optional exit** — not the design language.
 
 | Leave (host / legacy WWW pair) | Arrive (product HID) |
 |---|---|
 | **JSON** as IPC, REST, diagnose blobs, and “JSON-LD on the wire” | **CBOR-LD 1.0** as the machine and wire layer |
-| **JavaScript** (and Dioxus `rsx!` as a stand-in) as the app language | **Vibe** interpreted by Poet |
+| **JavaScript** (and Aether `rsx!` as a stand-in) as the app language | **Vibe** interpreted by Poet |
 | **HTML + CSS** as the document and layout language | **HCF** (yaml-ld-q42) + **SceneContract** / 10D / theme morphology |
 
-HCF already titles this: *“Pure Linked Data from Authoring to Wire: The End of XML, HTML, and JS Bloat.”* Authoring is **yaml-ld-q42**. Wire is **CBOR-LD**. Language is **Vibe**. Presentation is **Poet + SceneContract**, not a DOM. Resident graph is **Q42 / NQuin**. Pulse carries **CBOR**, not JSON documents. Dioxus, Tauri JSON commands, wasm-bindgen glue, and `*.json` sidecars are a **temporary host**, not the destination.
+HCF already titles this: *“Pure Linked Data from Authoring to Wire: The End of XML, HTML, and JS Bloat.”* Authoring is **yaml-ld-q42**. Wire is **CBOR-LD**. Language is **Vibe**. Presentation is **Poet + SceneContract**, not a DOM. Resident graph is **Q42 / NQuin**. Pulse carries **CBOR**, not JSON documents. Aether, Tauri JSON commands, wasm-bindgen glue, and `*.json` sidecars are a **temporary host**, not the destination.
 
 **2026-08-16 reviews:**
 
@@ -36,8 +36,8 @@ Classic UI stays default until Timothy writes `approve deprecate:`.
 | **WASM package family is the bridge** | **§0.3** |
 | What the product already does | §1 |
 | **Quick wins: faster *and* more Qualia used** | **§1.3** |
-| Tauri vs Dioxus **in this repo** (not generic Medium) | §2 |
-| Can Dioxus be a WASM app? | §3 |
+| Tauri vs Aether **in this repo** (not generic Medium) | §2 |
+| Can Aether be a WASM app? | §3 |
 | How big is a custom Qualia presentation library? | §4 |
 | Biggest wins, in order (WebView *and* wire) | §5 |
 | Vibe instead of JavaScript (why 0.1 is not a JS clone) | §6 |
@@ -60,7 +60,7 @@ yaml-ld-q42  ──encode──►  CBOR-LD 1.0  ──map──►  Q42 / NQuin
 |---|---|---|---|
 | **Document / QApp** | yaml-ld-q42 source, HCF persist | Studio `rsx!` + HTML mock | HTML, XML, TinyMCE |
 | **Wire / IPC / sync** | CBOR-LD 1.0 (HCF §3; vibe essay §5.A) | Tauri `serde` JSON commands; `--progress json`; ingest `*.q42.source.json`; agent diagnose JSON | JSON-LD as the *wire*; REST-of-JSON Quins |
-| **Language** | Vibe (`poet-vibe`, no JIT) | Dioxus Rust chrome; wasm-bindgen JS *glue* | JavaScript as the app language; Boa as a Vibe interpreter |
+| **Language** | Vibe (`poet-vibe`, no JIT) | Aether Rust chrome; wasm-bindgen JS *glue* | JavaScript as the app language; Boa as a Vibe interpreter |
 | **Events** | Pulse (CBOR envelopes already exist in `chat_mesh`) | DOM events + Tauri events | `addEventListener` as the HID bus |
 | **Graph** | Q42 / Super-Quin | JSON clones of Quins into WASM | “the app state is a JS object” |
 
@@ -77,7 +77,7 @@ yaml-ld-q42  ──encode──►  CBOR-LD 1.0  ──map──►  Q42 / NQuin
 - 0.1 is closed, typed, effect-bounded, iOS-safe (no JIT). It **reaches** Qualia; it does not reimplement Chromium.
 - The consult line “do not try to replace JS” meant: **0.1 is not a JS clone and does not host React.** It did **not** mean the product keeps JavaScript. Replacing JS *as Qualia’s application language* is the HID destination. That is a later numbered profile (`vibe-hid-0.2` suggested) plus this wire, not a 0.1 grammar fork.
 
-**Honesty (do not claim done):** desktop Poet still crosses Tauri as JSON-shaped values; Vibe still evaluates a Rust AST (not yet a CBOR-LD AST on disk); ingest attestation sidecars are JSON; Classic chrome is Dioxus-web. Those are **debt**, scheduled in §1.3 / §5, not architecture.
+**Honesty (do not claim done):** desktop Poet still crosses Tauri as JSON-shaped values; Vibe still evaluates a Rust AST (not yet a CBOR-LD AST on disk); ingest attestation sidecars are JSON; Classic chrome is Aether-web. Those are **debt**, scheduled in §1.3 / §5, not architecture.
 
 ### 0.2 WWW ontologies are optional exits — they do not confine the HID
 
@@ -187,8 +187,8 @@ The Gemini notes describe a greenfield “Rust GUI vs Electron” fork. Qualia i
 | Piece | What exists | Where |
 |---|---|---|
 | Desktop shell | **Tauri 2** (`tauri = 2.11.5`) — OS WebView, tray, updater, custom protocol | `crates/webizen-desktop` |
-| Workbench UI | **Dioxus 0.8.0-alpha.1** with `router` + `web` — compiled for the WebView, **not** `dioxus-desktop` | `crates/webizen-studio` |
-| Why not Dioxus desktop today | Studio Cargo.toml: *“dioxus is included with `router` only (not `desktop`) to avoid wry conflicts”* with Tauri’s wry | same crate |
+| Workbench UI | **Aether 0.8.0-alpha.1** with `router` + `web` — compiled for the WebView, **not** `aether-desktop` | `crates/webizen-studio` |
+| Why not Aether desktop today | Studio Cargo.toml: *“aether is included with `router` only (not `desktop`) to avoid wry conflicts”* with Tauri’s wry | same crate |
 | Poet HyperCanvas | `/poet` takes the window; manifolds, chest, move/resize | `crates/webizen-studio/src/components/poet/` |
 | Instructional mock | HTML HyperCanvas (Gemini/Antigravity lane) | `C:\Projects\NLP\Canvas_Workbench` + [`consult/antigravity-hypercanvas-mock.md`](file:///C:/Projects/NLP/consult/antigravity-hypercanvas-mock.md) |
 | Vibe 0.1 | Lexer / parser / check / eval, `capability.invoke`, no JIT | `crates/poet-vibe`, host in `qualia-core-db::poet_host` |
@@ -197,7 +197,7 @@ The Gemini notes describe a greenfield “Rust GUI vs Electron” fork. Qualia i
 | WASM products | Explicit profiles (ontology MCP, portal, logic, scientific, LLM, full) — not one “dump the engine in the browser” | [`docs/manuals/wasm-capability-profiles.md`](../manuals/wasm-capability-profiles.md) |
 | Inference | In-process GGUF / wgpu. **No Ollama.** | `llm_agent.rs`, `gguf_bridge.rs` |
 
-So the live desktop is already a **hybrid**: Tauri owns the window and OS; Dioxus-web owns the chrome as WASM/HTML inside that WebView; wgpu owns scientific/volumetric paint on a **separate** GPU path (`/gpu-viewport`, `poet_render`). The expensive Chromium-class cost is the **WebView chrome**, not the absence of a GPU engine.
+So the live desktop is already a **hybrid**: Tauri owns the window and OS; Aether-web owns the chrome as WASM/HTML inside that WebView; wgpu owns scientific/volumetric paint on a **separate** GPU path (`/gpu-viewport`, `poet_render`). The expensive Chromium-class cost is the **WebView chrome**, not the absence of a GPU engine.
 
 ### 1.2 Normative Vibe / Poet documents (link these when socialising)
 
@@ -286,7 +286,7 @@ Q0.1–Q0.4 are the highest leverage for *employment*. Q0.8–Q0.9 are the highe
 
 | Tempting | Why it fails the dual test |
 |---|---|
-| Swap Tauri for `dioxus-desktop` | Same wry/WebView; Cargo already forbids the clash |
+| Swap Tauri for `aether-desktop` | Same wry/WebView; Cargo already forbids the clash |
 | Embed TinyMCE / a chart NPM | Slower *and* blocks gazetteer / HCF / Vibe cells |
 | “Keep JSON-LD as the wire because tools know JSON” | Tools can transcode; the *product* wire is CBOR-LD. JSON-LD is a *view*, not the bus |
 | COF HTML+RDFa as the *app* interop surface | §0.3: proportionate WASM family + CBOR-LD. COF is a token-window projector only |
@@ -325,27 +325,27 @@ Do not extrapolate a kernel µs to end-to-end. Do not mark `live` if the UI stil
 
 ---
 
-## 2. Tauri v2 vs Dioxus — refined for Qualia
+## 2. Tauri v2 vs Aether — refined for Qualia
 
 The Gemini comparison is directionally right and **wrong about this repository** in one important place.
 
 ### 2.1 Generic distinction (keep)
 
-| | Tauri v2 | Dioxus |
+| | Tauri v2 | Aether |
 |---|---|---|
 | Philosophy | Polyglot shell: any web frontend + Rust host | One language: `rsx!` virtual DOM |
-| Desktop paint today (typical) | OS WebView (WebView2 / WKWebView / WebKitGTK) | Same **wry/tao** stack if you use `dioxus-desktop` |
-| Web | Deploy the JS/WASM frontend | First-class `dioxus-web` → WASM |
+| Desktop paint today (typical) | OS WebView (WebView2 / WKWebView / WebKitGTK) | Same **wry/tao** stack if you use `aether-desktop` |
+| Web | Deploy the JS/WASM frontend | First-class `aether-web` → WASM |
 | IPC | JS ↔ Rust commands/events | Native desktop: Rust drives the DOM without a second app language. Web: still WASM↔JS for DOM. |
 
-Dioxus desktop is **not** “no WebView.” It is “no second UI language.” The pixels of ordinary chrome still go through a WebView unless you adopt an experimental native renderer (Blitz / similar). wgpu in Qualia is already that native path for **manifolds and volumes**, not for menus.
+Aether desktop is **not** “no WebView.” It is “no second UI language.” The pixels of ordinary chrome still go through a WebView unless you adopt an experimental native renderer (Blitz / similar). wgpu in Qualia is already that native path for **manifolds and volumes**, not for menus.
 
 ### 2.2 What Qualia actually compiled
 
 ```
 webizen-desktop (Tauri 2, native Rust)
     └── WebView
-            └── webizen-studio (Dioxus 0.8 web + router) as WASM/HTML
+            └── webizen-studio (Aether 0.8 web + router) as WASM/HTML
                     ├── Classic routes (default)
                     └── /poet HyperCanvas
     └── shared wgpu device (render::gpu / webizen-render) — not the WebView compositor
@@ -353,14 +353,14 @@ webizen-desktop (Tauri 2, native Rust)
 
 Consequences:
 
-1. **We already use both.** Dropping Tauri for `dioxus-desktop` would swap one wry owner for another and re-open the wry-conflict the Cargo.toml already documents. That is not a win by itself.
-2. **Dioxus-web is already a WASM app** — it is how Studio ships inside the desktop shell and how Pages can host instructional surfaces. §3 is “yes, and here is the profile discipline.”
-3. The **Chromium-class tax** is WebView2 (Windows) / system WebKit (elsewhere), plus whatever JS the Dioxus renderer still emits at the WASM↔DOM boundary. It is **not** “we bundled Electron.”
+1. **We already use both.** Dropping Tauri for `aether-desktop` would swap one wry owner for another and re-open the wry-conflict the Cargo.toml already documents. That is not a win by itself.
+2. **Aether-web is already a WASM app** — it is how Studio ships inside the desktop shell and how Pages can host instructional surfaces. §3 is “yes, and here is the profile discipline.”
+3. The **Chromium-class tax** is WebView2 (Windows) / system WebKit (elsewhere), plus whatever JS the Aether renderer still emits at the WASM↔DOM boundary. It is **not** “we bundled Electron.”
 4. The **10D tax** is already paid on the wgpu side. The remaining gap is **chrome and document layout**, not “we have no GPU.”
 
 ### 2.3 When to keep the hybrid (now)
 
-Keep Tauri + Dioxus-web while:
+Keep Tauri + Aether-web while:
 
 - Classic must remain the default HID;
 - HyperCanvas is still being designed in the NLP mock;
@@ -371,18 +371,18 @@ That is an **increment**, not a loyalty to Chromium.
 
 ---
 
-## 3. Yes — Dioxus can be a WASM app (and already is)
+## 3. Yes — Aether can be a WASM app (and already is)
 
-Two Dioxus web shapes, mapped to Qualia products:
+Two Aether web shapes, mapped to Qualia products:
 
 | Shape | Meaning here | Honest use |
 |---|---|---|
-| **dioxus-web SPA** | Entire chrome in WASM, static host | Studio-in-WebView; optional Pages **instructional** builds. Do **not** point public Pages at `0.0.31-dev` wholesale. |
-| **dioxus-fullstack** | Same crate, server functions + WASM client | Not the Qualia model. Graph, Sentinel, and keys stay in-process or on the principal’s machine. Do not invent a “Vibe cloud.” |
+| **aether-web SPA** | Entire chrome in WASM, static host | Studio-in-WebView; optional Pages **instructional** builds. Do **not** point public Pages at `0.0.31-dev` wholesale. |
+| **aether-fullstack** | Same crate, server functions + WASM client | Not the Qualia model. Graph, Sentinel, and keys stay in-process or on the principal’s machine. Do not invent a “Vibe cloud.” |
 
 Workspace rule that already exists and must stay: **WASM is a product profile**, not a leftover of the native graph. `wasm_capabilities.rs` and the ontology MCP size gate (raw / gzip) are the pattern. A “full engine in the browser” is how you ship a 42 MB Sentinel you cannot honour.
 
-Dioxus WASM still **cannot touch the DOM without JS**. Diffs stay in Rust; patches cross `wasm-bindgen`. That is fine for chrome. It is the wrong bus for 10D tensors — those already go `NQuin` / `Tensor10D` → wgpu.
+Aether WASM still **cannot touch the DOM without JS**. Diffs stay in Rust; patches cross `wasm-bindgen`. That is fine for chrome. It is the wrong bus for 10D tensors — those already go `NQuin` / `Tensor10D` → wgpu.
 
 ---
 
@@ -459,12 +459,12 @@ Phase E  Optional WWW compatibility VM
 
 **Win:** 10D / mesh / bloom already off the DOM.  
 **Do:** keep `/gpu-viewport` and `Render.scene` as the only honest 3D/4D path. Stop drawing fake WebGL cubes in the mock as if they were the engine.  
-**Don’t:** start a second wgpu instance from Dioxus.
+**Don’t:** start a second wgpu instance from Aether.
 
 ### Phase B — Poet stage is a SceneContract
 
 **Win:** container `x,y,w,h`, wires, and spatial bodies share the renderer the engine already certifies.  
-**Do:** one `SceneContract` per manifold (already the n-D HID plan). Dioxus keeps being the **editor of the contract** (or Vibe does), not the rasterizer.  
+**Do:** one `SceneContract` per manifold (already the n-D HID plan). Aether keeps being the **editor of the contract** (or Vibe does), not the rasterizer.  
 **Effort:** weeks if we reuse `webizen-render`; months if we insist every toolbox widget is a GPU node on day one.
 
 ### Phase C — Native chrome
@@ -576,4 +576,4 @@ None of these require stopping OSM ingest or rewriting Tauri this week.
 
 ## 10. One-paragraph summary for reviewers
 
-Qualia’s desktop is already Tauri 2 + Dioxus-web (WASM in a system WebView) + a real wgpu 10D/volumetric engine. That stack is a **temporary host**. The destination pair is **CBOR-LD on the wire** and **Vibe as the language** (HCF: end of XML, HTML, and JS bloat; authoring remains yaml-ld-q42). The HID is **not confined** to HTML/CSS. The **bridge** to a foreign host or agent is a **proportionate WASM family member** plus CBOR-LD / Q42 (§0.3), not HTML+RDFa. Dioxus `rsx!`, Tauri JSON commands, and wasm-bindgen glue are not the product language or the product wire. The **quick** wins are Poet containers calling `poet_eval` / `capability.invoke` / `Nlp.analyze` / `Render.scene` that are **already bound**, with graphs and frames as **handles** (then CBOR-LD, never JSON Quins). Leaving Chromium-class chrome (§5) and leaving JSON IPC are the same replacement, done incrementally, *after* those desks are live (§1.3). Vibe 0.1 reaches the engine without being a JS clone; a later HID profile owns scene/tensor values still without becoming JavaScript. A WWW VM is an optional Browse product that may interpret *other people’s* JS in quarantine. Classic stays until explicitly deprecated.
+Qualia’s desktop is already Tauri 2 + Aether-web (WASM in a system WebView) + a real wgpu 10D/volumetric engine. That stack is a **temporary host**. The destination pair is **CBOR-LD on the wire** and **Vibe as the language** (HCF: end of XML, HTML, and JS bloat; authoring remains yaml-ld-q42). The HID is **not confined** to HTML/CSS. The **bridge** to a foreign host or agent is a **proportionate WASM family member** plus CBOR-LD / Q42 (§0.3), not HTML+RDFa. Aether `rsx!`, Tauri JSON commands, and wasm-bindgen glue are not the product language or the product wire. The **quick** wins are Poet containers calling `poet_eval` / `capability.invoke` / `Nlp.analyze` / `Render.scene` that are **already bound**, with graphs and frames as **handles** (then CBOR-LD, never JSON Quins). Leaving Chromium-class chrome (§5) and leaving JSON IPC are the same replacement, done incrementally, *after* those desks are live (§1.3). Vibe 0.1 reaches the engine without being a JS clone; a later HID profile owns scene/tensor values still without becoming JavaScript. A WWW VM is an optional Browse product that may interpret *other people’s* JS in quarantine. Classic stays until explicitly deprecated.

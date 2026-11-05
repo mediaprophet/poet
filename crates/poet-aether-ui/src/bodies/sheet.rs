@@ -23,7 +23,7 @@ effect fn pivot() {
 "#;
 
 #[component]
-/// Dioxus `SheetBody` component.
+/// Aether `SheetBody` component.
 pub fn SheetBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

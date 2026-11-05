@@ -87,7 +87,7 @@ const TOOLBAR: [LibraryAction; 6] = [
 ];
 
 #[component]
-/// Dioxus `InstrumentBay` component.
+/// Aether `InstrumentBay` component.
 pub fn InstrumentBay() -> Element {
     let mut selected = use_signal(|| Option::<&'static str>::None);
     let mut selected_custom = use_signal(|| Option::<String>::None);

@@ -95,7 +95,7 @@ pub fn ManifoldPortalMiniPreview(#[props(default = "Nested Sub-Manifold Portal")
 }
 
 #[component]
-/// Dioxus `NodeBody` component.
+/// Aether `NodeBody` component.
 pub fn NodeBody(kind: ContainerKind) -> Element {
     rsx! {
         match kind {

@@ -43,6 +43,7 @@ pub fn verify_atomic_resource_batch(
 }
 
 /// Strict mode: enforces typed container verification on all typed containers.
+#[allow(dead_code)]
 pub fn verify_strict_typed_containers(
     edits: &[ResourceEdit],
     max_batch_bytes: usize,

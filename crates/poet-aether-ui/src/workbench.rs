@@ -116,7 +116,7 @@ fn install_global_keys(mut wb: Signal<Workbench>, mut radial: Signal<RadialState
 }
 
 #[component]
-/// Dioxus `PoetWorkbench` component.
+/// Aether `PoetWorkbench` component.
 pub fn PoetWorkbench() -> Element {
     let mut wb = use_signal(Workbench::new);
     use_context_provider(|| wb);

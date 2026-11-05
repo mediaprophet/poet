@@ -44,7 +44,7 @@ fn get_poet_project_handoff() -> (String, String) {
 }
 
 #[component]
-/// Dioxus `SocialBody` component.
+/// Aether `SocialBody` component.
 pub fn SocialBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

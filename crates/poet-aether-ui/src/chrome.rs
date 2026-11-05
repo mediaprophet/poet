@@ -9,7 +9,7 @@ use super::store::Workbench;
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `TopMenubar` component.
+/// Aether `TopMenubar` component.
 pub fn TopMenubar(wb: Signal<Workbench>) -> Element {
     let open = wb().menu;
     rsx! {
@@ -177,7 +177,7 @@ fn set_dim(mut wb: Signal<Workbench>, dim: DimMode) {
 }
 
 #[component]
-/// Dioxus `ControlBar` component.
+/// Aether `ControlBar` component.
 pub fn ControlBar(wb: Signal<Workbench>) -> Element {
     let w = wb();
     let secs = (w.time_progress.clamp(0.0, 1.0) * 86399.0) as u64;
@@ -339,7 +339,7 @@ pub fn ControlBar(wb: Signal<Workbench>) -> Element {
 }
 
 #[component]
-/// Dioxus `NativeDaemonChip` component.
+/// Aether `NativeDaemonChip` component.
 pub fn NativeDaemonChip() -> Element {
     let mut probe = use_signal(DaemonProbe::default);
     use_effect(move || {
@@ -396,7 +396,7 @@ pub fn NativeDaemonChip() -> Element {
 }
 
 #[component]
-/// Dioxus `StatusBar` component.
+/// Aether `StatusBar` component.
 pub fn StatusBar(wb: Signal<Workbench>) -> Element {
     let w = wb();
     let node = w.selected.clone().unwrap_or_else(|| "none".into());
@@ -449,7 +449,7 @@ fn NativeGraphHint() -> Element {
 }
 
 #[component]
-/// Dioxus `Expose` component.
+/// Aether `Expose` component.
 pub fn Expose(wb: Signal<Workbench>) -> Element {
     if !wb().expose {
         return rsx! {};

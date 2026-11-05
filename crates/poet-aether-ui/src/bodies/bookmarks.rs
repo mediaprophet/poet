@@ -12,7 +12,7 @@ effect fn list_bookmarks() {
 "#;
 
 #[component]
-/// Dioxus `BookmarksBody` component.
+/// Aether `BookmarksBody` component.
 pub fn BookmarksBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

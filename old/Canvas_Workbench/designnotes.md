@@ -120,7 +120,7 @@ The dock is a **tool chest** (furniture). It holds themed **toolboxes** (drawers
 
 ## 5. Honesty Labels Framework
 
-To keep instructional mocks strictly honest for downstream implementation in Qualia Desktop (Dioxus Poet):
+To keep instructional mocks strictly honest for downstream implementation in Qualia Desktop (Aether Poet):
 
 - **`live`**: Fully functional local browser state / math (pan, zoom, orbit, event bus).
 - **`partial`**: Local mock AST inspector, RDF spans, matrix row insertion, GIS track scrubbing.

@@ -58,7 +58,7 @@ pub fn can_run(life: &LibraryLife) -> Result<(), &'static str> {
 }
 
 #[component]
-/// Dioxus `LifecyclePanel` component.
+/// Aether `LifecyclePanel` component.
 pub fn LifecyclePanel() -> Element {
     let mut life = use_signal(|| LibraryLife {
         collected: true,

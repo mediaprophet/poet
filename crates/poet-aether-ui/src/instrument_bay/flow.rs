@@ -161,7 +161,7 @@ fn nodes_for(entry: &str) -> &'static [FlowNode] {
 }
 
 #[component]
-/// Dioxus `InstrumentFlow` component.
+/// Aether `InstrumentFlow` component.
 pub fn InstrumentFlow(entry: String) -> Element {
     let nodes = nodes_for(&entry);
     let mut focus = use_signal(|| 0usize);

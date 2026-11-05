@@ -4,7 +4,7 @@ use super::kinds::{ContainerInstance, ManifoldId, ToolSpec, ToolboxId};
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `ToolChest` component.
+/// Aether `ToolChest` component.
 pub fn ToolChest(
     open: ToolboxId,
     on_open: EventHandler<ToolboxId>,

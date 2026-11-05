@@ -1,6 +1,6 @@
 //! Webizen Studio: Unified Icon Component & Registry
 //!
-//! Provides the `IconBadge` Dioxus component, mapping semantic icon identifiers
+//! Provides the `IconBadge` Aether component, mapping semantic icon identifiers
 //! to Webizen Icons (`.wi`) PUA glyphs with automated fallback rendering.
 
 use aether::prelude::*;
@@ -93,7 +93,7 @@ pub fn lookup_icon(id: &str) -> Option<&'static IconDescriptor> {
 }
 
 #[component]
-/// Dioxus `IconBadge` component.
+/// Aether `IconBadge` component.
 pub fn IconBadge(
     id: &'static str,
     #[props(default)] state: Option<String>,

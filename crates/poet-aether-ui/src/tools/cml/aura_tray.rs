@@ -1,4 +1,4 @@
-//! Aura Tray Dioxus Component (<q-aura-tray>)
+//! Aura Tray Aether Component (<q-aura-tray>)
 //!
 //! Real-time footer for <q-doc> displaying SHACL conformance, certainty percentage,
 //! Super-Quin slot expansion count, and .hcf container export action.
@@ -11,7 +11,7 @@ use crate::host;
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `AuraTray` component.
+/// Aether `AuraTray` component.
 pub fn AuraTray(
     #[props(default = true)] conformant: bool,
     #[props(default = 98)] certainty: u8,

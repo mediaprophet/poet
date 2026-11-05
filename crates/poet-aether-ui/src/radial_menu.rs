@@ -1,4 +1,4 @@
-//! 8-Sector Radial Action Ring Dioxus Component
+//! 8-Sector Radial Action Ring Aether Component
 //!
 //! Copyright (c) 2026 Timothy Charles Holborn. All rights reserved.
 
@@ -74,7 +74,7 @@ pub const SECTORS: [RadialSector; 8] = [
 ];
 
 #[component]
-/// Dioxus `RadialActionRing` component.
+/// Aether `RadialActionRing` component.
 pub fn RadialActionRing(wb: Signal<Workbench>, state: Signal<RadialState>) -> Element {
     let s = state();
     if !s.visible {

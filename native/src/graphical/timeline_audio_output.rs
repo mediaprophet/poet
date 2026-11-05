@@ -8,12 +8,14 @@ use std::sync::atomic::{AtomicBool,Ordering};
 const MAX_INPUT:usize=16*1024*1024;
 const MAX_PAYLOAD:usize=80*1024*1024;
 
+#[allow(dead_code)]
 pub(super) struct PreparedWav {pub rate:u32,pub channels:u16,pub source_start_frame:u64,pub samples:Vec<f32>}
 impl PreparedWav { pub fn frames(&self)->usize {self.samples.len()/usize::from(self.channels)} }
 
 /// A bounded two-mono-track audition. Qualia Audio's existing block plan
 /// supplies equal centre-panned gains (0.5 per input on each output channel).
 /// The output stops at the shorter admitted overlap, capped at 15 seconds.
+#[cfg(test)]
 pub(super) fn mix_two_mono(
     mut a:TimelineMediaSelection, mut b:TimelineMediaSelection, cancelled:&AtomicBool,
 )->Result<PreparedWav,String>{

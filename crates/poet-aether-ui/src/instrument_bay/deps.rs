@@ -49,7 +49,7 @@ pub fn election_status(deps: &[DepReq]) -> &'static str {
 }
 
 #[component]
-/// Dioxus `DepsPanel` component.
+/// Aether `DepsPanel` component.
 pub fn DepsPanel() -> Element {
     let mut resolved_exec = use_signal(|| false);
     let deps: Vec<DepReq> = SEED

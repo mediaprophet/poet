@@ -10,7 +10,7 @@ effect fn list_jobs() {
 "#;
 
 #[component]
-/// Dioxus `JobCenterBody` component.
+/// Aether `JobCenterBody` component.
 pub fn JobCenterBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

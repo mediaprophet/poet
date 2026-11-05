@@ -65,7 +65,7 @@ const CHAINS: &[ChainMeta] = &[
 ];
 
 #[component]
-/// Dioxus `EconomicsBody` component.
+/// Aether `EconomicsBody` component.
 pub fn EconomicsBody() -> Element {
     let mut selected_chain = use_signal(|| 0usize);
     let mut out = use_signal(|| String::new());

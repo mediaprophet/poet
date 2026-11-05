@@ -7,7 +7,7 @@ use super::store::Workbench;
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `ToolChest` component.
+/// Aether `ToolChest` component.
 pub fn ToolChest(wb: Signal<Workbench>) -> Element {
     let w = wb();
     let pos = w.dock.id();

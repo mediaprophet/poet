@@ -177,7 +177,7 @@ Deploying this architecture to mobile devices introduces specific platform const
 ```
                   ┌─────────────────────────────────────────┐
                   │          Mobile App Container           │
-                  │   (Dioxus Mobile / Wry / WKWebView)     │
+                  │   (Aether Mobile / Wry / WKWebView)     │
                   └────────────────────┬────────────────────┘
                                        │
             ┌──────────────────────────┴──────────────────────────┐
@@ -200,7 +200,7 @@ Deploying this architecture to mobile devices introduces specific platform const
 ### B. Mobile Native Bindings
 
 * **Single Core Binary:** The entire backend (`qualia_core_db` + `qapp-script` engine + networking) compiles to universal static libraries (`.a` / `.xcframework` for iOS; `.so` with JNI / `ndk-build` for Android).
-* **UI Hosting:** The UI layer renders through `dioxus-mobile` or embedded native webviews (`WKWebView` on iOS and `WebView` on Android), providing identical rendering for `<q-entity>`, `<q-doc>`, and `<q-graph-view>` components.
+* **UI Hosting:** The UI layer renders through `aether-mobile` or embedded native webviews (`WKWebView` on iOS and `WebView` on Android), providing identical rendering for `<q-entity>`, `<q-doc>`, and `<q-graph-view>` components.
 
 ---
 
@@ -281,9 +281,9 @@ Exposing these algorithms as native Rust-backed functions within the interpreter
 
 | Platform Target | Host Runtime | `qapp-script` Mode | UI Rendering Pipeline | Wire Format / Sync |
 | --- | --- | --- | --- | --- |
-| **Desktop / Daemon** | Native Rust AOT | Embedded Rhai/AST (Rust) | Webizen (`dioxus-desktop` / Wry) | Full Q42 DAG, TCP/QUIC, CBOR-LD |
+| **Desktop / Daemon** | Native Rust AOT | Embedded Rhai/AST (Rust) | Webizen (`aether-desktop` / Wry) | Full Q42 DAG, TCP/QUIC, CBOR-LD |
 | **Browser Client** | `wasm32-unknown-unknown` | Interpreted in WASM runtime | Vanilla DOM / Web Components | WebSockets / WebRTC, CBOR-LD |
-| **Mobile (iOS/Android)** | Compiled `.a` / `.so` FFI | Pure Rust AST (No JIT required) | `dioxus-mobile` / WKWebView | Mobile Network, Merkle Sync |
+| **Mobile (iOS/Android)** | Compiled `.a` / `.so` FFI | Pure Rust AST (No JIT required) | `aether-mobile` / WKWebView | Mobile Network, Merkle Sync |
 | **IoT / Edge Devices** | Stripped Native Rust | Embedded Micro-Interpreter | Headless / Custom Sensor Bus | CoAP / MQTT, CBOR-LD Deltas |
 
 ---

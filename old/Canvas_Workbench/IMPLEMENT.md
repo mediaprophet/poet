@@ -65,7 +65,7 @@
 - `xyzd` 3D/4D perspective: **live** (local CSS 3D matrix transforms and trackball gizmo).
 
 ### Do Not Port
-- Pixel-specific blur/glow CSS values (Dioxus Poet uses its own native styling pipeline).
+- Pixel-specific blur/glow CSS values (Aether Poet uses its own native styling pipeline).
 - Placeholder lorem text and throwaway string mocks.
 
 ### ⚑ For Timothy
@@ -126,7 +126,7 @@
 - SHACL shape validation report: **partial** (Aura alignment matrix + shape rules).
 
 ### Do Not Port
-- Throwaway CSS filter/glow constants (Dioxus Poet uses native theme tokens).
+- Throwaway CSS filter/glow constants (Aether Poet uses native theme tokens).
 
 ### ⚑ For Timothy
 - None. Dynamic contextual toolbar architecture matches the requested "clipable" top ribbon paradigm with full overflow and density controls.

@@ -3,7 +3,7 @@
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `SheetToolbar` component.
+/// Aether `SheetToolbar` component.
 pub fn SheetToolbar() -> Element {
     rsx! {
         div { style: bar(),

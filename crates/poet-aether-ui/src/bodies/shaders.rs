@@ -28,7 +28,7 @@ effect fn synth_attn() {
 "#;
 
 #[component]
-/// Dioxus `ShadersBody` component.
+/// Aether `ShadersBody` component.
 pub fn ShadersBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

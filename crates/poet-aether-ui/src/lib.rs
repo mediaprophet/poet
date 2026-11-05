@@ -39,7 +39,7 @@ pub use workbench::PoetWorkbench;
 pub use xyzd_gizmo::{GizmoMode, XyzdGizmo};
 
 #[component]
-/// Dioxus `PoetHarness` component.
+/// Aether `PoetHarness` component.
 pub fn PoetHarness() -> Element {
     rsx! { PoetWorkbench {} }
 }

@@ -19,7 +19,7 @@ Three crates were audited in full:
 | Crate | Path | LOC / file count | Role |
 |---|---|---|---|
 | `webizen-desktop` | `crates/webizen-desktop` | ~70 source files, 200+ Tauri commands | Tauri native host: windowing, browser shell, daemon, render, wallet, wellfair, vision/audio, MCP server, settings server, companion gateway, updater |
-| `webizen-studio` | `crates/webizen-studio` | ~450 source files, 40+ routes | Dioxus UI: canvas editor, theme engine, render subsystem, wellfair life-domain shell, 300+ academic QApps, specialized tools (clinical, scientific, quantum, knowledge, governance, AI/ML) |
+| `webizen-studio` | `crates/webizen-studio` | ~450 source files, 40+ routes | Aether UI: canvas editor, theme engine, render subsystem, wellfair life-domain shell, 300+ academic QApps, specialized tools (clinical, scientific, quantum, knowledge, governance, AI/ML) |
 | `qualia-ui` | `C:\Projects\NLP\qualia-ui` | ~30 source files, 36 N3 ontologies | Trunk/WASM browser UI: tool-chest core types, 6 manifold seeds, payload types, glassmorphism shell. **No backend integration.** |
 
 The audit cross-referenced every public command, route, component, and capability domain in the desktop and studio crates against what `qualia-ui` currently implements or stubs. The HyperCanvas plan was used as the authoritative product direction: Classic studio routes become Poet containers/tools, the desktop host stays the native chrome, and `qualia-ui` is the WASM HyperCanvas surface that reaches the same engines through a typed capability-binding layer.
@@ -34,7 +34,7 @@ The HyperCanvas plan (`docs/plans/poet-hypercanvas-tools-and-containers-2026-08-
 
 ### What should be retained in qualia-ui
 
-- The **Trunk + `wasm-bindgen` + direct DOM** stack. It is the right choice for a browser-first HyperCanvas that must also run inside the desktop webview. Do not migrate to Dioxus just to match studio — the plan pins studio on `0.8.0-alpha.1` and Poet is a separate surface.
+- The **Trunk + `wasm-bindgen` + direct DOM** stack. It is the right choice for a browser-first HyperCanvas that must also run inside the desktop webview. Do not migrate to Aether just to match studio — the plan pins studio on `0.8.0-alpha.1` and Poet is a separate surface.
 - The **tool-chest type system** (`IntentBus`, `VibeScriptPayload`, `Manifest`, `Registry`, `ManifoldSeed`, payload types). These are the right abstractions; they just need implementations and wiring.
 - The **36 N3 ontology files** as the authoring source of truth. They need a compile-to-CBOR-LD pipeline, not runtime N3 parsing in WASM.
 - The **glassmorphism design system** and the 6 manifold seeds as the starting layout vocabulary.
@@ -1689,7 +1689,7 @@ From `CAPABILITY_DESCRIPTORS` in `qualia-core-db/src/lib.rs:552-1050`:
 | Crate | Dark features | Why |
 |---|---|---|
 | `qualia-extensions` | `ExtensionManager`, `pinn_extension`, `qpu_extension`, `snn_extension`, `webgpu_extension` | FFI bridge only, no direct UI |
-| `webizen-component-harvester` | Shoelace generator, Dioxus component generation | Build-time only |
+| `webizen-component-harvester` | Shoelace generator, Aether component generation | Build-time only |
 | `qualia-inference-kernel` | `paged_attention` | Low-level contract |
 | `qualia-q-forge` | `qasm` (QASM parsing), `sim` (quantum simulation) | Experimental |
 | `qualia-solid-bridge` | `consumer::*`, `ldp_translator`, `oidc_micro_idp`, `pod_store`, `solid_proxy` | CLI-only |

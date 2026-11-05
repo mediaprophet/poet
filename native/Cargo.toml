@@ -2,6 +2,7 @@
 name = "poet-cli"
 version = "0.0.40"
 edition = "2021"
+autoexamples = false
 
 [dependencies]
 vibe = { workspace = true }
@@ -47,11 +48,6 @@ path = "src/main.rs"
 
 [[bin]]
 name = "ecopunk-forge"
-path = "examples/growing_reference/main.rs"
-required-features = ["native-graphical"]
-
-[[example]]
-name = "growing_reference"
 path = "examples/growing_reference/main.rs"
 required-features = ["native-graphical"]
 

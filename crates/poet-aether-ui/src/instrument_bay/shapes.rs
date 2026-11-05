@@ -109,7 +109,7 @@ pub fn add_authored(
 }
 
 #[component]
-/// Dioxus `InstrumentShapes` component.
+/// Aether `InstrumentShapes` component.
 pub fn InstrumentShapes(
     #[props(default = "assess".to_string())] entry: String,
     #[props(default = "pipeline".to_string())] rail: String,

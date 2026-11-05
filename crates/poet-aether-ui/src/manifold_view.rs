@@ -6,7 +6,7 @@ use super::kinds::{ContainerInstance, ManifoldId};
 use aether::prelude::*;
 
 #[component]
-/// Dioxus `ManifoldView` component.
+/// Aether `ManifoldView` component.
 pub fn ManifoldView(active: ManifoldId, items: Vec<ContainerInstance>) -> Element {
     let here: Vec<ContainerInstance> = items.into_iter().filter(|c| c.on == active).collect();
     rsx! {
@@ -39,7 +39,7 @@ pub fn ManifoldView(active: ManifoldId, items: Vec<ContainerInstance>) -> Elemen
 }
 
 #[component]
-/// Dioxus `ManifoldPager` component.
+/// Aether `ManifoldPager` component.
 pub fn ManifoldPager(active: ManifoldId, on_pick: EventHandler<ManifoldId>) -> Element {
     rsx! {
         nav {

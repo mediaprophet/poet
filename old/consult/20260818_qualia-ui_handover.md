@@ -134,7 +134,7 @@ Browser: `http://127.0.0.1:8080`
 
 ### 3.2 From the tracking todo (`TechDesign/poet_hypercanvas_tracking_todo.md`)
 
-**Phase 2: Dioxus Webizen-Studio Port** (adapted for qualia-ui):
+**Phase 2: Aether Webizen-Studio Port** (adapted for qualia-ui):
 - [ ] Create modular tool components under `src/browser/tools/` (or similar)
 - [ ] Implement Dynamic Context Ribbon Receptor (clippable toolchain deck)
 - [ ] Rename Canvases → Manifolds menu in TopMenubar

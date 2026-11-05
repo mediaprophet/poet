@@ -5,7 +5,7 @@
 **Date:** 2026-08-16  
 **Assignment:** [`COPYRIGHT.md`](../COPYRIGHT.md) · Licence: [`LICENSE`](../LICENSE)
 
-You are **Antigravity / Gemini**. Your job is to **design and refine the instructional mock UI** so a later instrument can implement the same structure in Qualia / Webizen Desktop (Dioxus Poet). You are **not** implementing the engine. You are **not** editing the Qualia repo.
+You are **Antigravity / Gemini**. Your job is to **design and refine the instructional mock UI** so a later instrument can implement the same structure in Qualia / Webizen Desktop (Aether Poet). You are **not** implementing the engine. You are **not** editing the Qualia repo.
 
 ---
 
@@ -51,7 +51,7 @@ Preview: serve `Canvas_Workbench` (e.g. `http://127.0.0.1:4175/`). Click, drag, 
 
 **Off limits**
 
-- `C:\Projects\qualia-27062026\` — product tree. Ingest, Vibe, Dioxus, renderer live there.
+- `C:\Projects\qualia-27062026\` — product tree. Ingest, Vibe, Aether, renderer live there.
 - Inventing a backend, Ollama, or `fetch` to localhost:11434.
 - Pages / rustdoc / GitHub for the Qualia product.
 
@@ -93,7 +93,7 @@ These are **already decided or already ported**. Refine; do not reverse.
 - Capability reach is `capability.invoke` families (graph, deontic, NLP, render, sheet, …). Unknown invokes **fail closed**.
 - Q42 volumes and OSM ingest are a **separate overnight job**. Do not touch disk under `C:\Projects\osm-au` or Qualia `target/`.
 
-### 5.2 Poet HyperCanvas already in Dioxus
+### 5.2 Poet HyperCanvas already in Aether
 
 The product port **takes the window** (not a card list inside Classic chrome). It was copied from **this** mock:
 
@@ -105,7 +105,7 @@ The product port **takes the window** (not a card list inside Classic chrome). I
 | Manifold ids `manifold-research-01` … `manifold-settings-01` | Keep the strings |
 | Header-drag **move**, SE **resize**, 8px snap, arrive/pulse motion | Refine feel; keep the gestures |
 | In-container tools as **folders**: `rich_text`, `sheet`, `latex` (ours, not TinyMCE) | Add tools as new families, not a CDN editor |
-| Dioxus **0.8.0-alpha.1** | Version is Qualia’s problem |
+| Aether **0.8.0-alpha.1** | Version is Qualia’s problem |
 
 Honesty labels used in the product (use the same words on new widgets):
 
@@ -191,7 +191,7 @@ When Timothy is ready, he points Grok at this file + `IMPLEMENT.md`. Grok implem
 ## 9. How Grok will treat your work
 
 - **Port structure and behaviour**, not every CSS pixel.
-- New in-container instruments become `poet/tools/<family>/` in Dioxus.
+- New in-container instruments become `poet/tools/<family>/` in Aether.
 - Engine holes get implemented in Qualia, not faked in the mock later.
 - Classic routes stay; Poet *reaches* them.
 

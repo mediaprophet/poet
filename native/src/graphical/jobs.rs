@@ -378,6 +378,7 @@ mod actions;
 use actions::outcome_image;
 use actions::perform;
 
+#[cfg(test)]
 fn execute(
     host: &mut dyn EditorHost,
     action: Action,

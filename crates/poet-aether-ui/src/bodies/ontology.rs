@@ -16,7 +16,7 @@ effect fn ask() {
 "#;
 
 #[component]
-/// Dioxus `OntologyBody` component.
+/// Aether `OntologyBody` component.
 pub fn OntologyBody() -> Element {
     let mut out = use_signal(|| String::new());
     let mut busy = use_signal(|| false);

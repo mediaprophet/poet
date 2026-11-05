@@ -99,7 +99,7 @@ pub fn can_publish(draft: &Draft) -> Result<(), &'static str> {
 }
 
 #[component]
-/// Dioxus `ManufacturePanel` component.
+/// Aether `ManufacturePanel` component.
 pub fn ManufacturePanel() -> Element {
     let mut draft = use_signal(Draft::default);
     let current = draft();

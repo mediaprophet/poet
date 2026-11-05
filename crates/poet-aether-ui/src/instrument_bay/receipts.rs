@@ -56,7 +56,7 @@ pub fn visible_rows(revoked: bool, rows: &[ReceiptRow]) -> &[ReceiptRow] {
 }
 
 #[component]
-/// Dioxus `ReceiptPanel` component.
+/// Aether `ReceiptPanel` component.
 pub fn ReceiptPanel() -> Element {
     let mut revoked = use_signal(|| false);
     let rows = visible_rows(revoked(), SEED_RECEIPTS);

@@ -2,7 +2,7 @@
 //!
 //! Exposes `FrameCameraPod` / `ManifoldProjectionPod` projection from `Workbench` orbit state,
 //! CIE 1931 spectral preview helpers, frame quality / SSIM / PSNR thresholds, and the
-//! `EtalonStatusBadge` Dioxus telemetry badge wired into `PoetGpuFrame`.
+//! `EtalonStatusBadge` Aether telemetry badge wired into `PoetGpuFrame`.
 
 use crate::store::Workbench;
 use aether::prelude::*;

@@ -159,6 +159,7 @@ impl Timeline {
 
 /// Host must check current SourceRef, binding mutability and edit authority,
 /// then submit this generated source through its existing SourceSession.
+#[cfg(test)]
 pub fn edit_source(current: Option<&Value>, edit: &TimelineEdit) -> Result<String, String> {
     edit_source_with_output(current,edit,true)
 }

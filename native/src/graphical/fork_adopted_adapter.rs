@@ -8,6 +8,7 @@ use super::botanical_graph_host::BotanicalNode;
 use qualia_core_db::specialized_libs::computational_geometry as cg;
 
 /// Source endpoints remain identifiers, distinct from extractor sample-edge IDs.
+#[allow(dead_code)]
 #[derive(Debug)]
 pub struct JunctionEdge<'a> {
     pub from_key: &'a str,

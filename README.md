@@ -1,6 +1,5 @@
-# NLP
-NLP Dev
-
+# POET
+Poet is a content creation environment for qualiadb / webizen
 **Copyright © 2026 Timothy Charles Holborn.** All rights reserved.  
 **Principal / inventor:** Timothy Charles Holborn &lt;timothy.holborn@gmail.com&gt;  
 See [`COPYRIGHT.md`](COPYRIGHT.md) and [`LICENSE`](LICENSE) (CC BY-NC-ND 4.0).

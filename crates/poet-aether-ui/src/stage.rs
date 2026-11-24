@@ -2,6 +2,7 @@
 
 use super::containers::NodeBody;
 use super::kinds::CanvasNode;
+use super::qap_space_multi_device_wm::{QapSpaceMultiDeviceManager, WindowLayoutMode};
 use super::store::Workbench;
 use super::xyzd_gizmo::XyzdGizmo;
 use aether::prelude::*;
@@ -151,17 +152,36 @@ pub fn CanvasStage(wb: Signal<Workbench>) -> Element {
                     }
                 }
                 for node in w.nodes.iter() {
-                    ContainerNode {
-                        wb,
-                        gesture,
-                        node: node.clone(),
-                        selected: w.selected.as_deref() == Some(node.id.as_str()),
-                        dimmed: w.dimmed(node),
-                        armed: w.wire_source.as_deref() == Some(node.id.as_str()),
-                        dragging: match gesture() {
-                            Gesture::Move { ref id, .. } | Gesture::Resize { ref id, .. } => id == &node.id,
-                            _ => false,
-                        },
+                    {
+                        let wm_ctx = try_consume_context::<Signal<QapSpaceMultiDeviceManager>>();
+                        let is_min = wm_ctx
+                            .map(|sig| sig().is_minimized(&node.id))
+                            .unwrap_or(false);
+                        let is_focus_hidden = wm_ctx
+                            .map(|sig| {
+                                let m = sig();
+                                m.layout_mode == WindowLayoutMode::MaximizedFocusStage
+                                    && m.focused_container_id.as_deref() != Some(node.id.as_str())
+                            })
+                            .unwrap_or(false);
+                        if is_min || is_focus_hidden {
+                            rsx! {}
+                        } else {
+                            rsx! {
+                                ContainerNode {
+                                    wb,
+                                    gesture,
+                                    node: node.clone(),
+                                    selected: w.selected.as_deref() == Some(node.id.as_str()),
+                                    dimmed: w.dimmed(node),
+                                    armed: w.wire_source.as_deref() == Some(node.id.as_str()),
+                                    dragging: match gesture() {
+                                        Gesture::Move { ref id, .. } | Gesture::Resize { ref id, .. } => id == &node.id,
+                                        _ => false,
+                                    },
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -305,12 +325,26 @@ fn ContainerNode(
     let id_move = node.id.clone();
     let id_resize = node.id.clone();
     let id_close = node.id.clone();
+    let id_min = node.id.clone();
+    let id_max = node.id.clone();
+    let id_disp = node.id.clone();
     let id_wire = node.id.clone();
     let id_drop = node.id.clone();
-    let nx = node.x;
-    let ny = node.y;
-    let nw = node.width;
-    let nh = node.height;
+    let wm_ctx = try_consume_context::<Signal<QapSpaceMultiDeviceManager>>();
+    let disp_badge = wm_ctx
+        .and_then(|sig| sig().route_for_container(&node.id).map(|r| r.target_display_id.clone()))
+        .unwrap_or_else(|| "DISP-1-MAIN".to_string());
+    let is_focus_max = wm_ctx
+        .map(|sig| {
+            let m = sig();
+            m.layout_mode == WindowLayoutMode::MaximizedFocusStage
+                && m.focused_container_id.as_deref() == Some(node.id.as_str())
+        })
+        .unwrap_or(false);
+    let nx = if is_focus_max { 16.0 } else { node.x };
+    let ny = if is_focus_max { 16.0 } else { node.y };
+    let nw = if is_focus_max { 1080.0 } else { node.width };
+    let nh = if is_focus_max { 600.0 } else { node.height };
     let mut class = "canvas-container-node".to_string();
     if selected {
         class.push_str(" selected");
@@ -339,7 +373,7 @@ fn ContainerNode(
         div {
             class: "{class}",
             id: "{node.id}",
-            style: "left:{node.x}px;top:{node.y}px;width:{node.width}px;height:{node.height}px;{z_style}{armed_style}",
+            style: "left:{nx}px;top:{ny}px;width:{nw}px;height:{nh}px;{z_style}{armed_style}",
             onmousedown: move |e| {
                 e.stop_propagation();
                 let mut s = wb();
@@ -392,7 +426,62 @@ fn ContainerNode(
                     span { class: "container-title", "{node.title}" }
                     span { class: "container-xyzd-badge", "[z:{node.z as i32}, d:{node.d}]" }
                 }
-                div { class: "container-actions",
+                div { class: "container-actions", style: "display:flex;align-items:center;gap:4px;",
+                    button {
+                        class: "container-action-btn",
+                        title: "Route Window to Monitor / TV (HDMI/Chromecast) / Tablet / Laptop",
+                        style: "font-size:9px;font-family:monospace;padding:1px 5px;background:rgba(56,189,248,0.14);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);border-radius:3px;",
+                        onclick: move |e| {
+                            e.stop_propagation();
+                            if let Some(mut wm) = wm_ctx {
+                                let mut m = wm();
+                                let route = m.cycle_container_display_route(&id_disp);
+                                wm.set(m);
+                                let mut s = wb();
+                                s.note(format!(
+                                    "Routed `{}` to {} ({})",
+                                    id_disp,
+                                    route.target_display_id,
+                                    route.transport.label()
+                                ));
+                                wb.set(s);
+                            }
+                        },
+                        "📺 {disp_badge}"
+                    }
+                    button {
+                        class: "container-action-btn",
+                        title: "Minimize Window to Taskbar Shelf",
+                        onclick: move |e| {
+                            e.stop_propagation();
+                            if let Some(mut wm) = wm_ctx {
+                                let mut m = wm();
+                                m.toggle_minimize_container(&id_min);
+                                wm.set(m);
+                            }
+                        },
+                        "🗕"
+                    }
+                    button {
+                        class: "container-action-btn",
+                        title: "Toggle Focus Maximize Window",
+                        onclick: move |e| {
+                            e.stop_propagation();
+                            if let Some(mut wm) = wm_ctx {
+                                let mut m = wm();
+                                if m.layout_mode == WindowLayoutMode::MaximizedFocusStage
+                                    && m.focused_container_id.as_deref() == Some(id_max.as_str())
+                                {
+                                    m.layout_mode = WindowLayoutMode::FreeformSpatialCanvas;
+                                } else {
+                                    m.layout_mode = WindowLayoutMode::MaximizedFocusStage;
+                                    m.focused_container_id = Some(id_max.clone());
+                                }
+                                wm.set(m);
+                            }
+                        },
+                        "▣"
+                    }
                     button { class: "container-action-btn",
                         onclick: move |e| {
                             e.stop_propagation();

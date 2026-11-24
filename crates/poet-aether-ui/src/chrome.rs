@@ -44,6 +44,47 @@ pub fn TopMenubar(wb: Signal<Workbench>) -> Element {
                             s.menu = None;
                             wb.set(s);
                         } }
+                    Divider {}
+                    Item { left: "Project Forensic Investigation Graph onto Canvas", right: "Alt+I",
+                        action: move |_| {
+                            let mut s = wb();
+                            crate::investigation_link_analysis::InvestigationCaseBoard::default()
+                                .project_onto_workbench_canvas(&mut s, ManifoldId::Rights);
+                            s.menu = None;
+                            wb.set(s);
+                        } }
+                    Item { left: "Print Verifiable Clinical Dossier (%PDF-1.7 + QECP)", right: "Ctrl+P",
+                        action: move |_| {
+                            let mut s = wb();
+                            let board = crate::investigation_link_analysis::InvestigationCaseBoard::default();
+                            let pdf = crate::verifiable_pdf_printer::generate_verifiable_pdf_dossier(
+                                &board,
+                                &[],
+                                crate::verifiable_pdf_printer::RecipientReportProfile::ClinicalDoctorAndPsychologist,
+                                "did:q42:person:timothy-holborn",
+                                "Natural Person Principal",
+                            );
+                            host::copy_to_clipboard(String::from_utf8_lossy(&pdf.pdf_bytes).to_string());
+                            s.note(format!("Printed Verifiable PDF Dossier ({} bytes, sig {}…) → clipboard", pdf.pdf_bytes.len(), &pdf.pades_qecp_master_signature_hex[..12]));
+                            s.menu = None;
+                            wb.set(s);
+                        } }
+                    Item { left: "Print Verifiable Human-Rights Legal Brief (%PDF-1.7 + QECP)", right: "",
+                        action: move |_| {
+                            let mut s = wb();
+                            let board = crate::investigation_link_analysis::InvestigationCaseBoard::default();
+                            let pdf = crate::verifiable_pdf_printer::generate_verifiable_pdf_dossier(
+                                &board,
+                                &[],
+                                crate::verifiable_pdf_printer::RecipientReportProfile::HumanRightsAndLegalAdvocacy,
+                                "did:q42:person:timothy-holborn",
+                                "Natural Person Principal",
+                            );
+                            host::copy_to_clipboard(String::from_utf8_lossy(&pdf.pdf_bytes).to_string());
+                            s.note(format!("Printed Human-Rights PDF Brief ({} bytes, sig {}…) → clipboard", pdf.pdf_bytes.len(), &pdf.pades_qecp_master_signature_hex[..12]));
+                            s.menu = None;
+                            wb.set(s);
+                        } }
                     Item { left: "Export Solid Pod Turtle", right: "held", held: true }
                 }
                 Menu { name: "canvases", label: "Manifolds", open, wb,
@@ -73,7 +114,22 @@ pub fn TopMenubar(wb: Signal<Workbench>) -> Element {
                     div { class: "dropdown-item", onclick: move |_| set_dim(wb, DimMode::D4), span { "4D Spatiotemporal Plane" } }
                 }
                 Menu { name: "insert", label: "Insert", open, wb,
-                    span { style: "padding:6px 14px;color:var(--text-muted);font-size:11px;", "Use the tool chest to place containers." }
+                    for ind in crate::synth_modular_containers::IndustryDomainProfile::ALL {
+                        div {
+                            class: "dropdown-item",
+                            onclick: move |_| {
+                                let mut s = wb();
+                                let pman = crate::synth_modular_containers::synthesize_industry_manifold_module(ind);
+                                let mut dummy_wm = crate::qap_space_multi_device_wm::QapSpaceMultiDeviceManager::default();
+                                crate::synth_modular_containers::mount_manifold_module_onto_workbench(&pman, &mut s, &mut dummy_wm);
+                                s.menu = None;
+                                wb.set(s);
+                            },
+                            span { "🧩 Mount {ind.title()} (.pcon / .pman)" }
+                        }
+                    }
+                    Divider {}
+                    span { style: "padding:6px 14px;color:var(--text-muted);font-size:11px;", "Or use the 4-way tool chest to place individual containers." }
                 }
             }
             div { class: "menu-items-group", style: "display:flex;align-items:center;gap:12px;",

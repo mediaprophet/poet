@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+"@context":
+  q42: "https://qualia.io/ontology/q42#"
+  qap: "https://qualia.io/ontology/qap#"
+  hro: "https://qualia.io/ontology/human-rights#"
+  qdp: "https://webcivics.github.io/QDP/ontdev/QDP#"
+"@id": "urn:qualia:qap:poet:0.0.41"
+"@type": "qap:ApplicationPackage"
+schema_version: "yaml-ld-q42/v2"
+qap_id: "poet"
+qap_kind: "CoreApplicationAndManifoldStudio"
+display_name: "Webizen Poet — HyperCanvas, 9-Tab .q42 Ontology Studio, Forensic Workbench & Modular Vibe Containers"
+version: "0.0.41"
+abi_version: "1.0"
+license: "CC-BY-NC-ND-4.0 (PermissiveCommons-1.0)"
+author_did: "did:webizen:person:timothy-holborn"
+qdp_domain: "poet.webizen.org"
+did_git: "did:git:github.com/WebizenAI/poet"
+computational_hierarchy_7_layer:
+  L0: "L0Continuum"
+  L1: "L1RigidArticulatedPgaXpbdSkl2"
+  L2: "L2SoftBodyFluid"
+  L3: "L3MolecularChemical"
+  L4: "L4CellularBiological"
+  L5: "L5EcologicalGeomorphic"
+  L6: "L6QuantumPhysics"
+sentinel_capability_claims:
+  max_sensitivity_clearance: "0x02"
+  required_ontologies:
+    - "qualia://ontologies/wordnet31-omw-lexicon.q42"
+    - "qualia://ontologies/uncrpd-human-rights.q42"
+  required_host_capabilities:
+    - "GraphDatabase.lexicon_manifest"
+    - "GraphDatabase.sparql"
+    - "WgslForge.generate"
+    - "ClinicalRisk.framingham"
+vibe_entrypoints:
+  main_module: "vibe/containers/pcon_sound_spatial_hrtf.pcon.vibe"
+  entrypoint_fn: "describe_container_module"
+qecp_signature_hex: "ed25519_ml_dsa_87_qap_poet_0_0_41_sig"

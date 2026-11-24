@@ -1,0 +1,30 @@
+// Webizen Poet & Synth Modular Container File (.pcon.vibe)
+// License: CC-BY-NC-ND-4.0
+requires [ capability("Codecs.matrix"), capability("capability.invoke") ];
+
+fn module_manifest() {
+    return {
+        format_magic: "POET-CONTAINER-MODULE-V1",
+        module_id: "pcon-sound-spatial-hrtf-01",
+        version: "0.0.41",
+        title: "🎙\u{fe0f} Sound Production & Spatial HRTF Mastering",
+        industry: "sound-spatial-audio",
+        base_container_kind_id: "media",
+        strata_id: "technical",
+        epistemic_id: "empirical",
+        preferred_display_id: "DISP-2-SIDE",
+        companion_control_device_id: "did:q42:device:tablet-03",
+        default_width: 540.0,
+        default_height: 360.0,
+        widgets: [
+            { kind: "scopes_meters", scope_title: "ITU-R BS.1770-4 LUFS Loudness & 32-Band Spectral Meter Bridge", channels: [{ name: "Master L/R Integrated", value: -14.20, unit: "LUFS (Target -14.0)" }, { name: "True Peak Max", value: -1.10, unit: "dBTP (Headroom OK)" }, { name: "Ambisonics HOA Order-3", value: 98.40, unit: "% Phase Coherence" }, { name: "Triad Formant Bus", value: -18.50, unit: "LUFS" }] },
+            { kind: "control_deck", deck_title: "Tablet Touch Fader & Spatial HRTF Azimuth/Elevation Console", parameters: [{ name: "HRTF Azimuth", value: "+32.5°", capability: "Audio.spatial_hrtf" }, { name: "Reverb Decay RT60", value: "1.45 s", capability: "Audio.convolution_ir" }, { name: "Formant F1 / F2", value: "730 Hz / 1090 Hz", capability: "Audio.triad_formant" }, { name: "Codec Master", value: "96kHz / 24-bit FLAC + .p64", capability: "Codecs.matrix" }] }
+        ],
+        synth_asset_uris: ["hmc://synth/audio/spatial-hrtf-master-bus.hmc", "q42://commons/ontologies/audio-acoustics-qudt.q42"],
+        license_spdx: "CC-BY-NC-ND-4.0"
+    };
+}
+
+effect fn run_module() {
+    return capability.invoke("Codecs.matrix", { domain: "sound-spatial-hrtf", sample_rate: 96000, ambisonic_order: 3 });
+}

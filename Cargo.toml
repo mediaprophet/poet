@@ -22,15 +22,15 @@ wasm-bindgen = "=0.2.129"
 wasm-bindgen-futures = "=0.4.79"
 js-sys = "=0.3.106"
 web-sys = "=0.3.106"
-vibe = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration" }
-aether = { git = "https://github.com/mediaprophet/Aether.git", rev = "d5ccce3bb9d6cab2aa5d7ef185d57ad786737c27", default-features = false, features = ["macro", "html", "signals", "hooks"] }
-aether-native = { git = "https://github.com/mediaprophet/Aether.git", rev = "d5ccce3bb9d6cab2aa5d7ef185d57ad786737c27", default-features = false, features = ["vello-cpu-softbuffer", "system-fonts", "data-uri", "clipboard", "accessibility"] }
-etalon = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false, features = ["std", "wgsl", "serde"] }
-etalon-render = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
-etalon-wgsl-forge = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
-etalon-nquin = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
-etalon-tensor = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
-etalon-wasm = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea", default-features = false }
+vibe = { path = "../qualiaDB/crates/vibe" }
+aether = { path = "../Aether/packages/aether", default-features = false, features = ["macro", "html", "signals", "hooks"] }
+aether-native = { path = "../Aether/packages/native", default-features = false, features = ["vello-cpu-softbuffer", "system-fonts", "data-uri", "clipboard", "accessibility"] }
+etalon = { path = "../etalon/etalon", default-features = false, features = ["std", "wgsl", "serde"] }
+etalon-render = { path = "../etalon/crates/etalon-render", default-features = false }
+etalon-wgsl-forge = { path = "../etalon/crates/etalon-wgsl-forge", default-features = false }
+etalon-nquin = { path = "../etalon/crates/etalon-nquin", default-features = false }
+etalon-tensor = { path = "../etalon/crates/etalon-tensor", default-features = false }
+etalon-wasm = { path = "../etalon/crates/etalon-wasm", default-features = false }
 
 [profile.wasm-release]
 inherits = "release"
@@ -40,6 +40,25 @@ codegen-units = 1
 strip = "symbols"
 
 [patch.crates-io]
-cpal = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1" }
-wgpu = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea" }
-naga = { git = "https://github.com/mediaprophet/etalon.git", rev = "575bab54accf1aafb24f67e9ba810c0f3f745aea" }
+blitz-traits = { path = "../Aether/vendor/blitz/blitz-traits" }
+blitz-dom = { path = "../Aether/vendor/blitz/blitz-dom" }
+blitz-net = { path = "../Aether/vendor/blitz/blitz-net" }
+
+[patch."https://github.com/mediaprophet/etalon.git"]
+etalon = { path = "../etalon/etalon" }
+etalon-render = { path = "../etalon/crates/etalon-render" }
+etalon-vibe = { path = "../etalon/crates/etalon-vibe" }
+etalon-nquin = { path = "../etalon/crates/etalon-nquin" }
+etalon-resources = { path = "../etalon/crates/etalon-resources" }
+etalon-sense-core = { path = "../etalon/crates/etalon-sense-core" }
+etalon-signal = { path = "../etalon/crates/etalon-signal" }
+etalon-tensor = { path = "../etalon/crates/etalon-tensor" }
+etalon-wasm = { path = "../etalon/crates/etalon-wasm" }
+etalon-wgsl-forge = { path = "../etalon/crates/etalon-wgsl-forge" }
+
+[patch."https://github.com/mediaprophet/vibe-script.git"]
+vibescript-abi = { path = "../qualiaDB/crates/vibescript-abi" }
+
+[patch."https://github.com/mediaprophet/hypermedia-production.git"]
+vector-hybrid-render-adapter = { path = "../hypermedia-production/crates/vector-hybrid-render-adapter" }
+gpu-device-context = { path = "../hypermedia-production/crates/gpu-device-context" }

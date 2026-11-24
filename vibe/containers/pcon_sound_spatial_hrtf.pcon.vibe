@@ -1,0 +1,14 @@
+requires [
+  capability("capability.invoke"),
+  capability("GraphDatabase.lexicon_manifest"),
+  capability("WgslForge.generate")
+];
+
+effect fn describe_container_module() {
+  let lex = capability.invoke("GraphDatabase.lexicon_manifest", { version: "Q42LEX-v2" });
+  return {
+    qap_id: "poet",
+    container: "pcon_sound_spatial_hrtf",
+    lexicon: lex
+  };
+}

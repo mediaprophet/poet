@@ -15,8 +15,8 @@ etalon-render = { workspace = true }
 etalon-wgsl-forge = { workspace = true }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-qualia-core-db = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", default-features = false, features = ["profile_target_1024", "zk-culling", "gpu-runtime", "gpu-native-portable", "gpu-native-dx12", "wgsl-forge", "privacy-he", "sanctuary-crypto"], optional = true }
-webizen-render = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", optional = true }
+qualia-core-db = { path = "../../../qualiaDB/crates/qualia-core-db", default-features = false, features = ["profile_target_1024", "zk-culling", "gpu-runtime", "gpu-native-portable", "gpu-native-dx12", "wgsl-forge", "privacy-he", "sanctuary-crypto"], optional = true }
+webizen-render = { path = "../../../qualiaDB/crates/webizen-render", optional = true }
 aether-native = { workspace = true, optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]

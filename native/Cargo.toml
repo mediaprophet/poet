@@ -1,109 +1,36 @@
 [package]
 name = "poet-cli"
-version = "0.0.40"
+version = "0.0.41"
 edition = "2021"
+authors = ["Timothy Charles Holborn <timothy.holborn@gmail.com>"]
+license = "CC-BY-NC-ND-4.0"
+description = "Webizen Poet — Standalone Native HyperCanvas Workbench, Ontology & WordNet Studio, Forensic Link-Analysis, and Verifiable PDF Report Printer"
 autoexamples = false
 
 [dependencies]
 vibe = { workspace = true }
-video-h264-preview = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", optional = true }
-futures-timer = { version = "=3.0.4", optional = true }
-image = { version = "=0.25.10", default-features = false, features = ["gif"], optional = true }
+poet-aether-ui = { path = "../crates/poet-aether-ui" }
 aether = { workspace = true, optional = true, features = ["html", "hooks", "macro", "signals"] }
 aether-native = { workspace = true, optional = true }
-poet-aether-ui = { path = "../crates/poet-aether-ui", optional = true }
-qualia-core-db = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", default-features = false, features = ["profile_target_1024", "zk-culling", "gpu-runtime", "gpu-native-portable", "gpu-native-dx12", "wgsl-forge", "privacy-he", "sanctuary-crypto"], optional = true }
-raster-layer-mask-adapter = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", optional = true }
-raster-selection-morphology = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", optional = true }
-qualia-geospatial = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", optional = true }
-webizen-render = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", optional = true }
-poet-spatial-authoring = { path = "../crates/spatial-authoring", optional = true }
-timeline-editing = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", optional = true }
-qualia-audio = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", default-features = false, optional = true }
-audio-aac-codec = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", default-features = false, optional = true }
-media-isobmff = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", optional = true }
-media-ogg = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", optional = true }
-audio-opus-codec = { git = "https://github.com/mediaprophet/hypermedia-production.git", branch = "0.0.40.8.1", optional = true }
-cpal = { version = "=0.15.3", optional = true }
-base64 = { version = "=0.22.1", optional = true }
-futures-channel = { version = "=0.3.34", optional = true }
-
-qualia-cooperative-core = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", optional = true }
-qualia-mcp = { git = "https://github.com/mediaprophet/qualiaDB.git", branch = "0.0.40.12-etalon-migration", default-features = false, features = ["authoring"], optional = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true, optional = true }
-sha2 = { version = "0.10", optional = true }
 ciborium = { workspace = true, optional = true }
-etalon-render = { workspace = true, features = ["gpu"], optional = true }
-etalon-wgsl-forge = { workspace = true, features = ["naga-validate"], optional = true }
 
 [features]
-# Match the canonical integration test cfg to the already-required native crypto capability.
-sanctuary-crypto = ["qualia-core-db/sanctuary-crypto"]
-native-graphical = ["sanctuary-crypto", "dep:video-h264-preview", "dep:futures-timer", "dep:image", "dep:aether", "dep:aether-native", "dep:poet-aether-ui", "poet-aether-ui/native-engine", "poet-aether-ui/desktop-native", "dep:qualia-core-db", "dep:raster-layer-mask-adapter", "dep:raster-selection-morphology", "dep:webizen-render", "dep:etalon-render", "dep:etalon-wgsl-forge", "dep:base64", "dep:futures-channel", "dep:qualia-cooperative-core", "dep:qualia-mcp", "dep:serde", "dep:serde_json", "dep:sha2", "dep:poet-spatial-authoring", "dep:qualia-geospatial", "dep:ciborium", "dep:timeline-editing", "dep:qualia-audio", "dep:audio-aac-codec", "dep:media-isobmff", "dep:media-ogg", "dep:audio-opus-codec", "dep:cpal"]
+default = []
+native-graphical = [
+    "dep:aether",
+    "dep:aether-native",
+    "poet-aether-ui/desktop-native",
+    "dep:serde",
+    "dep:serde_json",
+    "dep:ciborium",
+]
 
 [[bin]]
 name = "poet"
 path = "src/main.rs"
 
-[[bin]]
-name = "ecopunk-forge"
-path = "examples/growing_reference/main.rs"
-required-features = ["native-graphical"]
-
 [dev-dependencies]
 ciborium.workspace = true
 tempfile = "=3.27.0"
-
-# Run the canonical public codec regressions against Poet's exact native dependency closure.
-[[test]]
-name = "mesh_section_bounds"
-path = "../../qualia-27062026/crates/qualia-core-db/tests/mesh_section_bounds.rs"
-required-features = ["native-graphical"]
-
-# Canonical package policy and native authority cases against this exact native consumer closure.
-[[test]]
-name = "foundation_package_policy"
-path = "../../qualia-27062026/crates/qualia-cooperative-core/tests/package_review.rs"
-required-features = ["native-graphical"]
-
-[[test]]
-name = "foundation_native_package_review"
-path = "../../qualia-27062026/crates/qualia-core-db/tests/native_package_review.rs"
-required-features = ["native-graphical"]
-
-[[test]]
-name = "foundation_fiel"
-path = "tests/foundation_fiel.rs"
-required-features = ["native-graphical"]
-
-[[test]]
-name="foundation_geometry_catalog"
-path="../../qualia-27062026/crates/vibe/tests/poet_geometry_catalog.rs"
-required-features=["native-graphical"]
-
-# Canonical HMC texture union through the actual native Poet dependency closure.
-[[test]]
-name = "foundation_hmc_texture_union"
-path = "../../qualia-27062026/crates/qualia-core-db/tests/studio_hmc_texture_union.rs"
-required-features = ["native-graphical"]
-
-[[test]]
-name = "foundation_uv_atlas"
-path = "../../qualia-27062026/crates/qualia-core-db/tests/uv_atlas_native.rs"
-required-features = ["native-graphical"]
-
-[[test]]
-name = "foundation_image_source_over"
-path = "../../qualia-27062026/crates/qualia-core-db/tests/image_source_over.rs"
-required-features = ["native-graphical"]
-
-[[test]]
-name = "foundation_source_carrier"
-path = "tests/foundation_source_carrier.rs"
-required-features = ["native-graphical"]
-
-[[test]]
-name = "foundation_image_completion"
-path = "tests/foundation_image_completion.rs"
-required-features = ["native-graphical"]

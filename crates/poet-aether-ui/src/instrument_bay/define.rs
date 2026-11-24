@@ -104,7 +104,7 @@ pub fn template_preset(slug: &str) -> DefinedInstrument {
         domain: domain.into(),
         ontology_reference: "https://webizen.org/ns/si#".into(),
         purpose: format!("Evaluation and claim checking for {name}."),
-        prohibited_interpretation: "Prohibited from replacing sovereign natural person determinations.".into(),
+        prohibited_interpretation: "Prohibited from replacing natural person human-agency determinations.".into(),
         honesty_notice: notice.into(),
         licence: "SPDX:Apache-2.0 OR CC-BY-4.0".into(),
         authored_by: "did:q42:author_poet_01".into(),

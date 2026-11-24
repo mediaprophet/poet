@@ -1,0 +1,61 @@
+// Webizen Poet & Synth Modular Manifold Workstation File (.pman.vibe)
+// License: CC-BY-NC-ND-4.0
+requires [ capability("capability.invoke") ];
+
+fn manifold_manifest() {
+    return {
+        format_magic: "POET-MANIFOLD-MODULE-V1",
+        manifold_module_id: "pman-film-motion-picture-01",
+        title: "🎬 Film NLE Timeline & 4K Reference Out Manifold Workstation",
+        industry: "film-motion-picture",
+        graph_iri: "urn:q42:manifold:film-motion-picture",
+        license_spdx: "CC-BY-NC-ND-4.0",
+        containers: [
+            {
+                x: 36.0,
+                y: 36.0,
+                container: {
+                    format_magic: "POET-CONTAINER-MODULE-V1",
+                    module_id: "pcon-film-nle-master-01",
+                    version: "0.0.41",
+                    title: "🎬 Film NLE Timeline & 4K Reference Out",
+                    industry: "film-motion-picture",
+                    base_container_kind_id: "media",
+                    strata_id: "social",
+                    epistemic_id: "empirical",
+                    preferred_display_id: "DISP-3-TV",
+                    companion_control_device_id: "did:q42:device:laptop-02",
+                    default_width: 540.0,
+                    default_height: 360.0,
+                    widgets: [{ kind: "holo_10d", scene_kind: "film-4k-uhd-master", wavelength_nm: 555.0, orbit_yaw_deg: 24.0 }, { kind: "control_deck", deck_title: "Laptop NLE Multi-Track Timeline, JKL Shuttle & Camera Lens Tween Deck", parameters: [{ name: "Timecode SMPTE", value: "01:14:22:18 (24.00 fps)", capability: "Timeline.scrub" }, { name: "Camera Focal Length", value: "35mm Anamorphic T2.0", capability: "Camera3D.lens_tween" }, { name: "4K TV Reference Stream", value: "HDMI 2.1 / Chromecast 10-bit HDR", capability: "Display.cast_tv" }, { name: "Container Master", value: ".hmc + ISOBMFF ProRes 4444", capability: "Studio.export" }] }],
+                    synth_asset_uris: ["hmc://synth/film/scene-01-anamorphic-master.hmc", "10d://synth/film/camera-rig-trajectory.10d"],
+                    license_spdx: "CC-BY-NC-ND-4.0"
+                }
+            },
+            {
+                x: 610.0,
+                y: 36.0,
+                container: {
+                    format_magic: "POET-CONTAINER-MODULE-V1",
+                    module_id: "pcon-film-nle-master-01-q42-gate",
+                    version: "0.0.41",
+                    title: "🎬 Film NLE Timeline & 4K Reference Out — WordNet/.q42 Ontology & Provenance Gate",
+                    industry: "legal-human-rights-forensics",
+                    base_container_kind_id: "ontology",
+                    strata_id: "legal",
+                    epistemic_id: "normative",
+                    preferred_display_id: "DISP-4-LAPTOP",
+                    companion_control_device_id: "did:q42:device:laptop-02",
+                    default_width: 540.0,
+                    default_height: 360.0,
+                    widgets: [{ kind: "semantic_matrix", matrix_title: "Hohfeldian Deontic Norms, CML Evidence Correlator & Paraconsistent Contradiction Matrix", headers: ["Norm / Exhibit ID", "Deontic Modality", "Grounded Treatise / IRI", "Forensic Audit Status"], rows: [["cml:DutyOfInquiry", "OBLIGATES (0x10)", "UN CRPD Art. 13/19/28 · ICESCR Art. 11", "BREACH FLAGGED on Contested Notice EXH-DISP-05"], ["udhr:Article27_2", "INALIENABLE RIGHT", "UDHR Art. 27(2) · ICESCR Art. 15(1)(c)", "Moral & Material Author Interests Protected (CC BY-NC-ND 4.0)"]] }, { kind: "control_deck", deck_title: "Verifiable Dossier & QECP Cryptographic Chain-of-Custody Controls", parameters: [{ name: "Dossier Standard", value: "ISO %PDF-1.7 + PAdES B-B + QECP", capability: "Pdf.inspect_cos" }, { name: "Contested Quarantine", value: "Paraconsistent Isolation (0x30)", capability: "Paraconsistent.route" }, { name: "Signing Posture", value: "Ed25519 + ML-DSA-65 (FIPS 204)", capability: "SHACL.validate" }] }],
+                    synth_asset_uris: ["q42://sanctuary/legal/webcivics-cml-normative.q42", "qecp://sanctuary/dossiers/case-wf-2026-001.pdf"],
+                    license_spdx: "CC-BY-NC-ND-4.0"
+                }
+            }
+        ],
+        wires: [
+            { from: "pcon-film-nle-master-01", to: "pcon-film-nle-master-01-q42-gate", kind: "semantic-rel", predicate: "qualia:groundsObservation" }
+        ]
+    };
+}

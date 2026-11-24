@@ -1,0 +1,28 @@
+name: Build Webizen Poet .qap Package
+
+on:
+  push:
+    branches: ["main", "0.0.41-*"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-poet-qap:
+    name: Compile & Verify poet.qap
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Webizen Poet
+        uses: actions/checkout@v4
+
+      - name: Compile poet.qap via qap-compiler
+        uses: WebCivics/qap-compiler@main
+        with:
+          workspace-dir: "."
+          output-qap: "dist/poet.qap"
+          principal-did: "did:webizen:person:timothy-holborn"
+          compatibility-mode: "minor-update"
+          artifact-name: "poet-qap-package"

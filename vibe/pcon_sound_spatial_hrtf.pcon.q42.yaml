@@ -1,0 +1,32 @@
+# yaml-ld-q42 v2 — Webizen Poet & Synth Modular Container Manifest (.pcon.q42.yaml)
+"@context":
+  qualia: "https://ns.webcivics.net/qualia#"
+  poet: "https://ns.webcivics.net/poet#"
+  q42: "https://ns.webcivics.net/q42#"
+"@id": "urn:q42:poet:container:pcon-sound-spatial-hrtf-01"
+"@type": "poet:ModularContainerManifest"
+format_magic: "POET-CONTAINER-MODULE-V1"
+module_id: "pcon-sound-spatial-hrtf-01"
+version: "0.0.41"
+title: "🎙\u{fe0f} Sound Production & Spatial HRTF Mastering"
+industry: "sound-spatial-audio"
+base_container_kind_id: "media"
+strata_id: "technical"
+epistemic_id: "empirical"
+preferred_display_id: "DISP-2-SIDE"
+companion_control_device_id: "did:q42:device:tablet-03"
+default_width: 540.0
+default_height: 360.0
+license_spdx: "CC-BY-NC-ND-4.0"
+content_digest_hex: "40baae01f6334c4a8cda7dcc9398cf2c1a46e75fa474c4c91a3296e14a943a52"
+computational_hierarchy:
+  L0: "L0Continuum"
+  L1: "L1RigidArticulatedPgaXpbdSkl2"
+  L2: "L2SoftBodyFluid"
+  L3: "L3MolecularChemical"
+  L4: "L4CellularBiological"
+  L5: "L5EcologicalGeomorphic"
+  L6: "L6QuantumPhysics"
+synth_asset_uris:
+  - "hmc://synth/audio/spatial-hrtf-master-bus.hmc"
+  - "q42://commons/ontologies/audio-acoustics-qudt.q42"

@@ -9,7 +9,7 @@ mod git;
 mod health;
 mod ide;
 mod job_center;
-mod ontology;
+pub mod ontology;
 mod shaders;
 mod sheet;
 mod social;

@@ -35,7 +35,7 @@ const COMMERCE_SETTLE: &str = r#"requires [ capability("capability.invoke") ];
 effect fn settle() {
     return capability.invoke("commerce_settle", {
         chain: "did:q42",
-        from: "did:q42:sovereign:alpha",
+        from: "did:q42:person:alpha",
         to: "did:q42:coop:commons",
         amount_cents: 12500,
         currency: "USD",
@@ -55,7 +55,7 @@ struct ChainMeta {
 }
 
 const CHAINS: &[ChainMeta] = &[
-    ChainMeta { name: "Qualia Sovereign", id: "did:q42", token: "QUALS", posture: "Ed25519", address: "did:q42:427a9c8e10b42f", balance: "42,000.00" },
+    ChainMeta { name: "Qualia Commons", id: "did:q42", token: "QUALS", posture: "Ed25519", address: "did:q42:427a9c8e10b42f", balance: "42,000.00" },
     ChainMeta { name: "Cardano (eUTxO)", id: "cardano", token: "ADA", posture: "Ed25519-BIP32", address: "addr1q42...cardano", balance: "420.00" },
     ChainMeta { name: "Solana", id: "solana", token: "SOL", posture: "Ed25519", address: "8xLt7P...42mQ", balance: "48.50" },
     ChainMeta { name: "Bitcoin", id: "bitcoin", token: "BTC", posture: "Schnorr / Taproot", address: "bc1p...42q", balance: "0.245" },
@@ -77,13 +77,13 @@ pub fn EconomicsBody() -> Element {
         div { style: "display:grid;gap:12px;padding:8px;",
             div { style: "display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;",
                 div {
-                    p { style: muted(), "Socially Defined Networking & Cooperative Economics: Sovereign multi-chain assets, SDN permissive lanes & true-cost personal modeler." }
+                    p { style: muted(), "Socially Defined Networking & Cooperative Economics: Human-centric multi-chain assets, SDN permissive lanes & true-cost personal modeler." }
                 }
                 button {
                     r#type: "button",
                     style: "background:#3b82f6;color:#ffffff;border:none;border-radius:4px;padding:4px 10px;font-size:.72rem;font-weight:600;cursor:pointer;",
                     onclick: move |_| { run(COMMERCE_SETTLE, "settle", &mut busy, &mut out); },
-                    "↗ Settle Sovereign Multi-Chain Ledger (did:q42)"
+                    "↗ Settle Permissive Commons Multi-Chain Ledger (did:q42)"
                 }
             }
 
@@ -119,7 +119,7 @@ pub fn EconomicsBody() -> Element {
                     span { style: "color:#e2e8f0;font-size:.72rem;font-family:monospace;", "{active.address}" }
                 }
                 div { style: "display:grid;gap:2px;margin-left:auto;",
-                    span { style: "color:#64748b;font-size:.65rem;text-transform:uppercase;", "Sovereign Balance" }
+                    span { style: "color:#64748b;font-size:.65rem;text-transform:uppercase;", "Sanctuary Balance" }
                     strong { style: "color:#34d399;font-size:.9rem;font-family:monospace;", "{active.balance} {active.token}" }
                 }
             }

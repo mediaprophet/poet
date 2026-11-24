@@ -8,6 +8,9 @@ use super::chrome::{ControlBar, Expose, StatusBar, TopMenubar};
 use super::host;
 use super::instrument_bay::InstrumentBay;
 use super::lexicon_bay::LexiconBay;
+use super::qap_space_multi_device_wm::{
+    QapSpaceHorizonBar, QapSpaceMultiDeviceManager, WindowTaskbarShelf,
+};
 use super::radial_menu::{RadialActionRing, RadialState};
 use super::stage::CanvasStage;
 use super::store::Workbench;
@@ -15,7 +18,7 @@ use super::styles::HyperCanvasStyles;
 use aether::prelude::*;
 
 #[component]
-fn CatalogStudioBay() -> Element {
+fn CatalogStudioBay(wb: Signal<Workbench>) -> Element {
     let mut tab = use_signal(|| "catalog");
     rsx! {
         div { class: "catalog-studio-bay-head", role: "tablist", "aria-label": "Catalog peers",
@@ -33,11 +36,47 @@ fn CatalogStudioBay() -> Element {
                 onclick: move |_| tab.set("instruments"),
                 "Catalog · Instruments"
             }
+            button {
+                r#type: "button",
+                class: if tab() == "wordnet_q42" { "catalog-studio-bay-tab is-active" } else { "catalog-studio-bay-tab" },
+                "aria-selected": "{tab() == \"wordnet_q42\"}",
+                onclick: move |_| tab.set("wordnet_q42"),
+                "WordNet & .q42 Ontology Studio"
+            }
+            button {
+                r#type: "button",
+                class: if tab() == "investigation" { "catalog-studio-bay-tab is-active" } else { "catalog-studio-bay-tab" },
+                "aria-selected": "{tab() == \"investigation\"}",
+                onclick: move |_| tab.set("investigation"),
+                "Forensic Investigation & Link-Analysis"
+            }
+            button {
+                r#type: "button",
+                class: if tab() == "pdf_printer" { "catalog-studio-bay-tab is-active" } else { "catalog-studio-bay-tab" },
+                "aria-selected": "{tab() == \"pdf_printer\"}",
+                onclick: move |_| tab.set("pdf_printer"),
+                "Verifiable PDF & QECP Dossier Printer"
+            }
+            button {
+                r#type: "button",
+                class: if tab() == "synth_modules" { "catalog-studio-bay-tab is-active" } else { "catalog-studio-bay-tab" },
+                "aria-selected": "{tab() == \"synth_modules\"}",
+                onclick: move |_| tab.set("synth_modules"),
+                "Synth Modular Containers & Industry Manifolds (.pcon / .pman)"
+            }
         }
         if tab() == "catalog" {
             LexiconBay {}
-        } else {
+        } else if tab() == "instruments" {
             InstrumentBay {}
+        } else if tab() == "wordnet_q42" {
+            super::bodies::ontology::OntologyBody {}
+        } else if tab() == "investigation" {
+            super::bodies::ontology::ForensicInvestigationStudioBay { wb }
+        } else if tab() == "synth_modules" {
+            super::synth_modular_containers::SynthModularContainerStudioBay { wb }
+        } else {
+            super::bodies::ontology::VerifiablePdfPrinterStudioBay {}
         }
     }
 }
@@ -120,6 +159,8 @@ fn install_global_keys(mut wb: Signal<Workbench>, mut radial: Signal<RadialState
 pub fn PoetWorkbench() -> Element {
     let mut wb = use_signal(Workbench::new);
     use_context_provider(|| wb);
+    let wm = use_signal(QapSpaceMultiDeviceManager::default);
+    use_context_provider(|| wm);
     let mut radial = use_signal(RadialState::default);
     #[allow(unused_mut)] // set() only happens under wasm32
     let mut key_listener_started = use_signal(|| false);
@@ -193,6 +234,7 @@ pub fn PoetWorkbench() -> Element {
                 }
             },
             TopMenubar { wb }
+            QapSpaceHorizonBar { wb, wm }
             ControlBar { wb }
             super::toolchain_deck::ToolchainDeck { wb }
             div { class: "main-workspace",
@@ -204,11 +246,12 @@ pub fn PoetWorkbench() -> Element {
                         super::telemetry_drawer::TechTelemetryDeck { wb }
                     }
                 }
+                WindowTaskbarShelf { wb, wm }
                 section {
                     class: "catalog-studio-bay",
                     "data-catalog-studio-bay": "1",
                     "aria-label": "Catalog · Lexicon and Instruments",
-                    CatalogStudioBay {}
+                    CatalogStudioBay { wb }
                 }
             }
             StatusBar { wb }
